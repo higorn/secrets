@@ -1,0 +1,8 @@
+{
+  "name": "keepSecret",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "28c3c75a"
+}
