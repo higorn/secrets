@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SecretsPage } from './secrets.page';
+import { SecretListPage } from './pages/secret-list/secret-list.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SecretsPage,
+    component: SecretListPage,
   }
 ];
 
