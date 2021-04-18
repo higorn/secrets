@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
-import { Secret } from 'src/app/add-secret/shared/secret';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 import { SecretStorageService } from 'src/app/shared/secret-storage.service';
+import { ActivatedRouteStub } from 'src/app/testing/activated-route-stub';
+import { Secret } from '../../shared/secret';
 import { SecretsPageModule } from './../../secrets.module';
 import { SecretDetailPage } from './secret-detail.page';
 
@@ -9,14 +12,21 @@ import { SecretDetailPage } from './secret-detail.page';
 describe('SecretDetailPage', () => {
   let component: SecretDetailPage;
   let fixture: ComponentFixture<SecretDetailPage>;
-  const spyStorageService = {
-    create: jest.fn()
-  }
+  const routeStub = new ActivatedRouteStub();
+  let spyStorageService;
 
   beforeEach(waitForAsync(() => {
+    spyStorageService = {
+      save: jest.fn(),
+      get: jest.fn()
+    }
     TestBed.configureTestingModule({
       imports: [SecretsPageModule],
       providers: [
+        { provide: ActivatedRoute, useValue: routeStub },
+/*         { provide: ActivatedRoute, useValue: {
+          paramMap: of({ get: (key) => 'new'})
+        }}, */
         { provide: SecretStorageService, useValue: spyStorageService },
         FormBuilder
       ]
@@ -25,6 +35,7 @@ describe('SecretDetailPage', () => {
     fixture = TestBed.createComponent(SecretDetailPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    routeStub.setParamMap({id: 'new'});
   }));
 
   it('should create', () => {
@@ -32,11 +43,11 @@ describe('SecretDetailPage', () => {
   });
 
   it('when add a new secret should reset the form', () => {
-    const secret = new Secret('LOGIN', 'test', { name: 'test', user: 'nicanor', password: '1234' })
+    const secret = new Secret('', 'LOGIN', 'test', { name: 'test', user: 'nicanor', password: '1234' })
     component.form.setValue(secret.content);
-    component.addSecret();
+    component.save();
 
-    expect(spyStorageService.create).toHaveBeenCalledWith(secret);
+    expect(spyStorageService.save).toHaveBeenCalledWith(expect.any(Secret));
     expect(component.form.invalid).toBe(true)
   })
 
@@ -45,5 +56,10 @@ describe('SecretDetailPage', () => {
     expect(component.pwType).toEqual('text')
     component.showSecret()
     expect(component.pwType).toEqual('password')
+  })
+
+  it('when editing should load the form with the selected secret', () => {
+    routeStub.setParamMap({id: 'abc'});
+    expect(spyStorageService.get).toHaveBeenCalledWith('abc');
   })
 });

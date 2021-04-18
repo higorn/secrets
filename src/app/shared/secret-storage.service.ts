@@ -1,6 +1,6 @@
 import { StorageService } from './storage.service';
 import { Injectable } from '@angular/core';
-import { Secret } from '../add-secret/shared/secret';
+import { Secret } from '../secrets/shared/secret';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,17 @@ export class SecretStorageService {
     return this.secrets;
   }
 
-  create(secret: Secret) {
-    this.secrets.push(secret);
+  get(id: string): Secret {
+    return this.secrets.find(s => s.id === id);
+  }
+
+  save(secret: Secret) {
+    const s = this.get(secret.id);
+    if (s) {
+      s.name = secret.name;
+      s.content = secret.content;
+    } else
+      this.secrets.push(secret);
     this.storageService.set('secrets', this.secrets);
   }
 }

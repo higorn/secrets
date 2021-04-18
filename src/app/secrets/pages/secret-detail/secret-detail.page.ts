@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Secret } from 'src/app/add-secret/shared/secret';
+import { ActivatedRoute } from '@angular/router';
 import { SecretStorageService } from 'src/app/shared/secret-storage.service';
+import { v4 as uuid } from 'uuid';
+import { Secret } from '../../shared/secret';
 
 @Component({
   selector: 'app-secret-detail',
@@ -11,18 +13,33 @@ import { SecretStorageService } from 'src/app/shared/secret-storage.service';
 export class SecretDetailPage implements OnInit {
   pwType = 'password';
   isPwVisible = false;
+  secret: Secret;
   form = this.fb.group({
     name: ['', [Validators.required]],
     user: ['', [Validators.required]],
     password: ['', [Validators.required]]
   });
 
-  constructor(private storage: SecretStorageService, private fb: FormBuilder) {}
+  constructor(
+    private storage: SecretStorageService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      this.secret = this.storage.get(id) || new Secret(uuid(), 'LOGIN', null, null);
+      if (id !== 'new') {
+        this.form.setValue(this.secret.content);
+      }
+    });
+  }
 
-  addSecret() {
-    this.storage.create(new Secret('LOGIN', this.form.value.name, this.form.value));
+  save() {
+    this.secret.name = this.form.value.name;
+    this.secret.content = this.form.value;
+    this.storage.save(this.secret);
     this.form.reset();
   }
 

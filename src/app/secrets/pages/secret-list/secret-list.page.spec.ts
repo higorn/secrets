@@ -18,17 +18,6 @@ describe('SecretListPage', () => {
         { provide: SecretStorageService, useValue: spyStorageService },
       ]
     }).compileComponents();
-
-    fixture = TestBed.createComponent(SecretListPage);
-    component = fixture.componentInstance;
-  }));
-
-  it('should create', () => {
-    fixture.detectChanges();
-    expect(component).toBeTruthy();
-  });
-
-  it('should list secrets', () => {
     const secrets = [
       {
         type: 'LOGIN', name: 'test', content: {
@@ -40,7 +29,16 @@ describe('SecretListPage', () => {
     ]
     spyStorageService.getAll.mockReturnValue(secrets);
 
+    fixture = TestBed.createComponent(SecretListPage);
+    component = fixture.componentInstance;
     fixture.detectChanges();
+  }));
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should list secrets', () => {
 
     expect(spyStorageService.getAll).toHaveBeenCalled();
     expect(component.secrets.length).toBeGreaterThan(0);

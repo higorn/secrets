@@ -12,10 +12,6 @@ const routes: Routes = [
         loadChildren: () => import('../secrets/secrets.module').then(m => m.SecretsPageModule)
       },
       {
-        path: 'add',
-        loadChildren: () => import('../add-secret/add-secret.module').then(m => m.AddSecretPageModule)
-      },
-      {
         path: 'settings',
         loadChildren: () => import('../settings/settings.module').then(m => m.SettingsPageModule)
       },
