@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Secret } from 'src/app/add-secret/shared/secret';
 import { SecretStorageService } from 'src/app/shared/secret-storage.service';
 
 @Component({
@@ -9,10 +11,17 @@ import { SecretStorageService } from 'src/app/shared/secret-storage.service';
 export class SecretListPage implements OnInit {
   secrets = []
 
-  constructor(private storage: SecretStorageService) { }
+  constructor(
+    private storage: SecretStorageService,
+     private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.secrets = this.storage.getAll();
   }
 
+
+  onClick(secret: Secret) {
+    this.router.navigate(['/tabs/secrets', secret.name])
+  }
 }

@@ -8,27 +8,27 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'secrets',
         loadChildren: () => import('../secrets/secrets.module').then(m => m.SecretsPageModule)
       },
       {
-        path: 'tab2',
+        path: 'add',
         loadChildren: () => import('../add-secret/add-secret.module').then(m => m.AddSecretPageModule)
       },
       {
-        path: 'tab3',
+        path: 'settings',
         loadChildren: () => import('../settings/settings.module').then(m => m.SettingsPageModule)
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/secrets',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/secrets',
     pathMatch: 'full'
   }
 ];
