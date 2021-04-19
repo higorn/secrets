@@ -1,6 +1,6 @@
 {
-  "name": "keepSecret",
-  "short_name": "keepSecret",
+  "name": "Secrets",
+  "short_name": "Secrets",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
