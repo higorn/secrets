@@ -1,5 +1,5 @@
 {
-  "name": "keep-secret",
+  "name": "secrets",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -9,7 +9,7 @@
     "start-pwa": "http-server -p 8080 -S -c-1 www/",
     "build": "ng build",
     "build-prod": "ng build --prod",
-    "test": "jest --watch",
+    "test": "jest --watch --detectOpenHandles",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { SecretStorageService } from 'src/app/shared/secret-storage.service';
 import { ActivatedRouteStub } from 'src/app/testing/activated-route-stub';
@@ -21,12 +22,9 @@ describe('SecretDetailPage', () => {
       get: jest.fn()
     }
     TestBed.configureTestingModule({
-      imports: [SecretsPageModule],
+      imports: [SecretsPageModule, RouterTestingModule.withRoutes([])],
       providers: [
         { provide: ActivatedRoute, useValue: routeStub },
-/*         { provide: ActivatedRoute, useValue: {
-          paramMap: of({ get: (key) => 'new'})
-        }}, */
         { provide: SecretStorageService, useValue: spyStorageService },
         FormBuilder
       ]

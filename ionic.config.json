@@ -1,5 +1,5 @@
 {
-  "name": "keepSecret",
+  "name": "Secrets",
   "integrations": {
     "capacitor": {}
   },

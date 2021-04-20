@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { SecretStorageService } from 'src/app/shared/secret-storage.service';
 import { v4 as uuid } from 'uuid';
+import { SecretTypesComponent } from '../../components/secret-types/secret-types.component';
 import { Secret } from '../../shared/secret';
 
 @Component({
@@ -13,12 +14,14 @@ import { Secret } from '../../shared/secret';
 export class SecretDetailPage implements OnInit {
   pwType = 'password';
   isPwVisible = false;
+  isAdd = false;
   secret: Secret;
   form = this.fb.group({
     name: ['', [Validators.required]],
     user: ['', [Validators.required]],
     password: ['', [Validators.required]]
   });
+  rootPage = SecretTypesComponent;
 
   constructor(
     private storage: SecretStorageService,
@@ -29,10 +32,12 @@ export class SecretDetailPage implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
+      console.log('id:', id);
       this.secret = this.storage.get(id) || new Secret(uuid(), 'LOGIN', null, null);
-      if (id !== 'new') {
+      if (id && id !== 'new') {
         this.form.setValue(this.secret.content);
-      }
+      } else
+        this.isAdd = true;
     });
   }
 

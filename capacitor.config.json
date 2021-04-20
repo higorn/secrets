@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "keepSecret",
+  "appName": "Secrets",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

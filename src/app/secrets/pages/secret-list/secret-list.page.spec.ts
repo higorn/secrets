@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { SecretStorageService } from 'src/app/shared/secret-storage.service';
 import { SecretsPageModule } from '../../secrets.module';
 import { SecretListPage } from './secret-list.page';
@@ -13,7 +14,7 @@ describe('SecretListPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SecretsPageModule],
+      imports: [SecretsPageModule, RouterTestingModule.withRoutes([])],
       providers: [
         { provide: SecretStorageService, useValue: spyStorageService },
       ]
