@@ -1,8 +1,6 @@
 const { pathsToModuleNameMapper } = require('ts-jest/utils');
 const { compilerOptions } = require('./tsconfig');
 
-const esModules = ['@ionic'].join('|');
-
 module.exports = {
   preset: 'jest-preset-angular',
   roots: ['<rootDir>/src/'],
@@ -15,6 +13,6 @@ module.exports = {
     prefix: '<rootDir>/'
   }),
   transformIgnorePatterns: [
-    `<rootDir>/node_modules/(?!${esModules})`
+    "node_modules/(?!@ngrx|moment|@ionic/storage|@ionic-native)"
   ]
 };
