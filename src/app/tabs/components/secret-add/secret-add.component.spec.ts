@@ -1,19 +1,19 @@
+import { TabsPageModule } from './../../tabs.module';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SecretNewPage } from './secret-new.page';
+import { SecretAddComponent } from './secret-add.component';
 
-describe('SecretNewPage', () => {
-  let component: SecretNewPage;
-  let fixture: ComponentFixture<SecretNewPage>;
+describe('SecretAddComponent', () => {
+  let component: SecretAddComponent;
+  let fixture: ComponentFixture<SecretAddComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SecretNewPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [TabsPageModule]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SecretNewPage);
+    fixture = TestBed.createComponent(SecretAddComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -16,4 +16,13 @@ export class SecretListPage implements OnInit {
   ngOnInit(): void {
     this.secrets = this.storage.getAll();
   }
+
+  getIcon(type: string) {
+    switch (type) {
+      case 'login': return 'log-in-outline'
+      case 'card': return 'card-outline'
+      case 'id': return 'id-card-outline'
+      case 'pin': return 'key'
+    }
+  }
 }

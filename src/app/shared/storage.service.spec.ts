@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { StorageService } from './storage.service';
 
@@ -12,6 +13,7 @@ describe('StorageService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        IonicStorageModule
 /*         IonicStorageModule.forRoot({
           name: '__mydb',
           driverOrder: [Drivers.LocalStorage]

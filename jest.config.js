@@ -1,6 +1,8 @@
 const { pathsToModuleNameMapper } = require('ts-jest/utils');
 const { compilerOptions } = require('./tsconfig');
 
+const esModules = ['@ionic'].join('|');
+
 module.exports = {
   preset: 'jest-preset-angular',
   roots: ['<rootDir>/src/'],
@@ -11,5 +13,8 @@ module.exports = {
   coverageDirectory: 'coverage/Secrets',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/'
-  })
+  }),
+  transformIgnorePatterns: [
+    `<rootDir>/node_modules/(?!${esModules})`
+  ]
 };
