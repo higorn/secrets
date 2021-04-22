@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Secret } from '../secrets/shared/secret';
+import { StorageService } from './storage.service';
 
 import { SecretStorageService } from './secret-storage.service';
-import { StorageService } from './storage.service';
 
 describe('SecretStorageService', () => {
   let service: SecretStorageService;
@@ -13,11 +13,12 @@ describe('SecretStorageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
+/*       providers: [
         { provide: StorageService, useValue: spyStorageService },
-      ]
+      ] */
     });
-    service = TestBed.inject(SecretStorageService);
+    // service = TestBed.inject(SecretStorageService);
+    service = new SecretStorageService(spyStorageService);
   });
 
   it('should be created', () => {

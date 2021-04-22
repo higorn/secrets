@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 // import { IonicStorageModule } from '@ionic/storage-angular';
 
-import { StorageService } from './storage.service';
+import { IonicStorageService } from './ionic-storage.service';
 
 describe('StorageService', () => {
-  let service: StorageService;
+  let service: IonicStorageService;
 /*   const spyStorage = {
     set: jest.fn(),
     get: jest.fn()
@@ -23,7 +23,7 @@ describe('StorageService', () => {
         { provide: Storage, useValue: spyStorage }
       ] */
     });
-    service = TestBed.inject(StorageService);
+    service = TestBed.inject(IonicStorageService);
   });
 
   it('should be created', () => {

@@ -1,6 +1,6 @@
-import { StorageService } from './storage.service';
 import { Injectable } from '@angular/core';
 import { Secret } from '../secrets/shared/secret';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +9,8 @@ export class SecretStorageService {
   private secrets;
 
   constructor(private storageService: StorageService) {
-      this.secrets = this.storageService.get('secrets') || [];
-   }
+    this.secrets = this.storageService.get('secrets') || [];
+  }
 
   getAll(): Secret[] {
     return this.secrets;
