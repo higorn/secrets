@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
 export abstract class StorageService {
-  abstract set(key: string, value: any): any;
-  abstract get(key: string): any;
+
+  abstract getItem(key: string): Observable<any>;
+  abstract setItem(key: string, value: any): void;
+  abstract removeItem(key: string): void;
+  abstract clear(): void;
 }

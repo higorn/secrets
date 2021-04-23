@@ -12,20 +12,4 @@ module.exports = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/'
   }),
-  transform: {
-    "^.+\\.(ts|html)$": "ts-jest",
-    "^.+\\.js$": "babel-jest"
-  },
-  transformIgnorePatterns: [
-    "<rootDir>/node_modules/(?!(@ionic-native|ionic-native)/)"
-  ],
-  moduleFileExtensions: [
-    "ts",
-    "tsx",
-    "js",
-    "jsx",
-    "json",
-    "node",
-    ".html"
-  ]
 };

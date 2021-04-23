@@ -1,30 +1,36 @@
-import { StorageService } from './storage.service';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+import { from, Observable } from 'rxjs';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class IonicStorageService implements StorageService {
-  private _storage: Storage | null = null;
+export class IonicStorageService extends StorageService {
 
   constructor(private storage: Storage) {
-  // constructor() {
+    super();
     this.init();
   }
   private async init() {
-    const storage = await this.storage.create();
-    this._storage = storage;
+    await this.storage.create();
   }
 
-  set(key: string, value: any) {
+  setItem(key: string, value: any) {
     // localStorage.setItem(key, JSON.stringify(value));
-    this._storage?.set(key, value);
+    // this.setItemAsync(key, value);
+    this.storage.set(key, value);
   }
 
-  get(key: string): any {
+  getItem(key: string): Observable<any> {
     // let value = JSON.parse(localStorage.getItem(key));
     // return value
-    return this._storage?.get(key);
+    return from(this.storage.get(key))
+  }
+
+  removeItem(key: string): void {
+  }
+
+  clear(): void {
   }
 }

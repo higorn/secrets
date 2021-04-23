@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SecretStorageService } from 'src/app/shared/secret-storage.service';
+import { Observable } from 'rxjs';
+import { SecretRepository } from 'src/app/shared/secret.repository';
+import { Secret } from '../../shared/secret';
 
 @Component({
   selector: 'app-secret-list',
@@ -7,14 +9,15 @@ import { SecretStorageService } from 'src/app/shared/secret-storage.service';
   styleUrls: ['secret-list.page.scss']
 })
 export class SecretListPage implements OnInit {
-  secrets = []
+  secrets: Observable<Secret[]>;
 
   constructor(
-    private storage: SecretStorageService
+    private repository: SecretRepository
   ) { }
 
   ngOnInit(): void {
-    this.secrets = this.storage.getAll();
+    this.secrets = this.repository.getAll();
+    // this.secrets = this.repository.getAll();
   }
 
   getIcon(type: string) {

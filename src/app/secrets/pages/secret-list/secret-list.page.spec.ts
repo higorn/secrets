@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SecretStorageService } from 'src/app/shared/secret-storage.service';
+import { of } from 'rxjs';
+import { SecretRepository } from 'src/app/shared/secret.repository';
 import { SecretsPageModule } from '../../secrets.module';
 import { SecretListPage } from './secret-list.page';
 
@@ -16,7 +17,7 @@ describe('SecretListPage', () => {
     TestBed.configureTestingModule({
       imports: [SecretsPageModule, RouterTestingModule.withRoutes([])],
       providers: [
-        { provide: SecretStorageService, useValue: spyStorageService },
+        { provide: SecretRepository, useValue: spyStorageService },
       ]
     }).compileComponents();
     const secrets = [
@@ -28,7 +29,7 @@ describe('SecretListPage', () => {
         }
       }
     ]
-    spyStorageService.getAll.mockReturnValue(secrets);
+    spyStorageService.getAll.mockReturnValue(of(secrets));
 
     fixture = TestBed.createComponent(SecretListPage);
     component = fixture.componentInstance;
@@ -40,8 +41,14 @@ describe('SecretListPage', () => {
   });
 
   it('should list secrets', () => {
+    let len: number;
+
+    component.secrets.subscribe(items => {
+      len = items.length;
+    })
 
     expect(spyStorageService.getAll).toHaveBeenCalled();
-    expect(component.secrets.length).toBeGreaterThan(0);
+    // expect(component.secrets.length).toBeGreaterThan(0);
+    expect(len).toBeGreaterThan(0);
   })
 });
