@@ -69,16 +69,18 @@ describe('SecretDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('when add a new secret should reset the form', () => {
+  it('when add a new secret should reset the form and redirect to the secrets list', fakeAsync(() => {
     spyRepository.getById.mockReturnValue(of(undefined));
     routeStub.setParamMap({id: 'new'});
     const secret = new Secret('', 'LOGIN', 'test', { name: 'test', user: 'nicanor', password: '1234' })
     component.form.setValue(secret.content);
     component.save();
+    tick();
 
     expect(spyRepository.save).toHaveBeenCalledWith(expect.any(Secret));
     expect(component.form.invalid).toBe(true)
-  })
+    expect(router.url).toBe('/tabs/secrets')
+  }))
 
   it('should toggle the password field type when clicking the view button', () => {
     component.showSecret()

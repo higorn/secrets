@@ -51,6 +51,7 @@ export class SecretDetailPage implements OnInit {
     this.secret.content = this.form.value;
     this.repository.save(this.secret);
     this.form.reset();
+    this.router.navigate(['/tabs/secrets'])
   }
 
   showSecret() {

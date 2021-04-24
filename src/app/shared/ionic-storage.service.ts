@@ -17,21 +17,19 @@ export class IonicStorageService extends StorageService {
   }
 
   setItem(key: string, value: any): Observable<any> {
-    // localStorage.setItem(key, JSON.stringify(value));
-    // this.setItemAsync(key, value);
     return from(this.storage.set(key, value));
   }
 
   getItem(key: string): Observable<any> {
-    // let value = JSON.parse(localStorage.getItem(key));
-    // return value
     return from(this.storage.get(key))
   }
 
-  removeItem(key: string): void {
+  removeItem(key: string): Observable<any> {
+    return from(this.storage.remove(key))
   }
 
-  clear(): void {
+  clear(): Observable<void> {
+    return from(this.storage.clear())
   }
 
   keys(): Observable<string[]> {
