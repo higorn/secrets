@@ -1,54 +1,53 @@
-import { Observable, of } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { Entity } from "./entity";
 import { StorageService } from "./storage.service";
 
 export abstract class CrudRepository<T extends Entity> {
-  private collection: Observable<T[]>;
+  private dataChangedSource = new Subject<T[]>();
+  dataChanged$ = this.dataChangedSource.asObservable();
 
   constructor(private storage: StorageService) {
-    this.collection = this.storage.getItem(this.getCollectionName()) || of([]);
+    this.dataChangedSource.next([])
+    this.storage.getItem(this.getCollectionName()).subscribe(items => {
+      const collection = items || []
+      this.storage.setItem(this.getCollectionName(), collection).subscribe(items => this.dataChangedSource.next(items));
+    })
   }
 
   abstract getCollectionName(): string;
 
   getAll(): Observable<T[]> {
-    // return this.storage.getItem(this.getCollectionName()) || of([]);
-    return this.collection;
+  // const dataChangedSource2 = new Subject<T[]>();
+  // const changed2$ = dataChangedSource2.asObservable();
+    return this.storage.getItem(this.getCollectionName()).pipe(map(items => items || []));
+    // return this.storage.getItem(this.getCollectionName()).pipe(map(items => items || []);
+      // this.storage.getItem(this.getCollectionName()).subscribe(items => this.dataChangedSource.next(items || []));
+      // this.storage.getItem(this.getCollectionName()).subscribe(items => dataChangedSource2.next(items || []));
+    // return changed2$;
+    // return this.changed$;
+    // return this.dataChanged$;
   }
 
   getById(id: string): Observable<T> {
-    // return this.getAll().pipe(map(items => items.find(item => item.id === id)))
-    return this.collection.pipe(map(items => items.find(item => item.id === id)))
-    // return this.getAll().find(item => item.id === id);
+    return this.getAll().pipe(map(items => items.find(item => item.id === id)))
   }
 
   save(item: T): void {
-    // this.getAll().subscribe(items => {
-    this.collection.subscribe(items => {
+    const sub = this.getAll().subscribe(items => {
       if (items.length == 0)
-        this.storage.setItem(this.getCollectionName(), [item]);
+        items.push(item);
       else {
         const curr = items.find(i=> i.id === item.id);
         if (curr)
           this.update(curr, item);
         else
           items.push(item);
-        this.storage.setItem(this.getCollectionName(), items);
       }
-
+      this.storage.setItem(this.getCollectionName(), items);
+      this.dataChangedSource.next(items);
+      // sub.unsubscribe();
     })
-/*     if (this.getAll().length == 0) {
-      this.storage.setItem(this.getCollectionName(), [item]);
-    } else {
-      const collection = this.getAll();
-      const curr = collection.find(i=> i.id === item.id);
-      if (curr)
-        this.update(curr, item);
-      else
-        collection.push(item);
-      this.storage.setItem(this.getCollectionName(), collection);
-    } */
   }
 
   update(currItem: T, newItem: T): void {
@@ -56,15 +55,11 @@ export abstract class CrudRepository<T extends Entity> {
   }
 
   remove(item: T): void {
-    // this.getAll().subscribe(items => {
-    this.collection.subscribe(items => {
-      const index = items.indexOf(item);
-      items.splice(index, 1);
-      this.storage.setItem(this.getCollectionName(), items);
+    this.getAll().subscribe(items => {
+      // const index = items.indexOf(item);
+      // items.splice(index, 1);
+      this.storage.setItem(this.getCollectionName(), items.filter(i => i.id !== item.id))
+        .subscribe(items => this.dataChangedSource.next(items));
     })
-/*     const collection = this.getAll();
-    const index = collection.indexOf(item);
-    collection.splice(index, 1);
-    this.storage.setItem(this.getCollectionName(), collection); */
   }
 }

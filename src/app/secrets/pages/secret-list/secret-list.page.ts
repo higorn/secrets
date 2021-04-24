@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { SecretRepository } from 'src/app/shared/secret.repository';
 import { Secret } from '../../shared/secret';
@@ -12,12 +13,21 @@ export class SecretListPage implements OnInit {
   secrets: Observable<Secret[]>;
 
   constructor(
-    private repository: SecretRepository
-  ) { }
+    private repository: SecretRepository,
+    private plt: Platform
+  ) {
+    this.plt.ready().then(() => {
+      this.loadSecrets()
+    })
+  }
 
   ngOnInit(): void {
+  }
+
+  loadSecrets() {
+    // this.repository.dataChanged$.subscribe(data => this.secrets = this.repository.getAll());
+    // this.secrets = this.repository.dataChanged$;
     this.secrets = this.repository.getAll();
-    // this.secrets = this.repository.getAll();
   }
 
   getIcon(type: string) {

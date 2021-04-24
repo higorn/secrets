@@ -16,10 +16,10 @@ export class IonicStorageService extends StorageService {
     await this.storage.create();
   }
 
-  setItem(key: string, value: any) {
+  setItem(key: string, value: any): Observable<any> {
     // localStorage.setItem(key, JSON.stringify(value));
     // this.setItemAsync(key, value);
-    this.storage.set(key, value);
+    return from(this.storage.set(key, value));
   }
 
   getItem(key: string): Observable<any> {
@@ -32,5 +32,9 @@ export class IonicStorageService extends StorageService {
   }
 
   clear(): void {
+  }
+
+  keys(): Observable<string[]> {
+    return from(this.storage.keys());
   }
 }
