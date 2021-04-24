@@ -1,18 +1,16 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AlertController } from '@ionic/angular';
 import { of } from 'rxjs';
-import { SecretRepository } from 'src/app/shared/secret.repository';
 import { ActivatedRouteStub } from 'src/app/testing/activated-route-stub';
 import { Secret } from '../../shared/secret';
+import { SecretRepository } from '../../shared/secret.repository';
 import { SecretListPage } from '../secret-list/secret-list.page';
 import { SecretsPageModule } from './../../secrets.module';
 import { SecretDetailPage } from './secret-detail.page';
-import { By } from '@angular/platform-browser';
-import { AlertController } from '@ionic/angular';
-import { OverlayBaseController } from '@ionic/angular/util/overlay';
-import { AlertOptions } from '@capacitor/core';
 
 
 describe('SecretDetailPage', () => {

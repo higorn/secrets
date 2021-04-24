@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { SecretRepository } from 'src/app/shared/secret.repository';
 import { SecretsPageModule } from '../../secrets.module';
+import { SecretRepository } from '../../shared/secret.repository';
 import { SecretListPage } from './secret-list.page';
 
 const secrets = [

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { SecretRepository } from 'src/app/shared/secret.repository';
 import { Secret } from '../../shared/secret';
+import { SecretRepository } from '../../shared/secret.repository';
 
 @Component({
   selector: 'app-secret-list',

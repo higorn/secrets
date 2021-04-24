@@ -3,9 +3,8 @@ import { Storage } from '@ionic/storage-angular';
 import { from, Observable } from 'rxjs';
 import { StorageService } from './storage.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(
+)
 export class IonicStorageService extends StorageService {
 
   constructor(private storage: Storage) {

@@ -1,7 +1,9 @@
 import { fakeAsync, tick } from '@angular/core/testing';
-import { from, of, Subject } from 'rxjs';
+import { from, Observable, of, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CrudRepository } from './crud.repository';
 import { Entity } from './entity';
+import { StorageService } from './storage.service';
 
 interface MyCollection extends Entity {
   id: string;
@@ -9,8 +11,17 @@ interface MyCollection extends Entity {
 }
 
 class MyRepository extends CrudRepository<MyCollection> {
+  constructor(private storageService: StorageService) {
+    super(storageService);
+  }
   getCollectionName(): string {
     return 'MyCollection';
+  }
+  getAll(): Observable<MyCollection[]> {
+    return this.storageService.getItem(this.getCollectionName());
+  }
+  saveAll(collection: MyCollection[]): Observable<MyCollection[]> {
+    return this.storageService.setItem(this.getCollectionName(), collection);
   }
 }
 
@@ -23,8 +34,10 @@ describe('StorageService', () => {
     setItem: (key: string, value: any) => from(new Promise((resolve, reject) => {
       setTimeout(() => resolve(localStorage.setItem(key, JSON.stringify(value))))
     })),
-    removeItem: (key: string) => localStorage.removeItem(key),
-    clear: () => localStorage.clear(),
+    removeItem: (key: string) => from(new Promise((resolve, reject) => {
+      setTimeout(() => resolve(localStorage.removeItem(key)))
+    })),
+    clear: () => of(localStorage.clear()),
     keys: () => of([])
   }
 

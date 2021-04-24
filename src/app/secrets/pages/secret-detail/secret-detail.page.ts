@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { SecretRepository } from 'src/app/shared/secret.repository';
 import { v4 as uuid } from 'uuid';
 import { Secret } from '../../shared/secret';
+import { SecretRepository } from '../../shared/secret.repository';
 
 @Component({
   selector: 'app-secret-detail',
