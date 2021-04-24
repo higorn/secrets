@@ -25,9 +25,7 @@ export class SecretListPage implements OnInit {
   }
 
   loadSecrets() {
-    // this.repository.dataChanged$.subscribe(data => this.secrets = this.repository.getAll());
-    // this.secrets = this.repository.dataChanged$;
-    this.secrets = this.repository.getAll();
+    this.repository.dataChanged$.subscribe(() => this.secrets = this.repository.getAll());
   }
 
   getIcon(type: string) {

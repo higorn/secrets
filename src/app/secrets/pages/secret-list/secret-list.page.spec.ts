@@ -48,8 +48,7 @@ describe('SecretListPage', () => {
       len = items.length;
     })
 
-    // expect(spyStorageService.getAll).toHaveBeenCalled();
-    // expect(component.secrets.length).toBeGreaterThan(0);
+    expect(spyStorageService.getAll).toHaveBeenCalled();
     expect(len).toBeGreaterThan(0);
   })
 });

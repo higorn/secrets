@@ -1,5 +1,5 @@
 import { fakeAsync, tick } from '@angular/core/testing';
-import { from, of } from 'rxjs';
+import { from, of, Subject } from 'rxjs';
 import { CrudRepository } from './crud.repository';
 import { Entity } from './entity';
 
@@ -36,24 +36,24 @@ describe('StorageService', () => {
     expect(repository).toBeTruthy();
   });
 
-  it('when get by id with an empty collection', () => {
+  it('when get by id with an empty collection', fakeAsync(() => {
     let item: MyCollection
 
     repository.getById('a').subscribe(it => item = it);
+    tick();
 
-    expect(item).toBeUndefined();
-  })
+    expect(item).toBeNull();
+  }))
 
   describe('should include new items in the collection', () => {
 
     it('given that the collection is empty', fakeAsync(() => {
-      let len: number;
+      let collection: MyCollection[]
       repository.getAll().subscribe(items => {
-        len = items.length
-        console.log('len1', len)
+        collection = items
       });
       tick();
-      expect(len).toEqual(0);
+      expect(collection).toBeNull()
     }))
 
     it('when I include a new item, then the collection size should be one', fakeAsync(() => {
