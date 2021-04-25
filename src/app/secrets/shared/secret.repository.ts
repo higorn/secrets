@@ -14,7 +14,6 @@ export class SecretRepository extends SecureRepository<Secret> {
     private _vault: VaultService
   ) {
     super(storageService, _vault);
-    // this._vault.unseal('secret');
   }
 
   getCollectionName(): string {

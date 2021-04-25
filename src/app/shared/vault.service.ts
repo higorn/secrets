@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as forge from 'node-forge';
 import { Bytes } from 'node-forge';
+import { Observable, Subject } from 'rxjs';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -11,17 +12,22 @@ export class VaultService {
   private key2: { key: Bytes, iv: Bytes };
   private keypair: forge.pki.rsa.KeyPair;
   private sealed = true;
+  private unsealedCompleteSource = new Subject<void>();
+  private unsealedComplete$ = this.unsealedCompleteSource.asObservable();
 
   constructor(private storage: StorageService) {
   }
 
-  unseal(pass: string): void {
+  unseal(pass: string): Observable<void> {
     this.storage.getItem('vault').subscribe(vault => {
       if (vault)
         this.restoreVault(vault, pass);
       else
         this.createVault(pass);
+      this.sealed = false;
+      this.unsealedCompleteSource.next();
     })
+    return this.unsealedComplete$;
   }
 
   isSealed(): boolean {

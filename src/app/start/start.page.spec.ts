@@ -1,6 +1,8 @@
+import { StartPageModule } from './start.module';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { VaultService } from '../shared/vault.service';
 
 import { StartPage } from './start.page';
 
@@ -10,13 +12,16 @@ describe('StartPage', () => {
   const spyRouter = {
     navigate: jest.fn()
   }
+  const spyVaultService = {
+    unseal: jest.fn(),
+  }
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ StartPage ],
-      imports: [IonicModule.forRoot()],
+      imports: [StartPageModule],
       providers: [
         { provide: Router, useValue: spyRouter }
+        { provide: VaultService, useValue: spyVaultService }
       ]
     }).compileComponents();
 

@@ -13,6 +13,7 @@ export class VaultGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
+    console.log('vault seal', this.vault.isSealed())
     return this.vault.isSealed() ? this.router.parseUrl('/start') : true;
   }
   
