@@ -10,6 +10,7 @@ export class VaultService {
   private key1: { salt: Bytes, iv: Bytes };
   private key2: { key: Bytes, iv: Bytes };
   private keypair: forge.pki.rsa.KeyPair;
+  private sealed = true;
 
   constructor(private storage: StorageService) {
   }
@@ -21,6 +22,10 @@ export class VaultService {
       else
         this.createVault(pass);
     })
+  }
+
+  isSealed(): boolean {
+    return this.sealed;
   }
 
   private createVault(pass: string): void {

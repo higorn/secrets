@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AlertController } from '@ionic/angular';
+import { AlertController, IonicModule } from '@ionic/angular';
 import { of } from 'rxjs';
 import { ActivatedRouteStub } from 'src/app/testing/activated-route-stub';
 import { Secret } from '../../shared/secret';
@@ -38,12 +39,22 @@ describe('SecretDetailPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [SecretDetailPage, SecretListPage],
       imports: [
-        SecretsPageModule,
+        IonicModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           { path: 'tabs/secrets', component: SecretListPage },
         ])
       ],
+/*       imports: [
+        SecretsPageModule,
+        RouterTestingModule.withRoutes([
+          // { path: 'tabs/secrets', component: SecretListPage },
+        ])
+      ], */
       providers: [
         { provide: ActivatedRoute, useValue: routeStub },
         { provide: SecretRepository, useValue: spyRepository },
