@@ -16,12 +16,15 @@ export class SecretListPage implements OnInit {
     private repository: SecretRepository,
     private plt: Platform
   ) {
-    this.plt.ready().then(() => {
+/*     this.plt.ready().then(() => {
       this.repository.dataChanged$.subscribe(() => this.loadSecrets());
-    })
+    }) */
   }
 
   ngOnInit(): void {
+  }
+
+  ionViewDidEnter() {
     this.loadSecrets()
   }
 

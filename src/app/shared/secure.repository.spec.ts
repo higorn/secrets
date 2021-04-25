@@ -1,9 +1,10 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { from, of } from 'rxjs';
+import { fakeAsync, tick } from '@angular/core/testing';
+import { from } from 'rxjs';
+import { MockStorageService } from '../testing/mock-storage-service';
 import { Entity } from './entity';
 import { SecureRepository } from './secure.repository';
+import { VaultService } from './vault.service';
 
-import { StorageService } from './storage.service';
 
 interface MyCollection extends Entity {
   id: string;
@@ -18,22 +19,12 @@ class MyRepository extends SecureRepository<MyCollection> {
 
 describe('SecureRepository', () => {
   let repository: SecureRepository<MyCollection>;
-  const storageService = {
-    getItem: (key: string) => from(new Promise((resolve, reject) => {
-      setTimeout(() => resolve(JSON.parse(localStorage.getItem(key))))
-    })),
-    setItem: (key: string, value: any) => from(new Promise((resolve, reject) => {
-      setTimeout(() => resolve(localStorage.setItem(key, JSON.stringify(value))))
-    })),
-    removeItem: (key: string) => from(new Promise((resolve, reject) => {
-      setTimeout(() => resolve(localStorage.removeItem(key)))
-    })),
-    clear: () => of(localStorage.clear()),
-    keys: () => of([])
-  }
+  const storageService = new MockStorageService();
+  const vaultService = new VaultService(storageService);
 
   beforeEach(() => {
-    repository = new MyRepository(storageService);
+    repository = new MyRepository(storageService, vaultService);
+
   });
 
   it('should be created', () => {
@@ -42,7 +33,10 @@ describe('SecureRepository', () => {
 
   it('should encrypt and serialize the collection before save id', fakeAsync(() => {
     const item = { id: 'a', name: 'nicanor' }
+    vaultService.unseal('secret');
+    tick();
     repository.save(item);
+    tick();
     spyOn(storageService, 'setItem').and.callFake((key, value) => {
       console.log('encoded item', value);
       return from(new Promise((resolve, reject) => {

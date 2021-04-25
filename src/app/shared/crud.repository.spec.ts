@@ -1,6 +1,6 @@
 import { fakeAsync, tick } from '@angular/core/testing';
-import { from, Observable, of, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { MockStorageService } from '../testing/mock-storage-service';
 import { CrudRepository } from './crud.repository';
 import { Entity } from './entity';
 import { StorageService } from './storage.service';
@@ -27,19 +27,7 @@ class MyRepository extends CrudRepository<MyCollection> {
 
 describe('StorageService', () => {
   let repository: CrudRepository<MyCollection>;
-  const storageService = {
-    getItem: (key: string) => from(new Promise((resolve, reject) => {
-      setTimeout(() => resolve(JSON.parse(localStorage.getItem(key))))
-    })),
-    setItem: (key: string, value: any) => from(new Promise((resolve, reject) => {
-      setTimeout(() => resolve(localStorage.setItem(key, JSON.stringify(value))))
-    })),
-    removeItem: (key: string) => from(new Promise((resolve, reject) => {
-      setTimeout(() => resolve(localStorage.removeItem(key)))
-    })),
-    clear: () => of(localStorage.clear()),
-    keys: () => of([])
-  }
+  const storageService = new MockStorageService();
 
   beforeEach(() => {
     repository = new MyRepository(storageService);

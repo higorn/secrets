@@ -44,6 +44,7 @@ describe('SecretListPage', () => {
   it('should list secrets', () => {
     let len: number;
 
+    component.ionViewDidEnter();
     component.secrets.subscribe(items => {
       len = items.length;
     })
