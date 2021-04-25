@@ -24,7 +24,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/secrets',
+    redirectTo: '/start',
+    // redirectTo: '/tabs/secrets',
     pathMatch: 'full'
   }
 ];
