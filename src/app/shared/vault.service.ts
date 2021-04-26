@@ -22,18 +22,12 @@ export class VaultService {
 
   unseal(pass: string): Observable<void> {
     this.unsealing = true;
-    setTimeout(() => {
-
     this.storage.getItem('vault').subscribe(vault => {
       if (vault)
         this.restoreVault(vault, pass);
       else
         this.createVault(pass);
-      this.sealed = false;
-      this.unsealing = false;
-      this.unsealedCompleteSource.next();
     })
-    }, 1000)
     return this.unsealedComplete$;
   }
 
@@ -47,33 +41,45 @@ export class VaultService {
 
   private createVault(pass: string): void {
     this.key1 = { salt: forge.random.getBytesSync(128), iv: forge.random.getBytesSync(16) }
-    this.keypair = forge.pki.rsa.generateKeyPair({bits: 2048, e: 0x10001});
-    const keypair = {
-      publicKey: forge.pki.publicKeyToPem(this.keypair.publicKey),
-      privateKey: forge.pki.privateKeyToPem(this.keypair.privateKey),
-    }
-    this.key2 = { key: forge.random.getBytesSync(32), iv: forge.random.getBytesSync(32) };
-    const vault = [forge.util.encode64(JSON.stringify({ salt: forge.util.encode64(this.key1.salt), iv: forge.util.encode64(this.key1.iv) }))];
-    vault.push(this.encryptKeypair(JSON.stringify(keypair), pass));
-    vault.push(forge.util.encode64(this.keypair.publicKey.encrypt(JSON.stringify(this.key2))));
-    this.storage.setItem('vault', vault);
+    forge.pki.rsa.generateKeyPair({bits: 2048, workers: 2}, (err, kpair) => {
+      this.keypair = kpair;
+      const keypair = {
+        publicKey: forge.pki.publicKeyToPem(kpair.publicKey),
+        privateKey: forge.pki.privateKeyToPem(kpair.privateKey),
+      }
+      this.key2 = { key: forge.random.getBytesSync(32), iv: forge.random.getBytesSync(32) };
+      const vault = [forge.util.encode64(JSON.stringify({ salt: forge.util.encode64(this.key1.salt), iv: forge.util.encode64(this.key1.iv) }))];
+      vault.push(this.encryptKeypair(JSON.stringify(keypair), pass));
+      vault.push(forge.util.encode64(this.keypair.publicKey.encrypt(JSON.stringify(this.key2))));
+      this.storage.setItem('vault', vault);
+
+      this.notify();
+    });
   }
 
   private restoreVault(vault: any, pass: string): void {
     this.key1 = this.getKey1(vault[0])
-    this.keypair = this.getKeyPair(vault[1], pass);
-    this.key2 = this.getKey2(vault[2])
+    forge.pki.rsa.generateKeyPair({bits: 2048, e: 0x10001}, (err, kpair) => {
+      this.keypair = this.getKeyPair(vault[1], kpair, pass);
+      this.key2 = this.getKey2(vault[2])
+      this.notify();
+    });
   }
-  
+
+  private notify() {
+    this.sealed = false;
+    this.unsealing = false;
+    this.unsealedCompleteSource.next();
+  }
+
   private getKey1(encodedKey: string): { salt: Bytes; iv: Bytes; } {
     const encodedKeyBytes = forge.util.decode64(encodedKey);
     const key1 = JSON.parse(encodedKeyBytes);
     return { salt: forge.util.decode64(key1.salt), iv: forge.util.decode64(key1.iv) };
   }
 
-  private getKeyPair(encodedKeyPair: string, pass: string): forge.pki.rsa.KeyPair {
+  private getKeyPair(encodedKeyPair: string, keypair: forge.pki.rsa.KeyPair, pass: string): forge.pki.rsa.KeyPair {
     const decodeKeyPair: { publicKey: string, privateKey: string } = JSON.parse(this.decryptKeypair(encodedKeyPair, pass));
-    const keypair = forge.pki.rsa.generateKeyPair({bits: 2048, e: 0x10001});
     keypair.publicKey = forge.pki.publicKeyFromPem(decodeKeyPair.publicKey);
     keypair.privateKey = forge.pki.privateKeyFromPem(decodeKeyPair.privateKey);
     return keypair;

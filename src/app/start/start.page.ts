@@ -29,18 +29,13 @@ export class StartPage implements OnInit {
     this.pwType = this.isPwVisible ? "text" : "password";
   }
 
-  // async unseal() {
   unseal() {
     console.log('pass', this.password);
-    // this.loading = true; 
-    // this.title = 'My secrets';
-    // await this.presetLoading();
-/*     this.vault.unseal(this.password).subscribe(() => {
-      this.loading = false; 
-      this.router.navigate(['/tabs/secrets'])
+/*     this.vault.unseal2(this.password).subscribe(() => {
+      console.log('ok')
     }) */
-    this.router.navigate(['/tabs/secrets'])
     this.vault.unseal(this.password);
+    this.router.navigate(['/tabs/secrets'])
   }
 
   private async presetLoading() {

@@ -25,7 +25,7 @@ export class SecretListPage implements OnInit {
   ngOnInit(): void {
     this.repository.dataReady().subscribe(() => {
       this.loading = false;
-      console.log('loading', this.loading)
+      // console.log('loading', this.loading)
       this.loadSecrets()
     });
   }
@@ -35,7 +35,7 @@ export class SecretListPage implements OnInit {
   }
 
   loadSecrets() {
-      console.log('loading2', this.loading)
+      // console.log('loading2', this.loading)
     if (!this.loading)
       this.secrets = this.repository.getAll();
   }

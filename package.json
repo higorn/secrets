@@ -27,7 +27,6 @@
     "@ionic/storage-angular": "^3.0.6",
     "@types/crypto-js": "^4.0.1",
     "@types/node-forge": "^0.9.7",
-    "crypto-js": "^4.0.0",
     "node-forge": "^0.10.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

@@ -28,7 +28,7 @@ describe('VaultService', () => {
     expect(vaultContent).toBeNull();
 
     vault.unseal('secret');
-    tick(1000);
+    tick();
 
     storageService.getItem('vault').subscribe(item => vaultContent = item);
     tick();
