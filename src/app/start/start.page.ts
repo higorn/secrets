@@ -11,7 +11,9 @@ import { VaultService } from '../shared/vault.service';
 export class StartPage implements OnInit {
   pwType = 'password';
   isPwVisible = false;
+  loading = false;
   password: string;
+  title = 'Vault unseal';
 
   constructor(
     private router: Router,
@@ -27,12 +29,18 @@ export class StartPage implements OnInit {
     this.pwType = this.isPwVisible ? "text" : "password";
   }
 
-  async unseal() {
+  // async unseal() {
+  unseal() {
     console.log('pass', this.password);
-    await this.presetLoading();
-    this.vault.unseal(this.password).subscribe(() => {
+    // this.loading = true; 
+    // this.title = 'My secrets';
+    // await this.presetLoading();
+/*     this.vault.unseal(this.password).subscribe(() => {
+      this.loading = false; 
       this.router.navigate(['/tabs/secrets'])
-    })
+    }) */
+    this.router.navigate(['/tabs/secrets'])
+    this.vault.unseal(this.password);
   }
 
   private async presetLoading() {

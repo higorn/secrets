@@ -34,7 +34,7 @@ describe('SecureRepository', () => {
   it('should encrypt and serialize the collection before save id', fakeAsync(() => {
     const item = { id: 'a', name: 'nicanor' }
     vaultService.unseal('secret');
-    tick();
+    tick(2000);
     repository.save(item);
     tick();
     spyOn(storageService, 'setItem').and.callFake((key, value) => {

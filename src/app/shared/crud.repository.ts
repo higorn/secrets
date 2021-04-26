@@ -8,7 +8,7 @@ export abstract class CrudRepository<T extends Entity> {
   dataChanged$ = this.dataChangedSource.asObservable();
 
   constructor(private storage: StorageService) {
-    this.init();
+    // this.init();
   }
 
   private init() {

@@ -28,7 +28,7 @@ describe('VaultService', () => {
     expect(vaultContent).toBeNull();
 
     vault.unseal('secret');
-    tick();
+    tick(1000);
 
     storageService.getItem('vault').subscribe(item => vaultContent = item);
     tick();
@@ -40,7 +40,7 @@ describe('VaultService', () => {
   it('should encode and decode based on a password', fakeAsync(() => {
     const pass = 'secret';
     vault.unseal(pass);
-    tick();
+    tick(1000);
     const data = 'abc';
     const encoded = vault.encode(data);
     const decoded = vault.decode(encoded);

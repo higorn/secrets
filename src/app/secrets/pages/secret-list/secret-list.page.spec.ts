@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { SecretsPageModule } from '../../secrets.module';
@@ -20,7 +20,7 @@ describe('SecretListPage', () => {
   let fixture: ComponentFixture<SecretListPage>;
   const spyStorageService = {
     getAll: jest.fn(),
-    dataChanged$: of(secrets)
+    dataReady: () => of()
   }
 
   beforeEach(waitForAsync(() => {
@@ -41,15 +41,17 @@ describe('SecretListPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should list secrets', () => {
+  it('should list secrets', fakeAsync(() => {
     let len: number;
 
+    component.loading = false;
     component.ionViewDidEnter();
+    tick();
     component.secrets.subscribe(items => {
       len = items.length;
     })
 
     expect(spyStorageService.getAll).toHaveBeenCalled();
     expect(len).toBeGreaterThan(0);
-  })
+  }))
 });

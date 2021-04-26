@@ -12,26 +12,37 @@ export class VaultService {
   private key2: { key: Bytes, iv: Bytes };
   private keypair: forge.pki.rsa.KeyPair;
   private sealed = true;
+  private unsealing = false;
   private unsealedCompleteSource = new Subject<void>();
   private unsealedComplete$ = this.unsealedCompleteSource.asObservable();
+  ready$ = this.unsealedCompleteSource.asObservable();
 
   constructor(private storage: StorageService) {
   }
 
   unseal(pass: string): Observable<void> {
+    this.unsealing = true;
+    setTimeout(() => {
+
     this.storage.getItem('vault').subscribe(vault => {
       if (vault)
         this.restoreVault(vault, pass);
       else
         this.createVault(pass);
       this.sealed = false;
+      this.unsealing = false;
       this.unsealedCompleteSource.next();
     })
+    }, 1000)
     return this.unsealedComplete$;
   }
 
   isSealed(): boolean {
     return this.sealed;
+  }
+
+  isUnsealing(): boolean {
+    return this.unsealing;
   }
 
   private createVault(pass: string): void {

@@ -11,6 +11,7 @@ import { SecretRepository } from '../../shared/secret.repository';
 })
 export class SecretListPage implements OnInit {
   secrets: Observable<Secret[]>;
+  loading = true;
 
   constructor(
     private repository: SecretRepository,
@@ -22,6 +23,11 @@ export class SecretListPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.repository.dataReady().subscribe(() => {
+      this.loading = false;
+      console.log('loading', this.loading)
+      this.loadSecrets()
+    });
   }
 
   ionViewDidEnter() {
@@ -29,7 +35,9 @@ export class SecretListPage implements OnInit {
   }
 
   loadSecrets() {
-    this.secrets = this.repository.getAll();
+      console.log('loading2', this.loading)
+    if (!this.loading)
+      this.secrets = this.repository.getAll();
   }
 
   getIcon(type: string) {
