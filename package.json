@@ -9,6 +9,7 @@
     "start-pwa": "http-server -p 8080 -S -c-1 www/",
     "build": "ng build",
     "build-prod": "ng build --prod",
+    "deploy": "firebase deploy",
     "test": "jest --watch --detectOpenHandles",
     "lint": "ng lint",
     "e2e": "ng e2e"
