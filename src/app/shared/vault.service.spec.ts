@@ -1,4 +1,5 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { MockStorageService } from '../testing/mock-storage-service';
 import { StorageService } from './storage.service';
 
@@ -27,12 +28,12 @@ describe('VaultService', () => {
     tick();
     expect(vaultContent).toBeNull();
 
-    vault.unseal('secret');
+    vault.unseal('secret')
     tick();
 
     storageService.getItem('vault').subscribe(item => vaultContent = item);
     tick();
-    // console.log('vault', vault);
+
     expect(vaultContent).toBeTruthy();
     expect(vaultContent.length).toBe(3);
   }))

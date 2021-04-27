@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
 import { VaultService } from '../shared/vault.service';
 
 @Component({
@@ -11,14 +10,12 @@ import { VaultService } from '../shared/vault.service';
 export class StartPage implements OnInit {
   pwType = 'password';
   isPwVisible = false;
-  loading = false;
   password: string;
   title = 'Vault unseal';
 
   constructor(
     private router: Router,
-    private vault: VaultService,
-    private loadingController: LoadingController
+    private vault: VaultService
   ) { }
 
   ngOnInit() {
@@ -30,19 +27,7 @@ export class StartPage implements OnInit {
   }
 
   unseal() {
-    console.log('pass', this.password);
-/*     this.vault.unseal2(this.password).subscribe(() => {
-      console.log('ok')
-    }) */
     this.vault.unseal(this.password);
     this.router.navigate(['/tabs/secrets'])
-  }
-
-  private async presetLoading() {
-    const loading = await this.loadingController.create({
-      message: 'Please wait...',
-      duration: 3000
-    });
-    await loading.present();
   }
 }
