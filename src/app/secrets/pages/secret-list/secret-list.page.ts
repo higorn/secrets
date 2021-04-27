@@ -26,13 +26,11 @@ export class SecretListPage implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dataReadySubscription = this.repository.dataReady().subscribe(() => {
       this.loading = false;
-      // console.log('loading', this.loading)
       this.loadSecrets()
     });
   }
 
   ngOnDestroy(): void {
-    console.log('list destroy')
     this.dataReadySubscription.unsubscribe();
   }
 
@@ -41,7 +39,6 @@ export class SecretListPage implements OnInit, OnDestroy {
   }
 
   loadSecrets() {
-      // console.log('loading2', this.loading)
     if (!this.loading)
       this.secrets = this.repository.getAll();
   }

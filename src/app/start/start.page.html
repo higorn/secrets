@@ -1,21 +1,28 @@
+<!--
 <ion-header>
   <ion-toolbar>
     <ion-title>{{title}}</ion-title>
   </ion-toolbar>
 </ion-header>
+-->
 
 <ion-content [fullscreen]="false">
-  <p class="ion-padding-start ion-padding-end">
-    <ion-text><h4>The vault is sealed. Enter the master password to unseal.</h4></ion-text>
-  </p>
-  <form (ngSubmit)="unseal()">
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input [type]="pwType" name="password" [(ngModel)]="password" autocomplete="password" autofocus="true"></ion-input>
-      <ion-icon slot="end" name="eye" (click)="showSecret()"></ion-icon>
-    </ion-item>
-    <p class="ion-padding-start ion-padding-end">
-      <ion-button type="submit" expand="block" [disabled]="!password">unseal</ion-button>
-    </p>
-  </form>
+  <div class="ion-padding-top">
+    <div class="ion-text-center ion-padding-top">
+      <h1><ion-icon name="lock-closed" class="ion-padding-vertical"></ion-icon></h1>
+      <p class="ion-padding-horizontal ion-padding-vertical">
+        <ion-text><h4>The vault is sealed. Enter the master password to unseal.</h4></ion-text>
+      </p>
+    </div>
+    <form (ngSubmit)="unseal()">
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input [type]="pwType" name="password" [(ngModel)]="password" autocomplete="password" autofocus="true"></ion-input>
+        <ion-icon slot="end" name="eye" (click)="showSecret()"></ion-icon>
+      </ion-item>
+      <p class="ion-padding-horizontal">
+        <ion-button type="submit" expand="block" [disabled]="!password">unseal</ion-button>
+      </p>
+    </form>
+  </div>
 </ion-content>

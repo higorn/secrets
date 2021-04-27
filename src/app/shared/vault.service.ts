@@ -39,28 +39,38 @@ export class VaultService {
   }
 
   private createVault(pass: string): void {
-    this.key1 = { salt: forge.random.getBytesSync(128), iv: forge.random.getBytesSync(16) }
     if (typeof Worker === 'undefined') {
-      this.sealKeys(forge.pki.rsa.generateKeyPair({bits: 2048, e: 0x10001}), pass)
+      this.initKeys(forge.pki.rsa.generateKeyPair({bits: 2048, e: 0x10001}), pass)
       return
     }
     forge.pki.rsa.generateKeyPair({bits: 2048, workers: 2}, (err, kpair) => {
-      this.sealKeys(kpair, pass);
+      this.initKeys(kpair, pass);
     });
   }
 
-  private sealKeys(kpair: forge.pki.rsa.KeyPair, pass: string) {
+  private initKeys(kpair: forge.pki.rsa.KeyPair, pass: string) {
+    const keys = this.createKeys(kpair)
+    const sealedKeys = this.sealKeys(keys, pass)
+    this.storage.setItem('vault', sealedKeys);
+    this.notify();
+  }
+
+  private createKeys(kpair: forge.pki.rsa.KeyPair): { k1: any, kp: any, k2: any } {
+    this.key1 = { salt: forge.random.getBytesSync(128), iv: forge.random.getBytesSync(16) }
     this.keypair = kpair;
     const keypair = {
       publicKey: forge.pki.publicKeyToPem(kpair.publicKey),
       privateKey: forge.pki.privateKeyToPem(kpair.privateKey),
     };
     this.key2 = { key: forge.random.getBytesSync(32), iv: forge.random.getBytesSync(32) };
-    const vault = [forge.util.encode64(JSON.stringify({ salt: forge.util.encode64(this.key1.salt), iv: forge.util.encode64(this.key1.iv) }))];
-    vault.push(this.encryptKeypair(JSON.stringify(keypair), pass));
-    vault.push(forge.util.encode64(this.keypair.publicKey.encrypt(JSON.stringify(this.key2))));
-    this.storage.setItem('vault', vault);
-    this.notify();
+    return { k1: this.key1, kp: keypair, k2: this.key2 };
+  }
+
+  private sealKeys(keys: { k1: any, kp: any, k2: any }, pass: string) {
+    const sealedKeys = [forge.util.encode64(JSON.stringify({ salt: forge.util.encode64(keys.k1.salt), iv: forge.util.encode64(keys.k1.iv) }))];
+    sealedKeys.push(this.encryptKeypair(JSON.stringify(keys.kp), pass));
+    sealedKeys.push(forge.util.encode64(this.keypair.publicKey.encrypt(JSON.stringify(keys.k2))));
+    return sealedKeys;
   }
 
   private restoreVault(vault: any, pass: string): void {
