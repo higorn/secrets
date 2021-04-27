@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Secret } from '../../shared/secret';
 import { SecretRepository } from '../../shared/secret.repository';
 
@@ -9,9 +9,10 @@ import { SecretRepository } from '../../shared/secret.repository';
   templateUrl: 'secret-list.page.html',
   styleUrls: ['secret-list.page.scss']
 })
-export class SecretListPage implements OnInit {
+export class SecretListPage implements OnInit, OnDestroy {
   secrets: Observable<Secret[]>;
   loading = true;
+  private dataReadySubscription: Subscription;
 
   constructor(
     private repository: SecretRepository,
@@ -23,11 +24,16 @@ export class SecretListPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.repository.dataReady().subscribe(() => {
+    this.dataReadySubscription = this.repository.dataReady().subscribe(() => {
       this.loading = false;
       // console.log('loading', this.loading)
       this.loadSecrets()
     });
+  }
+
+  ngOnDestroy(): void {
+    console.log('list destroy')
+    this.dataReadySubscription.unsubscribe();
   }
 
   ionViewDidEnter() {
