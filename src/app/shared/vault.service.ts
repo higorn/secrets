@@ -39,11 +39,11 @@ export class VaultService {
   }
 
   private createVault(pass: string): void {
-    if (typeof Worker === 'undefined') {
-      this.initKeys(forge.pki.rsa.generateKeyPair({bits: 2048, e: 0x10001}), pass)
+    if (typeof Worker === 'undefined' || typeof window.crypto.subtle === 'undefined') {
+      this.initKeys(forge.pki.rsa.generateKeyPair({bits: 2048}), pass)
       return
     }
-    forge.pki.rsa.generateKeyPair({bits: 2048, workers: 2}, (err, kpair) => {
+    forge.pki.rsa.generateKeyPair({bits: 2048, workers: -1}, (err, kpair) => {
       this.initKeys(kpair, pass);
     });
   }
@@ -74,11 +74,11 @@ export class VaultService {
   }
 
   private restoreVault(vault: any, pass: string): void {
-    if (typeof Worker === 'undefined') {
-      this.unsealKeys(vault, forge.pki.rsa.generateKeyPair({bits: 2048, e: 0x10001}), pass)
+    if (typeof Worker === 'undefined' || typeof window.crypto.subtle === 'undefined') {
+      this.unsealKeys(vault, forge.pki.rsa.generateKeyPair({bits: 2048}), pass)
       return
     }
-    forge.pki.rsa.generateKeyPair({bits: 2048, e: 0x10001}, (err, kpair) => {
+    forge.pki.rsa.generateKeyPair({bits: 2048, workers: -1}, (err, kpair) => {
       this.unsealKeys(vault, kpair, pass);
     });
   }
