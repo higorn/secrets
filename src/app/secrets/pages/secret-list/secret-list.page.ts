@@ -47,7 +47,8 @@ export class SecretListPage implements OnInit, OnDestroy {
     switch (type) {
       case 'login': return 'log-in-outline'
       case 'card': return 'card-outline'
-      case 'id': return 'id-card-outline'
+      case 'bank': return 'cash-outline'
+      case 'identity': return 'id-card-outline'
       case 'pin': return 'key'
     }
   }
