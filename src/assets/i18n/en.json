@@ -1,0 +1,6 @@
+{
+  "message": "The vault is sealed. Enter the master password to unseal.",
+  "start": {
+    "message": "The vault is sealed. Enter the master password to unseal."
+  }
+}

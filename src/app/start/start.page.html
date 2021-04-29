@@ -3,7 +3,7 @@
     <div class="ion-text-center ion-padding-top">
       <h1><ion-icon name="lock-closed" class="ion-padding-vertical"></ion-icon></h1>
       <p class="ion-padding-horizontal ion-padding-vertical">
-        <ion-text><h4>The vault is sealed. Enter the master password to unseal.</h4></ion-text>
+        <ion-text><h4>{{ 'message' | translate }}</h4></ion-text>
       </p>
     </div>
     <form (ngSubmit)="unseal()">

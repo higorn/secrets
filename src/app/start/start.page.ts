@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { VaultService } from '../shared/vault.service';
 
 @Component({
@@ -15,8 +16,11 @@ export class StartPage implements OnInit {
 
   constructor(
     private router: Router,
-    private vault: VaultService
-  ) { }
+    private vault: VaultService,
+    private translate: TranslateService
+  ) {
+    this.translate.setDefaultLang('en')
+  }
 
   ngOnInit() {
   }

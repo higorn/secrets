@@ -1,7 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { VaultService } from '../shared/vault.service';
-import { StartPageModule } from './start.module';
+import { StartPageRoutingModule } from './start-routing.module';
 import { StartPage } from './start.page';
 
 
@@ -17,10 +21,19 @@ describe('StartPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [StartPageModule],
+      declarations: [
+        StartPage
+      ],
+      imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        StartPageRoutingModule,
+        TranslateModule.forRoot()
+      ],
       providers: [
         { provide: Router, useValue: spyRouter },
-        { provide: VaultService, useValue: spyVaultService }
+        { provide: VaultService, useValue: spyVaultService },
       ]
     }).compileComponents();
 
