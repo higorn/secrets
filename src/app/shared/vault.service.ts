@@ -67,7 +67,8 @@ export class VaultService {
   }
 
   private sealKeys(keys: { k1: any, kp: any, k2: any }, pass: string) {
-    const sealedKeys = [forge.util.encode64(JSON.stringify({ salt: forge.util.encode64(keys.k1.salt), iv: forge.util.encode64(keys.k1.iv) }))];
+    const sealedKeys = [forge.util.encode64(JSON.stringify({ salt: forge.util.encode64(keys.k1.salt),
+       iv: forge.util.encode64(keys.k1.iv) }))];
     sealedKeys.push(this.encryptKeypair(JSON.stringify(keys.kp), pass));
     sealedKeys.push(forge.util.encode64(this.keypair.publicKey.encrypt(JSON.stringify(keys.k2))));
     return sealedKeys;
