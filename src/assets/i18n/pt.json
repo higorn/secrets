@@ -1,0 +1,16 @@
+{
+  "start": {
+    "message": "Entre com a senha mestra.",
+    "password": "Senha",
+    "unlock": "abrir"
+  },
+  "tabs": {
+    "mysecrets": "Meus segredos",
+    "settings": "Configurações"
+  },
+  "secrets": {
+    "list": {
+      "title": "Meus segredos"
+    }
+  }
+}

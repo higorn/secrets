@@ -1,3 +1,4 @@
+import { TranslatorService } from './../../../shared/translator.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
@@ -7,7 +8,7 @@ import { SecretRepository } from '../../shared/secret.repository';
 @Component({
   selector: 'app-secret-list',
   templateUrl: 'secret-list.page.html',
-  styleUrls: ['secret-list.page.scss']
+  styleUrls: ['secret-list.page.scss'],
 })
 export class SecretListPage implements OnInit, OnDestroy {
   secrets: Observable<Secret[]>;
@@ -16,9 +17,10 @@ export class SecretListPage implements OnInit, OnDestroy {
 
   constructor(
     private repository: SecretRepository,
-    private plt: Platform
+    private plt: Platform,
+    private translate: TranslatorService
   ) {
-/*     this.plt.ready().then(() => {
+    /*     this.plt.ready().then(() => {
       this.repository.dataChanged$.subscribe(() => this.loadSecrets());
     }) */
   }
@@ -26,7 +28,7 @@ export class SecretListPage implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dataReadySubscription = this.repository.dataReady().subscribe(() => {
       this.loading = false;
-      this.loadSecrets()
+      this.loadSecrets();
     });
   }
 
@@ -35,21 +37,25 @@ export class SecretListPage implements OnInit, OnDestroy {
   }
 
   ionViewDidEnter() {
-    this.loadSecrets()
+    this.loadSecrets();
   }
 
   loadSecrets() {
-    if (!this.loading)
-      this.secrets = this.repository.getAll();
+    if (!this.loading) this.secrets = this.repository.getAll();
   }
 
   getIcon(type: string) {
     switch (type) {
-      case 'login': return 'log-in-outline'
-      case 'card': return 'card-outline'
-      case 'bank': return 'cash-outline'
-      case 'identity': return 'id-card-outline'
-      case 'pin': return 'key'
+      case 'login':
+        return 'log-in-outline';
+      case 'card':
+        return 'card-outline';
+      case 'bank':
+        return 'cash-outline';
+      case 'identity':
+        return 'id-card-outline';
+      case 'pin':
+        return 'key';
     }
   }
 }

@@ -1,5 +1,12 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { SecretsPageModule } from '../../secrets.module';
 import { SecretRepository } from '../../shared/secret.repository';
@@ -7,35 +14,41 @@ import { SecretListPage } from './secret-list.page';
 
 const secrets = [
   {
-    type: 'LOGIN', name: 'test', content: {
+    type: 'LOGIN',
+    name: 'test',
+    content: {
       name: 'test',
       user: 'nicanor',
-      password: '1234'
-    }
-  }
-]
+      password: '1234',
+    },
+  },
+];
 
 describe('SecretListPage', () => {
   let component: SecretListPage;
   let fixture: ComponentFixture<SecretListPage>;
   const spyStorageService = {
     getAll: jest.fn(),
-    dataReady: () => of()
-  }
+    dataReady: () => of(),
+  };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [SecretsPageModule, RouterTestingModule.withRoutes([])],
-      providers: [
-        { provide: SecretRepository, useValue: spyStorageService },
-      ]
-    }).compileComponents();
-    spyStorageService.getAll.mockReturnValue(of(secrets));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          SecretsPageModule,
+          RouterTestingModule.withRoutes([]),
+          TranslateModule.forRoot(),
+        ],
+        providers: [{ provide: SecretRepository, useValue: spyStorageService }],
+      }).compileComponents();
+      spyStorageService.getAll.mockReturnValue(of(secrets));
 
-    fixture = TestBed.createComponent(SecretListPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+      fixture = TestBed.createComponent(SecretListPage);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    })
+  );
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -47,11 +60,11 @@ describe('SecretListPage', () => {
     component.loading = false;
     component.ionViewDidEnter();
     tick();
-    component.secrets.subscribe(items => {
+    component.secrets.subscribe((items) => {
       len = items.length;
-    })
+    });
 
     expect(spyStorageService.getAll).toHaveBeenCalled();
     expect(len).toBeGreaterThan(0);
-  }))
+  }));
 });

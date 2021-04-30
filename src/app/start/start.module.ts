@@ -1,20 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-import { IonicModule } from '@ionic/angular';
-
-import { StartPageRoutingModule } from './start-routing.module';
-
-import { StartPage } from './start.page';
 import { HttpClient } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { Httpi18nLoaderFactory } from '../shared/utils';
+import { StartPageRoutingModule } from './start-routing.module';
+import { StartPage } from './start.page';
 
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
-}
 @NgModule({
   imports: [
     CommonModule,
@@ -24,11 +17,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        useFactory: Httpi18nLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
-  declarations: [StartPage]
+  declarations: [StartPage],
 })
 export class StartPageModule {}

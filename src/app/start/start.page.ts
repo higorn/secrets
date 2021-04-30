@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TranslatorService } from '../shared/translator.service';
 import { VaultService } from '../shared/vault.service';
 
 @Component({
@@ -17,21 +18,18 @@ export class StartPage implements OnInit {
   constructor(
     private router: Router,
     private vault: VaultService,
-    private translate: TranslateService
-  ) {
-    this.translate.setDefaultLang('en')
-  }
+    private translate: TranslatorService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   showSecret() {
     this.isPwVisible = !this.isPwVisible;
-    this.pwType = this.isPwVisible ? "text" : "password";
+    this.pwType = this.isPwVisible ? 'text' : 'password';
   }
 
   unseal() {
     this.vault.unseal(this.password);
-    this.router.navigate(['/tabs/secrets'])
+    this.router.navigate(['/tabs/secrets']);
   }
 }

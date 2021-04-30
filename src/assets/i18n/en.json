@@ -1,6 +1,16 @@
 {
-  "message": "The vault is sealed. Enter the master password to unseal.",
   "start": {
-    "message": "The vault is sealed. Enter the master password to unseal."
+    "message": "Enter the master password.",
+    "password": "Password",
+    "unlock": "unlock"
+  },
+  "tabs": {
+    "mysecrets": "My secrets",
+    "settings": "Settings"
+  },
+  "secrets": {
+    "list": {
+      "title": "My secrets"
+    }
   }
 }

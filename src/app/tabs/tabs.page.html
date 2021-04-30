@@ -1,20 +1,17 @@
 <ion-tabs>
-
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="secrets">
       <ion-icon name="lock-closed"></ion-icon>
-      <ion-label>My secrets</ion-label>
+      <ion-label>{{ 'tabs.mysecrets' | translate }}</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="">
-    </ion-tab-button>
+    <ion-tab-button tab=""> </ion-tab-button>
 
     <ion-tab-button tab="settings">
       <ion-icon name="Settings"></ion-icon>
-      <ion-label>Settings</ion-label>
+      <ion-label>{{ 'tabs.settings' | translate }}</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
-
 </ion-tabs>
 
 <app-secret-add (eventSelectType)="onSelectType($event)"></app-secret-add>

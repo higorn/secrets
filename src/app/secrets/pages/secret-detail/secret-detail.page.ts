@@ -77,6 +77,11 @@ export class SecretDetailPage implements OnInit, OnDestroy {
     field.options.type = t === 'password' ? "text" : "password";
   }
 
+  edit(): void {
+    this.isReadonly = !this.isReadonly
+    this.title = 'Edit secret'
+  }
+
   remove() {
     this.presentConfirmation();
   }
