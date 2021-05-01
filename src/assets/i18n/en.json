@@ -11,6 +11,100 @@
   "secrets": {
     "list": {
       "title": "My secrets"
+    },
+    "form": {
+      "new": "New secret",
+      "field": {
+        "title": {
+          "name": "Title",
+          "placeholder": "Give this secret a name"
+        },
+        "user": {
+          "name": "User name",
+          "placeholder": "myuser, myuser@email.com, ..."
+        },
+        "name": {
+          "name": "Name",
+          "placeholder": "A common name"
+        },
+        "password": {
+          "name": "Password",
+          "placeholder": "my-strong-password"
+        },
+        "site": {
+          "name": "Web site",
+          "placeholder": "www.somewebsite.com"
+        },
+        "number": {
+          "name": "Number",
+          "placeholder": "1234..."
+        },
+        "cardnumber": {
+          "name": "Number",
+          "placeholder": "0000 0000 0000 0000"
+        },
+        "cardowner": {
+          "name": "Owner",
+          "placeholder": "John Smith"
+        },
+        "cardexpires": {
+          "name": "Expires",
+          "placeholder": "mm/yy"
+        },
+        "cvv": {
+          "name": "CVV",
+          "placeholder": "111"
+        },
+        "cardpin": {
+          "name": "Card PIN",
+          "placeholder": "The card pin ex. (849275)"
+        },
+        "birthday": {
+          "name": "Birthday",
+          "placeholder": "mm/dd/yyyy"
+        },
+        "issued": {
+          "name": "Issued",
+          "placeholder": "mm/dd/yyyy"
+        },
+        "expires": {
+          "name": "Expires",
+          "placeholder": "mm/dd/yyyy"
+        },
+        "pin": {
+          "name": "PIN",
+          "placeholder": "A pin number (849275)"
+        },
+        "bank": {
+          "name": "Bank",
+          "placeholder": "My bank name"
+        },
+        "holder": {
+          "name": "Holder",
+          "placeholder": "Account holder name"
+        },
+        "type": {
+          "name": "Type",
+          "placeholder": "Account type"
+        },
+        "iban": {
+          "name": "IBAN",
+          "placeholder": "International Account Bank Number"
+        },
+        "login": {
+          "name": "Internet login",
+          "placeholder": "My online account login"
+        },
+        "internetbankpassword": {
+          "name": "Internet pwd",
+          "placeholder": "my-strong-password"
+        },
+        "banksite": {
+          "name": "Bank web site",
+          "placeholder": "www.mybank.com"
+        }
+
+      }
     }
   }
 }

@@ -11,6 +11,99 @@
   "secrets": {
     "list": {
       "title": "Meus segredos"
+    },
+    "form": {
+      "new": "Novo segredo",
+      "field": {
+        "title": {
+          "name": "Título",
+          "placeholder": "De um nome a este segredo"
+        },
+        "user": {
+          "name": "Nome de usuário",
+          "placeholder": "meuusuario, meuusuario@email.com, ..."
+        },
+        "name": {
+          "name": "Nome",
+          "placeholder": "Meu nome completo"
+        },
+        "password": {
+          "name": "Senha",
+          "placeholder": "minha-senha-super-forte"
+        },
+        "site": {
+          "name": "Web site",
+          "placeholder": "www.algumsite.com"
+        },
+        "number": {
+          "name": "Número",
+          "placeholder": "1234..."
+        },
+        "cardnumber": {
+          "name": "Número",
+          "placeholder": "0000 0000 0000 0000"
+        },
+        "cardowner": {
+          "name": "Titular",
+          "placeholder": "João da Silva"
+        },
+        "cardexpires": {
+          "name": "Válido até",
+          "placeholder": "mm/aa"
+        },
+        "cvv": {
+          "name": "CVV",
+          "placeholder": "Dígito verificador ex: 111"
+        },
+        "cardpin": {
+          "name": "Senha do cartão",
+          "placeholder": "Senha numérica ex: 849275"
+        },
+        "birthday": {
+          "name": "Nascimento",
+          "placeholder": "dd/mm/aaaa"
+        },
+        "issued": {
+          "name": "Emitido em",
+          "placeholder": "dd/mm/aaaa"
+        },
+        "expires": {
+          "name": "Válido até",
+          "placeholder": "dd/mm/aaaa"
+        },
+        "pin": {
+          "name": "Senha",
+          "placeholder": "Senha numérica ex: 849275"
+        },
+        "bank": {
+          "name": "Banco",
+          "placeholder": "BB, Caixa, etc"
+        },
+        "holder": {
+          "name": "Titular",
+          "placeholder": "Nome do titular da conta"
+        },
+        "type": {
+          "name": "Tipo",
+          "placeholder": "Tipo da conta ex: corrente, poupança, etc"
+        },
+        "iban": {
+          "name": "Nº Conta",
+          "placeholder": "Número da conta"
+        },
+        "login": {
+          "name": "Login da internet",
+          "placeholder": "Meu login da internet"
+        },
+        "internetbankpassword": {
+          "name": "Senha da internet",
+          "placeholder": "minha-super-senha"
+        },
+        "banksite": {
+          "name": "Web site do banco",
+          "placeholder": "www.meubanco.com"
+        }
+      }
     }
   }
 }

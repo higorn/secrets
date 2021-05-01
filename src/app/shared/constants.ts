@@ -5,8 +5,9 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Title',
-      autofocus: true
-    }
+      placeholder: 'Give this secret a title',
+      autofocus: true,
+    },
   },
   user: {
     name: 'user',
@@ -14,8 +15,8 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'User name',
-      autocomplete: 'email|username'
-    }
+      autocomplete: 'email|username',
+    },
   },
   name: {
     name: 'name',
@@ -23,8 +24,8 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Name',
-      autocomplete: 'name'
-    }
+      autocomplete: 'name',
+    },
   },
   password: {
     name: 'password',
@@ -33,7 +34,7 @@ export const FieldsBundle = {
     options: {
       type: 'password',
       label: 'Password',
-    }
+    },
   },
   site: {
     name: 'site',
@@ -41,7 +42,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Web site',
-    }
+    },
   },
   number: {
     name: 'number',
@@ -49,17 +50,66 @@ export const FieldsBundle = {
     options: {
       type: 'number',
       label: 'Number',
-      autocomplete: 'number'
-    }
+      autocomplete: 'number',
+    },
   },
-  owner: {
-    name: 'owner',
+  cardnumber: {
+    name: 'cardnumber',
+    type: 'input',
+    options: {
+      type: 'number',
+      label: 'Number',
+      autocomplete: 'number',
+    },
+  },
+  cardowner: {
+    name: 'cardowner',
     type: 'input',
     options: {
       type: 'text',
       label: 'Owner',
-      autocomplete: 'name'
-    }
+      autocomplete: 'name',
+    },
+  },
+  cardexpires: {
+    name: 'cardexpires',
+    type: 'date',
+    options: {
+      type: 'date',
+      label: 'Expires',
+      labelPosition: 'default',
+      format: 'MM/YY',
+      min: '2021',
+      max: '2100',
+    },
+  },
+  cvv: {
+    name: 'cvv',
+    type: 'input',
+    secret: true,
+    options: {
+      type: 'password',
+      label: 'CVV',
+      autocomplete: 'cvv',
+    },
+  },
+  cardpin: {
+    name: 'cardpin',
+    type: 'input',
+    secret: true,
+    options: {
+      type: 'password',
+      label: 'PIN',
+    },
+  },
+  pin: {
+    name: 'pin',
+    type: 'input',
+    secret: true,
+    options: {
+      type: 'password',
+      label: 'PIN',
+    },
   },
   birthday: {
     name: 'birthday',
@@ -67,8 +117,8 @@ export const FieldsBundle = {
     options: {
       type: 'date',
       label: 'Birthday',
-      labelPosition: 'default'
-    }
+      labelPosition: 'default',
+    },
   },
   issued: {
     name: 'issued',
@@ -76,8 +126,8 @@ export const FieldsBundle = {
     options: {
       type: 'date',
       label: 'Issued',
-      labelPosition: 'default'
-    }
+      labelPosition: 'default',
+    },
   },
   expires: {
     name: 'expires',
@@ -87,39 +137,8 @@ export const FieldsBundle = {
       label: 'Expires',
       labelPosition: 'default',
       min: '2021',
-      max: '2100'
-    }
-  },
-  cardexpires: {
-    name: 'expires',
-    type: 'date',
-    options: {
-      type: 'date',
-      label: 'Expires',
-      labelPosition: 'default',
-      format: 'MM/YY',
-      min: '2021',
-      max: '2100'
-    }
-  },
-  cvv: {
-    name: 'cvv',
-    type: 'input',
-    secret: true,
-    options: {
-      type: 'password',
-      label: 'CVV',
-      autocomplete: 'cvv'
-    }
-  },
-  pin: {
-    name: 'pin',
-    type: 'input',
-    secret: true,
-    options: {
-      type: 'password',
-      label: 'PIN',
-    }
+      max: '2100',
+    },
   },
   bank: {
     name: 'bank',
@@ -127,7 +146,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Bank',
-    }
+    },
   },
   holder: {
     name: 'holder',
@@ -135,8 +154,8 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Holder',
-      autocomplete: 'name'
-    }
+      autocomplete: 'name',
+    },
   },
   type: {
     name: 'type',
@@ -144,7 +163,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Type',
-    }
+    },
   },
   iban: {
     name: 'iban',
@@ -152,7 +171,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'IBAN',
-    }
+    },
   },
   login: {
     name: 'login',
@@ -160,7 +179,24 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Login',
-      autocomplete: 'email|username'
-    }
+      autocomplete: 'email|username',
+    },
   },
-}
+  internetbankpassword: {
+    name: 'internetbankpassword',
+    type: 'input',
+    secret: true,
+    options: {
+      type: 'password',
+      label: 'Password',
+    },
+  },
+  banksite: {
+    name: 'banksite',
+    type: 'input',
+    options: {
+      type: 'text',
+      label: 'Web site',
+    },
+  },
+};

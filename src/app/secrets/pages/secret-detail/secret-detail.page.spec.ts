@@ -88,84 +88,86 @@ describe('SecretDetailPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('when adding a secret of type login, then should create a form of type login', () => {
-    spyRepository.getById.mockReturnValue(of(undefined));
-    routeStub.setParamMap({ id: 'login' });
+  describe('when adding a secret', () => {
+    it('of type login, then should create a form of type login', () => {
+      spyRepository.getById.mockReturnValue(of(undefined));
+      routeStub.setParamMap({ id: 'login' });
 
-    expect(component.form.get('title')).toBeTruthy();
-    expect(component.form.get('user')).toBeTruthy();
-    expect(component.form.get('password')).toBeTruthy();
-    expect(component.form.get('site')).toBeTruthy();
-  });
-
-  it('when adding a secret of type card, then should create a form of type card', () => {
-    component.form = new FormGroup({});
-    spyRepository.getById.mockReturnValue(of(undefined));
-    routeStub.setParamMap({ id: 'card' });
-
-    expect(component.form.get('title')).toBeTruthy();
-    expect(component.form.get('number')).toBeTruthy();
-    expect(component.form.get('owner')).toBeTruthy();
-    expect(component.form.get('expires')).toBeTruthy();
-    expect(component.form.get('cvv')).toBeTruthy();
-    expect(component.form.get('pin')).toBeTruthy();
-  });
-
-  it('when adding a secret of type identity, then should create a form of type identity', () => {
-    component.form = new FormGroup({});
-    spyRepository.getById.mockReturnValue(of(undefined));
-    routeStub.setParamMap({ id: 'identity' });
-
-    expect(component.form.get('title')).toBeTruthy();
-    expect(component.form.get('number')).toBeTruthy();
-    expect(component.form.get('name')).toBeTruthy();
-    expect(component.form.get('birthday')).toBeTruthy();
-    expect(component.form.get('issued')).toBeTruthy();
-    expect(component.form.get('expires')).toBeTruthy();
-  });
-
-  it('when adding a secret of type bank, then should create a form of type bank', () => {
-    component.form = new FormGroup({});
-    spyRepository.getById.mockReturnValue(of(undefined));
-    routeStub.setParamMap({ id: 'bank' });
-
-    expect(component.form.get('title')).toBeTruthy();
-    expect(component.form.get('bank')).toBeTruthy();
-    expect(component.form.get('holder')).toBeTruthy();
-    expect(component.form.get('type')).toBeTruthy();
-    expect(component.form.get('iban')).toBeTruthy();
-    expect(component.form.get('login')).toBeTruthy();
-    expect(component.form.get('password')).toBeTruthy();
-    expect(component.form.get('site')).toBeTruthy();
-  });
-
-  it('when adding a secret of type pin, then should create a form of type pin', () => {
-    component.form = new FormGroup({});
-    spyRepository.getById.mockReturnValue(of(undefined));
-    routeStub.setParamMap({ id: 'pin' });
-
-    expect(component.form.get('title')).toBeTruthy();
-    expect(component.form.get('pin')).toBeTruthy();
-  });
-
-  it('when add a new secret should reset the form and redirect to the secrets list', fakeAsync(() => {
-    component.form = new FormGroup({});
-    spyRepository.getById.mockReturnValue(of(undefined));
-    routeStub.setParamMap({ id: 'login' });
-    const secret = new Secret('', 'login', 'test', {
-      title: 'test',
-      user: 'nicanor',
-      password: '1234',
-      site: 'my site',
+      expect(component.form.get('title')).toBeTruthy();
+      expect(component.form.get('user')).toBeTruthy();
+      expect(component.form.get('password')).toBeTruthy();
+      expect(component.form.get('site')).toBeTruthy();
     });
-    component.form.setValue(secret.content);
-    component.save();
-    tick();
 
-    expect(spyRepository.save).toHaveBeenCalledWith(expect.any(Secret));
-    expect(component.form.pristine).toBe(true);
-    expect(router.url).toBe('/tabs/secrets');
-  }));
+    it('of type card, then should create a form of type card', () => {
+      component.form = new FormGroup({});
+      spyRepository.getById.mockReturnValue(of(undefined));
+      routeStub.setParamMap({ id: 'card' });
+
+      expect(component.form.get('title')).toBeTruthy();
+      expect(component.form.get('cardnumber')).toBeTruthy();
+      expect(component.form.get('cardowner')).toBeTruthy();
+      expect(component.form.get('cardexpires')).toBeTruthy();
+      expect(component.form.get('cvv')).toBeTruthy();
+      expect(component.form.get('cardpin')).toBeTruthy();
+    });
+
+    it('of type identity, then should create a form of type identity', () => {
+      component.form = new FormGroup({});
+      spyRepository.getById.mockReturnValue(of(undefined));
+      routeStub.setParamMap({ id: 'identity' });
+
+      expect(component.form.get('title')).toBeTruthy();
+      expect(component.form.get('number')).toBeTruthy();
+      expect(component.form.get('name')).toBeTruthy();
+      expect(component.form.get('birthday')).toBeTruthy();
+      expect(component.form.get('issued')).toBeTruthy();
+      expect(component.form.get('expires')).toBeTruthy();
+    });
+
+    it('of type bank, then should create a form of type bank', () => {
+      component.form = new FormGroup({});
+      spyRepository.getById.mockReturnValue(of(undefined));
+      routeStub.setParamMap({ id: 'bank' });
+
+      expect(component.form.get('title')).toBeTruthy();
+      expect(component.form.get('bank')).toBeTruthy();
+      expect(component.form.get('holder')).toBeTruthy();
+      expect(component.form.get('type')).toBeTruthy();
+      expect(component.form.get('iban')).toBeTruthy();
+      expect(component.form.get('login')).toBeTruthy();
+      expect(component.form.get('internetbankpassword')).toBeTruthy();
+      expect(component.form.get('banksite')).toBeTruthy();
+    });
+
+    it('of type pin, then should create a form of type pin', () => {
+      component.form = new FormGroup({});
+      spyRepository.getById.mockReturnValue(of(undefined));
+      routeStub.setParamMap({ id: 'pin' });
+
+      expect(component.form.get('title')).toBeTruthy();
+      expect(component.form.get('pin')).toBeTruthy();
+    });
+
+    it('when add a new secret should reset the form and redirect to the secrets list', fakeAsync(() => {
+      component.form = new FormGroup({});
+      spyRepository.getById.mockReturnValue(of(undefined));
+      routeStub.setParamMap({ id: 'login' });
+      const secret = new Secret('', 'login', 'test', {
+        title: 'test',
+        user: 'nicanor',
+        password: '1234',
+        site: 'my site',
+      });
+      component.form.setValue(secret.content);
+      component.save();
+      tick();
+
+      expect(spyRepository.save).toHaveBeenCalledWith(expect.any(Secret));
+      expect(component.form.pristine).toBe(true);
+      expect(router.url).toBe('/tabs/secrets');
+    }));
+  });
 
   it('should not save an empty form', fakeAsync(() => {
     component.form = new FormGroup({});
@@ -230,16 +232,16 @@ describe('SecretDetailPage', () => {
     routeStub.setParamMap({ id: 'card' });
     const secret = new Secret('', 'card', 'test', {
       title: 'test',
-      number: '1234',
-      owner: 'eu',
-      expires: '132',
+      cardnumber: '1234',
+      cardowner: 'eu',
+      cardexpires: '132',
       cvv: '1234',
-      pin: '1234',
+      cardpin: '1234',
     });
     component.form.setValue(secret.content);
 
     const cvvField = component.fields.find((f) => f.name === 'cvv');
-    const pinField = component.fields.find((f) => f.name === 'pin');
+    const pinField = component.fields.find((f) => f.name === 'cardpin');
     component.showSecret(cvvField);
     expect(cvvField.options.type).toEqual('text');
     component.showSecret(pinField);
@@ -274,13 +276,19 @@ describe('SecretDetailPage', () => {
       expect(component.isReadonly).toBe(false);
     });
 
-    it('should change the title from View secret to Edit secret', () => {
-      expect(component.title).toEqual('View secret');
+    it('should show the secrets title as the pages title', () => {
+      component.form = new FormGroup({});
+      const secret = new Secret('abc', 'login', 'test', {
+        title: 'test',
+        user: 'nicanor',
+        password: '1234',
+        site: 'my site',
+      });
+      spyRepository.getById.mockReturnValue(of(secret));
+      routeStub.setParamMap({ id: 'abc' });
 
-      const btnEdit = fixture.debugElement.query(By.css('#edit-btn'));
-      btnEdit.triggerEventHandler('click', null);
-
-      expect(component.title).toEqual('Edit secret');
+      expect(component.secret).toBe(secret);
+      expect(component.title).toEqual(secret.name);
     });
   });
 
@@ -303,22 +311,22 @@ describe('SecretDetailPage', () => {
       component.form = new FormGroup({});
       const secret = new Secret('abc', 'card', 'test', {
         title: 'test',
-        number: '1234',
-        owner: 'eu',
-        expires: '132',
+        cardnumber: '1234',
+        cardowner: 'eu',
+        cardexpires: '132',
         cvv: '1234',
-        pin: '1234',
+        cardpin: '1234',
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
 
       expect(component.secret).toBe(secret);
       expect(component.form.get('title')).toBeTruthy();
-      expect(component.form.get('number')).toBeTruthy();
-      expect(component.form.get('owner')).toBeTruthy();
-      expect(component.form.get('expires')).toBeTruthy();
+      expect(component.form.get('cardnumber')).toBeTruthy();
+      expect(component.form.get('cardowner')).toBeTruthy();
+      expect(component.form.get('cardexpires')).toBeTruthy();
       expect(component.form.get('cvv')).toBeTruthy();
-      expect(component.form.get('pin')).toBeTruthy();
+      expect(component.form.get('cardpin')).toBeTruthy();
     });
   });
 

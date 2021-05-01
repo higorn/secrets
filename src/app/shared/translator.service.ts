@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
 
@@ -9,6 +10,10 @@ export class TranslatorService {
 
   constructor(private translate: TranslateService) {
     this.setDefaultLang('en');
+  }
+
+  get(key: string): Observable<string> {
+    return this.translate.get(key);
   }
 
   private setDefaultLang(lang: string) {

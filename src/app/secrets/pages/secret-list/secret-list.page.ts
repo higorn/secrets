@@ -17,9 +17,9 @@ export class SecretListPage implements OnInit, OnDestroy {
 
   constructor(
     private repository: SecretRepository,
-    private plt: Platform,
-    private translate: TranslatorService
-  ) {
+    private plt: Platform
+  ) // private translate: TranslatorService
+  {
     /*     this.plt.ready().then(() => {
       this.repository.dataChanged$.subscribe(() => this.loadSecrets());
     }) */
