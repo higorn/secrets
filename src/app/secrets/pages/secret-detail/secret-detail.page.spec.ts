@@ -1,3 +1,4 @@
+import { TranslatorService } from 'src/app/shared/translator.service';
 import { CommonModule } from '@angular/common';
 import {
   ComponentFixture,
@@ -24,6 +25,7 @@ import { SecretRepository } from '../../shared/secret.repository';
 import { SecretListPage } from '../secret-list/secret-list.page';
 import { SecretsPageModule } from './../../secrets.module';
 import { SecretDetailPage } from './secret-detail.page';
+import { StorageService } from 'src/app/shared/storage.service';
 
 describe('SecretDetailPage', () => {
   let component: SecretDetailPage;
@@ -47,6 +49,9 @@ describe('SecretDetailPage', () => {
     dismiss: jest.fn(),
     getTop: jest.fn(),
   };
+  const spyStorage = {
+    getItem: jest.fn(),
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -65,6 +70,7 @@ describe('SecretDetailPage', () => {
         providers: [
           { provide: ActivatedRoute, useValue: routeStub },
           { provide: SecretRepository, useValue: spyRepository },
+          { provide: StorageService, useValue: spyStorage },
           // { provide: Router, useValue: spyRouter },
           FormBuilder,
         ],
@@ -76,6 +82,7 @@ describe('SecretDetailPage', () => {
       alertController = TestBed.inject(AlertController);
 
       spyRepository.save.mockReset();
+      spyStorage.getItem.mockReturnValue(of({ language: 'en' }));
 
       fixture = TestBed.createComponent(SecretDetailPage);
       component = fixture.componentInstance;

@@ -65,11 +65,7 @@ export class SettingsPage implements OnInit, OnDestroy {
         {
           text: text.yes,
           handler: () => {
-            this.storage.removeItem('secrets');
-            this.storage.removeItem('settings');
-            this.vaultService.reset().subscribe(() => {
-              this.storage.clear();
-            });
+            this.wipeData();
           },
         },
       ],
@@ -77,9 +73,16 @@ export class SettingsPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
+  private wipeData() {
+    this.storage.removeItem('secrets');
+    this.storage.removeItem('settings');
+    this.vaultService.reset().subscribe(() => {
+      this.storage.clear();
+    });
+  }
+
   private getTextForAlert() {
     let text: any = {};
-
     this.translator
       .get('settings.wipe.title')
       .subscribe((t) => (text.title = t));

@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { StorageService } from '../shared/storage.service';
 import { VaultService } from '../shared/vault.service';
 import { StartPageRoutingModule } from './start-routing.module';
 import { StartPage } from './start.page';
@@ -16,6 +18,9 @@ describe('StartPage', () => {
   };
   const spyVaultService = {
     unseal: jest.fn(),
+  };
+  const spyStorage = {
+    getItem: jest.fn(),
   };
 
   beforeEach(
@@ -32,9 +37,11 @@ describe('StartPage', () => {
         providers: [
           { provide: Router, useValue: spyRouter },
           { provide: VaultService, useValue: spyVaultService },
+          { provide: StorageService, useValue: spyStorage },
         ],
       }).compileComponents();
 
+      spyStorage.getItem.mockReturnValue(of({ language: 'en' }));
       fixture = TestBed.createComponent(StartPage);
       component = fixture.componentInstance;
       fixture.detectChanges();

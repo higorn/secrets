@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,10 @@ import { Injectable } from '@angular/core';
 export class TranslatorService {
   private language: string;
 
-  constructor(private translate: TranslateService) {
+  constructor(
+    private translate: TranslateService,
+    private storage: StorageService
+  ) {
     this.setDefaultLang('en');
   }
 
@@ -27,9 +31,16 @@ export class TranslatorService {
 
   private setDefaultLang(lang: string) {
     this.translate.setDefaultLang(lang);
-    const navLang = this.getNavLang();
-    this.language = navLang ? navLang : lang;
-    this.translate.use(this.language);
+    this.storage.getItem('settings').subscribe((settings) => {
+      const navLang = this.getNavLang();
+      this.language =
+        settings && settings.language
+          ? settings.language
+          : navLang
+          ? navLang
+          : lang;
+      this.translate.use(this.language);
+    });
   }
 
   private getNavLang(): string {

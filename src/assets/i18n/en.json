@@ -26,7 +26,7 @@
     "add": {
       "web": "Web account",
       "mail": "Email account",
-      "login": "Web account",
+      "login": "Login",
       "card": "Card",
       "bank": "Bank account",
       "id": "Identity",
