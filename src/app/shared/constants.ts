@@ -18,6 +18,15 @@ export const FieldsBundle = {
       autocomplete: 'email|username',
     },
   },
+  mail: {
+    name: 'mail',
+    type: 'input',
+    options: {
+      type: 'email',
+      label: 'Email',
+      autocomplete: 'email|username',
+    },
+  },
   name: {
     name: 'name',
     type: 'input',

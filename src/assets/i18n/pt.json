@@ -2,18 +2,47 @@
   "start": {
     "message": "Entre com a senha mestra.",
     "password": "Senha",
-    "unlock": "abrir"
+    "unlock": "Entrar"
   },
   "tabs": {
     "mysecrets": "Meus segredos",
     "settings": "Configurações"
   },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "wipe": {
+      "btn": "Apagar dados do dispositivo",
+      "title": "Apagar dados",
+      "message": "Todos os dados e configurações do app serão apagados do seu dispositivo. Deseja continuar?",
+      "yes": "Sim",
+      "cancel": "Cancelar"
+    }
+  },
   "secrets": {
     "list": {
       "title": "Meus segredos"
     },
+    "add": {
+      "web": "Conta web",
+      "mail": "Conta de email",
+      "login": "Login",
+      "card": "Cartão",
+      "bank": "Conta de banco",
+      "id": "Identidate/CPF/CNH/Passaporte/Outros",
+      "pin": "Senha numérica (PIN)"
+    },
+    "remove": {
+      "title": "Remoção de item",
+      "message": "Deseja realmente remove esse item?",
+      "yes": "Sim",
+      "no": "Não",
+      "cancel": "Cancelar"
+    },
     "form": {
       "new": "Novo segredo",
+      "edit": "Editar",
+      "save": "Salvar",
       "field": {
         "title": {
           "name": "Título",
@@ -26,6 +55,10 @@
         "name": {
           "name": "Nome",
           "placeholder": "Meu nome completo"
+        },
+        "mail": {
+          "name": "E-mail",
+          "placeholder": "meuusuario@email.com"
         },
         "password": {
           "name": "Senha",

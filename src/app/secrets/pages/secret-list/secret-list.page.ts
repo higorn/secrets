@@ -1,4 +1,3 @@
-import { TranslatorService } from './../../../shared/translator.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
@@ -15,11 +14,7 @@ export class SecretListPage implements OnInit, OnDestroy {
   loading = true;
   private dataReadySubscription: Subscription;
 
-  constructor(
-    private repository: SecretRepository,
-    private plt: Platform
-  ) // private translate: TranslatorService
-  {
+  constructor(private repository: SecretRepository, private plt: Platform) {
     /*     this.plt.ready().then(() => {
       this.repository.dataChanged$.subscribe(() => this.loadSecrets());
     }) */

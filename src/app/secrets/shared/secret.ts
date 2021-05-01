@@ -11,12 +11,19 @@ export class Secret implements Entity {
 }
 
 export const FormType = {
-  login: [
+  web: [
     FieldsBundle.title,
     FieldsBundle.user,
     FieldsBundle.password,
     FieldsBundle.site,
   ],
+  mail: [
+    FieldsBundle.title,
+    FieldsBundle.mail,
+    FieldsBundle.password,
+    FieldsBundle.site,
+  ],
+  login: [FieldsBundle.title, FieldsBundle.login, FieldsBundle.password],
   card: [
     FieldsBundle.title,
     FieldsBundle.cardnumber,

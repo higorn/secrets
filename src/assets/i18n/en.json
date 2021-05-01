@@ -8,12 +8,41 @@
     "mysecrets": "My secrets",
     "settings": "Settings"
   },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "wipe": {
+      "btn": "Wipe divice data",
+      "title": "Wipe data",
+      "message": "All the application data and settings will be erased from your device. Do you wan to proceed?",
+      "yes": "Yes",
+      "cancel": "Cancel"
+    }
+  },
   "secrets": {
     "list": {
       "title": "My secrets"
     },
+    "add": {
+      "web": "Web account",
+      "mail": "Email account",
+      "login": "Web account",
+      "card": "Card",
+      "bank": "Bank account",
+      "id": "Identity",
+      "pin": "PIN"
+    },
+    "remove": {
+      "title": "Remove item",
+      "message": "You really want to remove this item?",
+      "yes": "Yes",
+      "no": "No",
+      "cancel": "Cancel"
+    },
     "form": {
       "new": "New secret",
+      "edit": "Edit",
+      "save": "Save",
       "field": {
         "title": {
           "name": "Title",
@@ -26,6 +55,10 @@
         "name": {
           "name": "Name",
           "placeholder": "A common name"
+        },
+        "mail": {
+          "name": "Email",
+          "placeholder": "myuser@email.com"
         },
         "password": {
           "name": "Password",

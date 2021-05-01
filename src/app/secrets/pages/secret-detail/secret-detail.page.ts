@@ -96,17 +96,19 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   }
 
   async presentConfirmation() {
+    const text = this.getTextForAlert();
+
     const alert = await this.alertController.create({
-      header: 'Remove confirmation',
-      message: 'Are you sure you want to remove this secret?',
+      header: text.title,
+      message: text.message,
       buttons: [
         {
-          text: 'Cancel',
+          text: text.cancel,
           role: 'cancel',
           cssClass: 'secondary',
         },
         {
-          text: 'Yes',
+          text: text.yes,
           handler: () => {
             this.repository.remove(this.secret);
             this.router.navigate(['/tabs/secrets']);
@@ -115,5 +117,21 @@ export class SecretDetailPage implements OnInit, OnDestroy {
       ],
     });
     await alert.present();
+  }
+
+  private getTextForAlert() {
+    let text: any = {};
+
+    this.translate
+      .get('secrets.remove.title')
+      .subscribe((t) => (text.title = t));
+    this.translate
+      .get('secrets.remove.message')
+      .subscribe((t) => (text.message = t));
+    this.translate
+      .get('secrets.remove.cancel')
+      .subscribe((t) => (text.cancel = t));
+    this.translate.get('secrets.remove.yes').subscribe((t) => (text.yes = t));
+    return text;
   }
 }

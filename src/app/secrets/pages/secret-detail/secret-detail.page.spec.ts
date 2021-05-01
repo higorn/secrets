@@ -65,7 +65,6 @@ describe('SecretDetailPage', () => {
         providers: [
           { provide: ActivatedRoute, useValue: routeStub },
           { provide: SecretRepository, useValue: spyRepository },
-          // { provide: AlertController, useClass: spyAlert },
           // { provide: Router, useValue: spyRouter },
           FormBuilder,
         ],
@@ -94,9 +93,8 @@ describe('SecretDetailPage', () => {
       routeStub.setParamMap({ id: 'login' });
 
       expect(component.form.get('title')).toBeTruthy();
-      expect(component.form.get('user')).toBeTruthy();
+      expect(component.form.get('login')).toBeTruthy();
       expect(component.form.get('password')).toBeTruthy();
-      expect(component.form.get('site')).toBeTruthy();
     });
 
     it('of type card, then should create a form of type card', () => {
@@ -155,9 +153,8 @@ describe('SecretDetailPage', () => {
       routeStub.setParamMap({ id: 'login' });
       const secret = new Secret('', 'login', 'test', {
         title: 'test',
-        user: 'nicanor',
+        login: 'nicanor',
         password: '1234',
-        site: 'my site',
       });
       component.form.setValue(secret.content);
       component.save();
@@ -175,9 +172,8 @@ describe('SecretDetailPage', () => {
     routeStub.setParamMap({ id: 'login' });
     const secret = new Secret('', 'login', 'test', {
       title: null,
-      user: '',
+      login: '',
       password: null,
-      site: null,
     });
     component.form.setValue(secret.content);
     component.save();
@@ -194,9 +190,8 @@ describe('SecretDetailPage', () => {
     routeStub.setParamMap({ id: 'login' });
     const secret = new Secret('', 'login', 'test', {
       title: null,
-      user: 'a',
+      login: 'a',
       password: null,
-      site: null,
     });
     component.form.setValue(secret.content);
     component.save();
@@ -213,9 +208,8 @@ describe('SecretDetailPage', () => {
     routeStub.setParamMap({ id: 'login' });
     const secret = new Secret('', 'login', 'test', {
       title: 'test',
-      user: 'nicanor',
+      login: 'nicanor',
       password: '1234',
-      site: 'my site',
     });
     component.form.setValue(secret.content);
 
@@ -258,9 +252,8 @@ describe('SecretDetailPage', () => {
       component.form = new FormGroup({});
       const secret = new Secret('abc', 'login', 'test', {
         title: 'test',
-        user: 'nicanor',
+        login: 'nicanor',
         password: '1234',
-        site: 'my site',
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
@@ -280,9 +273,8 @@ describe('SecretDetailPage', () => {
       component.form = new FormGroup({});
       const secret = new Secret('abc', 'login', 'test', {
         title: 'test',
-        user: 'nicanor',
+        login: 'nicanor',
         password: '1234',
-        site: 'my site',
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
@@ -297,9 +289,8 @@ describe('SecretDetailPage', () => {
       component.form = new FormGroup({});
       const secret = new Secret('abc', 'login', 'test', {
         title: 'test',
-        user: 'nicanor',
+        login: 'nicanor',
         password: '1234',
-        site: 'my site',
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
@@ -334,9 +325,8 @@ describe('SecretDetailPage', () => {
     component.form = new FormGroup({});
     const secret = new Secret('abc', 'login', 'test', {
       title: 'test',
-      user: 'nicanor',
+      login: 'nicanor',
       password: '1234',
-      site: 'my site',
     });
     spyRepository.getById.mockReturnValue(of(secret));
     routeStub.setParamMap({ id: 'abc' });
@@ -366,9 +356,8 @@ describe('SecretDetailPage', () => {
   it('should not execute the secret removing if the confirmation was conceled', fakeAsync(() => {
     const secret = new Secret('abc', 'login', 'test', {
       title: 'test',
-      user: 'nicanor',
+      login: 'nicanor',
       password: '1234',
-      site: 'my site',
     });
     spyRepository.getById.mockReturnValue(of(secret));
     routeStub.setParamMap({ id: 'abc' });

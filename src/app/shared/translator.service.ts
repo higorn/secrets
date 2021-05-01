@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class TranslatorService {
-  language: string;
+  private language: string;
 
   constructor(private translate: TranslateService) {
     this.setDefaultLang('en');
@@ -14,6 +14,15 @@ export class TranslatorService {
 
   get(key: string): Observable<string> {
     return this.translate.get(key);
+  }
+
+  setLang(lang: string): void {
+    this.translate.use(lang);
+    this.language = lang;
+  }
+
+  getLang() {
+    return this.language;
   }
 
   private setDefaultLang(lang: string) {

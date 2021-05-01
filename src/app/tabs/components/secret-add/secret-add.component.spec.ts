@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TabsPageModule } from './../../tabs.module';
 import { SecretAddComponent } from './secret-add.component';
@@ -9,7 +10,7 @@ describe('SecretAddComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [TabsPageModule],
+        imports: [TabsPageModule, TranslateModule.forRoot()],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SecretAddComponent);

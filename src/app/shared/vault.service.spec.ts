@@ -11,9 +11,7 @@ describe('VaultService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        { provide: StorageService, useValue: storageService }
-      ]
+      providers: [{ provide: StorageService, useValue: storageService }],
     });
     vault = TestBed.inject(VaultService);
   });
@@ -24,19 +22,19 @@ describe('VaultService', () => {
 
   it('should create the vault when it does not exists', fakeAsync(() => {
     let vaultContent: any;
-    storageService.getItem('vault').subscribe(item => vaultContent = item);
+    storageService.getItem('vault').subscribe((item) => (vaultContent = item));
     tick();
     expect(vaultContent).toBeNull();
 
-    vault.unseal('secret')
+    vault.unseal('secret');
     tick();
 
-    storageService.getItem('vault').subscribe(item => vaultContent = item);
+    storageService.getItem('vault').subscribe((item) => (vaultContent = item));
     tick();
 
     expect(vaultContent).toBeTruthy();
     expect(vaultContent.length).toBe(3);
-  }))
+  }));
 
   it('should encode and decode based on a password', fakeAsync(() => {
     const pass = 'secret';
@@ -46,5 +44,21 @@ describe('VaultService', () => {
     const encoded = vault.encode(data);
     const decoded = vault.decode(encoded);
     expect(decoded).toEqual(data);
-  }))
+  }));
+
+  it('should reset the vault', fakeAsync(() => {
+    let vaultContent: any;
+
+    storageService.getItem('vault').subscribe((item) => (vaultContent = item));
+    tick();
+
+    expect(vaultContent).toBeTruthy();
+    expect(vaultContent.length).toBe(3);
+
+    vault.reset();
+
+    storageService.getItem('vault').subscribe((item) => (vaultContent = item));
+    tick();
+    expect(vaultContent).toBeNull();
+  }));
 });
