@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatorService } from '../shared/translator.service';
 import { VaultService } from '../shared/vault.service';
@@ -18,8 +19,14 @@ export class StartPage implements OnInit {
   constructor(
     private router: Router,
     private vault: VaultService,
-    private translate: TranslatorService
-  ) {}
+    private translate: TranslatorService,
+    private plt: Platform
+  ) {
+    this.plt.pause.subscribe(() => {
+      this.vault.seal();
+      this.router.navigate(['/start']);
+    });
+  }
 
   ngOnInit() {}
 
@@ -29,7 +36,7 @@ export class StartPage implements OnInit {
   }
 
   unseal() {
-    this.vault.unseal(this.password);
+    this.vault.unseal(this.password).subscribe(() => (this.password = null));
     this.router.navigate(['/tabs/secrets']);
   }
 }

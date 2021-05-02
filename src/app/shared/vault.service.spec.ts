@@ -39,7 +39,7 @@ describe('VaultService', () => {
   it('should encode and decode based on a password', fakeAsync(() => {
     const pass = 'secret';
     vault.unseal(pass);
-    tick(1000);
+    tick();
     const data = 'abc';
     const encoded = vault.encode(data);
     const decoded = vault.decode(encoded);
@@ -60,5 +60,24 @@ describe('VaultService', () => {
     storageService.getItem('vault').subscribe((item) => (vaultContent = item));
     tick();
     expect(vaultContent).toBeNull();
+  }));
+
+  it('should seal the vault', fakeAsync(() => {
+    expect(vault.isSealed()).toBe(true);
+
+    vault.unseal('secret');
+    tick();
+    const data = 'abc';
+    let encoded = vault.encode(data);
+    let decoded = vault.decode(encoded);
+
+    expect(decoded).toEqual(data);
+    expect(vault.isSealed()).toBe(false);
+
+    vault.seal();
+    const encode = () => vault.encode(data);
+
+    expect(vault.isSealed()).toBe(true);
+    expect(encode).toThrow(Error);
   }));
 });

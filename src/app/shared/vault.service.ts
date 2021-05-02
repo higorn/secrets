@@ -28,6 +28,14 @@ export class VaultService {
     return this.ready$;
   }
 
+  seal() {
+    this.key1 = undefined;
+    this.key2 = undefined;
+    this.keypair = undefined;
+    this.sealed = true;
+    this.unsealing = false;
+  }
+
   isSealed(): boolean {
     return this.sealed;
   }
@@ -37,12 +45,7 @@ export class VaultService {
   }
 
   reset(): Observable<void> {
-    return this.storage.removeItem('vault').pipe(
-      tap(() => {
-        this.sealed = true;
-        this.unsealing = false;
-      })
-    );
+    return this.storage.removeItem('vault').pipe(tap(() => this.seal()));
   }
 
   private createVault(pass: string): void {
@@ -173,16 +176,18 @@ export class VaultService {
     return this.decrypt(encodedBytes, key, this.key1.iv);
   }
 
-  encode(data: string) {
+  encode(data: string): string {
+    if (!this.key2) throw new Error('Vault is sealed');
     return this.encrypt(data, this.key2.key, this.key2.iv);
   }
 
-  decode(encoded: string) {
+  decode(encoded: string): string {
+    if (!this.key2) throw new Error('Vault is sealed');
     const encodedBytes = forge.util.decode64(encoded);
     return this.decrypt(encodedBytes, this.key2.key, this.key2.iv);
   }
 
-  private encrypt(data: string, key: Bytes, iv: Bytes) {
+  private encrypt(data: string, key: Bytes, iv: Bytes): string {
     const cipher = forge.cipher.createCipher('AES-CBC', key);
     cipher.start({ iv: iv });
     cipher.update(forge.util.createBuffer(data));
@@ -191,7 +196,7 @@ export class VaultService {
     return forge.util.encode64(encoded.bytes());
   }
 
-  private decrypt(encodedBytes: string, key: Bytes, iv: Bytes) {
+  private decrypt(encodedBytes: string, key: Bytes, iv: Bytes): string {
     const decipher = forge.cipher.createDecipher('AES-CBC', key);
     decipher.start({ iv: iv });
     let decoded = this.execDecrypt(encodedBytes, decipher);
