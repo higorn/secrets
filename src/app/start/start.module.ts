@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Httpi18nLoaderFactory } from '../shared/utils';
+import { StartPage } from './pages/start/start.page';
 import { StartPageRoutingModule } from './start-routing.module';
-import { StartPage } from './start.page';
 
 @NgModule({
   imports: [

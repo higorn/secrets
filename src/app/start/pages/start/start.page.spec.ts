@@ -5,9 +5,10 @@ import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { StorageService } from '../shared/storage.service';
-import { VaultService } from '../shared/vault.service';
-import { StartPageRoutingModule } from './start-routing.module';
+import { BiometricService } from 'src/app/shared/biometric.service';
+import { StorageService } from 'src/app/shared/storage.service';
+import { VaultService } from 'src/app/shared/vault.service';
+import { StartPageRoutingModule } from '../../start-routing.module';
 import { StartPage } from './start.page';
 
 describe('StartPage', () => {
@@ -21,6 +22,9 @@ describe('StartPage', () => {
   };
   const spyStorage = {
     getItem: jest.fn(),
+  };
+  const spyBiometric = {
+    verifyIdentity: jest.fn(),
   };
 
   beforeEach(
@@ -38,6 +42,7 @@ describe('StartPage', () => {
           { provide: Router, useValue: spyRouter },
           { provide: VaultService, useValue: spyVaultService },
           { provide: StorageService, useValue: spyStorage },
+          { provide: BiometricService, useValue: spyBiometric },
         ],
       }).compileComponents();
 
@@ -50,5 +55,9 @@ describe('StartPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call the biometric service', () => {
+    expect(spyBiometric.verifyIdentity).toHaveBeenCalled();
   });
 });

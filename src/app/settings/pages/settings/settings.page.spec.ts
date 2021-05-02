@@ -1,21 +1,21 @@
 import {
   ComponentFixture,
-  TestBed,
-  waitForAsync,
   fakeAsync,
+  TestBed,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AlertController, IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { StorageService } from '../shared/storage.service';
-import { TranslatorService } from '../shared/translator.service';
-import { VaultService } from '../shared/vault.service';
+import { SettingsRepository } from 'src/app/shared/settings.repository';
+import { StorageService } from 'src/app/shared/storage.service';
+import { TranslatorService } from 'src/app/shared/translator.service';
+import { VaultService } from 'src/app/shared/vault.service';
+import { DEFAULT_SETTINGS } from './../../../shared/settings';
 import { SettingsPage } from './settings.page';
-import { Settings } from './shared/settings';
-import { SettingsRepository } from './shared/settings.repository';
 
 describe('SettingsPage', () => {
   let component: SettingsPage;
@@ -61,7 +61,7 @@ describe('SettingsPage', () => {
   });
 
   it('should load the settings', () => {
-    const expectedSettings: Settings = { language: 'en' };
+    const expectedSettings = DEFAULT_SETTINGS;
     spyRepository.get.mockReturnValue(of(expectedSettings));
     fixture.detectChanges();
 
@@ -72,7 +72,7 @@ describe('SettingsPage', () => {
   });
 
   it('should be possible to change the language', () => {
-    const expectedSettings: Settings = { language: 'en' };
+    const expectedSettings = DEFAULT_SETTINGS;
     spyRepository.get.mockReturnValue(of(expectedSettings));
     fixture.detectChanges();
 

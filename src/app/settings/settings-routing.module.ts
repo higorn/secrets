@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { VaultGuard } from '../shared/vault.guard';
-import { SettingsPage } from './settings.page';
+import { SettingsPage } from './pages/settings/settings.page';
 
 const routes: Routes = [
   {

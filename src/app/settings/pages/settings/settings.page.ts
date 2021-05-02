@@ -1,11 +1,10 @@
-import { VaultService } from './../shared/vault.service';
+import { VaultService } from '../../../shared/vault.service';
 import { StorageService } from 'src/app/shared/storage.service';
 import { Subscription } from 'rxjs';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Settings } from './shared/settings';
-import { SettingsRepository } from './shared/settings.repository';
 import { AlertController } from '@ionic/angular';
+import { SettingsRepository } from 'src/app/shared/settings.repository';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +12,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['settings.page.scss'],
 })
 export class SettingsPage implements OnInit, OnDestroy {
-  settings: Settings = { language: '' };
+  settings: any = {};
   private settingsSubscription: Subscription;
 
   constructor(

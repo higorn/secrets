@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
-import { TranslatorService } from '../shared/translator.service';
-import { VaultService } from '../shared/vault.service';
+import { BiometricService } from 'src/app/shared/biometric.service';
+import { TranslatorService } from 'src/app/shared/translator.service';
+import { VaultService } from 'src/app/shared/vault.service';
 
 @Component({
   selector: 'app-start',
@@ -20,7 +20,8 @@ export class StartPage implements OnInit {
     private router: Router,
     private vault: VaultService,
     private translate: TranslatorService,
-    private plt: Platform
+    private plt: Platform,
+    private biometric: BiometricService
   ) {
     this.plt.pause.subscribe(() => {
       this.vault.seal();
@@ -28,7 +29,9 @@ export class StartPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.biometric.verifyIdentity();
+  }
 
   showSecret() {
     this.isPwVisible = !this.isPwVisible;
@@ -36,7 +39,16 @@ export class StartPage implements OnInit {
   }
 
   unseal() {
+    this.setCreds();
     this.vault.unseal(this.password).subscribe(() => (this.password = null));
     this.router.navigate(['/tabs/secrets']);
+  }
+
+  setCreds() {
+    /*     NativeBiometric.setCredentials({
+      username: 'secrets',
+      password: this.password,
+      server: 'www.secrets.com',
+    }).then(); */
   }
 }

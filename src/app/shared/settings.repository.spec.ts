@@ -1,9 +1,9 @@
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { StorageService } from 'src/app/shared/storage.service';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { MockStorageService } from 'src/app/testing/mock-storage-service';
-
-import { SettingsRepository } from './settings.repository';
 import { TranslatorService } from 'src/app/shared/translator.service';
+import { MockStorageService } from 'src/app/testing/mock-storage-service';
+import { DEFAULT_SETTINGS } from './settings';
+import { SettingsRepository } from './settings.repository';
 
 describe('SettingsRepository', () => {
   let service: SettingsRepository;
@@ -37,7 +37,7 @@ describe('SettingsRepository', () => {
   }));
 
   it('should save and retrieve the settings from the storage', fakeAsync(() => {
-    const settings = { language: 'en' };
+    const settings = DEFAULT_SETTINGS;
     let savedSettings = {};
 
     service.save(settings);
