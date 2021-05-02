@@ -13,8 +13,6 @@
   "linuxAndroidStudioPath": "/home/higor/Applications/android-studio/bin/studio.sh",
   "server": {
     "url": "http://192.168.0.102:8100",
-    "cleartext": true,
-    "originalUrl": "http://192.168.0.102:8100",
-    "originalCleartext": true
+    "cleartext": true
   }
 }

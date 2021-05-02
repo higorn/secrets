@@ -1,10 +1,11 @@
+import { BiometricService } from 'src/app/shared/biometric.service';
 import { VaultService } from '../../../shared/vault.service';
 import { StorageService } from 'src/app/shared/storage.service';
 import { Subscription } from 'rxjs';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { SettingsRepository } from 'src/app/shared/settings.repository';
+import { SettingsService } from 'src/app/shared/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -16,11 +17,12 @@ export class SettingsPage implements OnInit, OnDestroy {
   private settingsSubscription: Subscription;
 
   constructor(
-    private repository: SettingsRepository,
+    private repository: SettingsService,
     private translator: TranslatorService,
     private storage: StorageService,
     private alertController: AlertController,
-    private vaultService: VaultService
+    private vaultService: VaultService,
+    private biometric: BiometricService
   ) {}
 
   ngOnDestroy(): void {
@@ -37,7 +39,7 @@ export class SettingsPage implements OnInit, OnDestroy {
 
   private loadSettings() {
     this.settingsSubscription = this.repository
-      .get()
+      .getAll()
       .subscribe((settins) => (this.settings = settins));
   }
 
@@ -78,6 +80,7 @@ export class SettingsPage implements OnInit, OnDestroy {
     this.vaultService.reset().subscribe(() => {
       this.storage.clear();
     });
+    this.biometric.removeCredentials();
   }
 
   private getTextForAlert() {

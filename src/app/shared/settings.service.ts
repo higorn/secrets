@@ -8,7 +8,7 @@ import { Settings, DEFAULT_SETTINGS } from './settings';
 @Injectable({
   providedIn: 'root',
 })
-export class SettingsRepository {
+export class SettingsService {
   constructor(
     private storage: StorageService,
     private translator: TranslatorService
@@ -18,7 +18,7 @@ export class SettingsRepository {
     return this.storage.setItem('settings', settings);
   }
 
-  get(): Observable<Settings> {
+  getAll(): Observable<Settings> {
     return this.storage.getItem('settings').pipe(
       map((_settings) => {
         if (_settings) return _settings;
@@ -28,5 +28,18 @@ export class SettingsRepository {
         return settings;
       })
     );
+  }
+
+  get(key: string): Observable<any> {
+    return this.storage
+      .getItem('settings')
+      .pipe(map((settings) => settings[key]));
+  }
+
+  set(key: string, val: any): void {
+    this.storage.getItem('settings').subscribe((settings) => {
+      settings[key] = val;
+      this.storage.setItem('settings', settings);
+    });
   }
 }

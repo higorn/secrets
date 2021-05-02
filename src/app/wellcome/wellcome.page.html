@@ -1,0 +1,29 @@
+<ion-content>
+  <ion-slides pager="true" [options]="opts">
+    <ion-slide>
+      <h1>Slide 1</h1>
+    </ion-slide>
+    <ion-slide>
+      <form id="form" (ngSubmit)="createPwd()">
+        <h4 class="ion-padding-horizontal">
+          {{ 'wellcome.step2.message' | translate }}
+        </h4>
+        <ion-item>
+          <ion-label position="floating">{{ 'wellcome.step2.pwd' | translate }}</ion-label>
+          <ion-input id="pwd-input"
+                     [type]="pwType"
+                     name="password"
+                     [(ngModel)]="password"
+                     autocomplete="password"
+                     autofocus="true"></ion-input>
+          <ion-icon slot="end" name="eye" (click)="showSecret()"></ion-icon>
+        </ion-item>
+        <p class="ion-padding-horizontal">
+          <ion-button type="submit"
+                      expand="block"
+                      [disabled]="!password">{{ 'wellcome.step2.btn' | translate }}</ion-button>
+        </p>
+      </form>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

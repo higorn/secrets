@@ -9,25 +9,28 @@ const routes: Routes = [
     children: [
       {
         path: 'secrets',
-        loadChildren: () => import('../secrets/secrets.module').then(m => m.SecretsPageModule)
+        loadChildren: () =>
+          import('../secrets/secrets.module').then((m) => m.SecretsPageModule),
       },
       {
         path: 'settings',
-        loadChildren: () => import('../settings/settings.module').then(m => m.SettingsPageModule)
+        loadChildren: () =>
+          import('../settings/settings.module').then(
+            (m) => m.SettingsPageModule
+          ),
       },
       {
         path: '',
         redirectTo: '/tabs/secrets',
-        pathMatch: 'full'
-      }
-    ]
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: '',
     redirectTo: '/start',
-    // redirectTo: '/tabs/secrets',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

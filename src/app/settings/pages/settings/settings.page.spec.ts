@@ -1,3 +1,4 @@
+import { BiometricService } from 'src/app/shared/biometric.service';
 import {
   ComponentFixture,
   fakeAsync,
@@ -10,7 +11,7 @@ import { By } from '@angular/platform-browser';
 import { AlertController, IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { SettingsRepository } from 'src/app/shared/settings.repository';
+import { SettingsService } from 'src/app/shared/settings.service';
 import { StorageService } from 'src/app/shared/storage.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { VaultService } from 'src/app/shared/vault.service';
@@ -22,7 +23,7 @@ describe('SettingsPage', () => {
   let fixture: ComponentFixture<SettingsPage>;
   let alertController: AlertController;
   const spyRepository = {
-    get: jest.fn(),
+    getAll: jest.fn(),
     save: jest.fn(),
   };
   const spyTranslator = {
@@ -36,6 +37,9 @@ describe('SettingsPage', () => {
   const spyVault = {
     reset: jest.fn(),
   };
+  const spyBiometric = {
+    removeCredentials: jest.fn(),
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -43,10 +47,11 @@ describe('SettingsPage', () => {
         declarations: [SettingsPage],
         imports: [IonicModule, FormsModule, TranslateModule.forRoot()],
         providers: [
-          { provide: SettingsRepository, useValue: spyRepository },
+          { provide: SettingsService, useValue: spyRepository },
           { provide: TranslatorService, useValue: spyTranslator },
           { provide: StorageService, useValue: spyStorage },
           { provide: VaultService, useValue: spyVault },
+          { provide: BiometricService, useValue: spyBiometric },
         ],
       }).compileComponents();
 
@@ -62,18 +67,18 @@ describe('SettingsPage', () => {
 
   it('should load the settings', () => {
     const expectedSettings = DEFAULT_SETTINGS;
-    spyRepository.get.mockReturnValue(of(expectedSettings));
+    spyRepository.getAll.mockReturnValue(of(expectedSettings));
     fixture.detectChanges();
 
     component.inViewDidEnter();
 
     expect(component.settings).toBe(expectedSettings);
-    expect(spyRepository.get).toHaveBeenCalled();
+    expect(spyRepository.getAll).toHaveBeenCalled();
   });
 
   it('should be possible to change the language', () => {
     const expectedSettings = DEFAULT_SETTINGS;
-    spyRepository.get.mockReturnValue(of(expectedSettings));
+    spyRepository.getAll.mockReturnValue(of(expectedSettings));
     fixture.detectChanges();
 
     component.inViewDidEnter();

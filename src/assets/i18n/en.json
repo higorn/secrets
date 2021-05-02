@@ -1,4 +1,23 @@
 {
+  "wellcome": {
+    "step2": {
+      "message": "Define the master password that will be used to unlock your secrets.",
+      "pwd": "Password",
+      "btn": "Create password",
+      "askbio": {
+        "title": "Biometric",
+        "message": "Would you like to unlock using biometric? You can always enable/disable this option on the settings page.",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "biometric": {
+        "reason": "Secrets",
+        "title": "Secrets",
+        "subtitle": "Biometric verification",
+        "description": "Biometric verification"
+      }
+    }
+  },
   "start": {
     "message": "Enter the master password.",
     "password": "Password",

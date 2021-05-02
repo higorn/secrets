@@ -6,7 +6,7 @@
         <ion-text><h4>{{ 'start.message' | translate }}</h4></ion-text>
       </p>
     </div>
-    <form (ngSubmit)="unseal()">
+    <form (ngSubmit)="unsealWithPwd()">
       <ion-item>
         <ion-label position="floating">{{ 'start.password' | translate }}</ion-label>
         <ion-input [type]="pwType" name="password" [(ngModel)]="password" autocomplete="password" autofocus="true"></ion-input>

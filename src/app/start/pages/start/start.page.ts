@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
+import { Credentials } from 'capacitor-native-biometric';
 import { BiometricService } from 'src/app/shared/biometric.service';
+import { SettingsService } from 'src/app/shared/settings.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { VaultService } from 'src/app/shared/vault.service';
 
@@ -14,14 +16,14 @@ export class StartPage implements OnInit {
   pwType = 'password';
   isPwVisible = false;
   password: string;
-  title = 'Vault unseal';
 
   constructor(
     private router: Router,
     private vault: VaultService,
     private translate: TranslatorService,
     private plt: Platform,
-    private biometric: BiometricService
+    private biometric: BiometricService,
+    private settingsRepo: SettingsService
   ) {
     this.plt.pause.subscribe(() => {
       this.vault.seal();
@@ -30,25 +32,26 @@ export class StartPage implements OnInit {
   }
 
   ngOnInit() {
-    this.biometric.verifyIdentity();
+    this.biometric
+      .verifyIdentity()
+      .subscribe((creds) => this.unsealWithCreds(creds));
   }
 
-  showSecret() {
+  showSecret(): void {
     this.isPwVisible = !this.isPwVisible;
     this.pwType = this.isPwVisible ? 'text' : 'password';
   }
 
-  unseal() {
-    this.setCreds();
-    this.vault.unseal(this.password).subscribe(() => (this.password = null));
-    this.router.navigate(['/tabs/secrets']);
+  unsealWithPwd(): void {
+    this.unseal(this.password);
   }
 
-  setCreds() {
-    /*     NativeBiometric.setCredentials({
-      username: 'secrets',
-      password: this.password,
-      server: 'www.secrets.com',
-    }).then(); */
+  private unsealWithCreds(creds: Credentials): void {
+    this.unseal(creds.password);
+  }
+
+  private unseal(pass: string): void {
+    this.vault.unseal(pass).subscribe(() => (this.password = null));
+    this.router.navigate(['/tabs/secrets']);
   }
 }

@@ -1,4 +1,23 @@
 {
+  "wellcome": {
+    "step2": {
+      "message": "Defina a senha mestre que será usada para desbloquer seus segredos.",
+      "pwd": "Senha",
+      "btn": "Criar senha",
+      "askbio": {
+        "title": "Biometric",
+        "message": "Would you like to unlock using biometric? You can always enable/disable this option on the settings page.",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "biometric": {
+        "reason": "Secrets",
+        "title": "Secrets",
+        "subtitle": "Verificação biométrica",
+        "description": "Verificação biométrica"
+      }
+    }
+  },
   "start": {
     "message": "Entre com a senha mestra.",
     "password": "Senha",

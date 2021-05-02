@@ -3,10 +3,10 @@ import { StorageService } from 'src/app/shared/storage.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { MockStorageService } from 'src/app/testing/mock-storage-service';
 import { DEFAULT_SETTINGS } from './settings';
-import { SettingsRepository } from './settings.repository';
+import { SettingsService } from './settings.service';
 
 describe('SettingsRepository', () => {
-  let service: SettingsRepository;
+  let service: SettingsService;
   const mockStorageService = new MockStorageService();
   const spyTranslator = {
     getLang: jest.fn(),
@@ -19,7 +19,7 @@ describe('SettingsRepository', () => {
         { provide: TranslatorService, useValue: spyTranslator },
       ],
     });
-    service = TestBed.inject(SettingsRepository);
+    service = TestBed.inject(SettingsService);
   });
 
   it('should be created', () => {
@@ -30,7 +30,7 @@ describe('SettingsRepository', () => {
     let createdSettings = {};
     spyTranslator.getLang.mockReturnValue('en');
 
-    service.get().subscribe((settings) => (createdSettings = settings));
+    service.getAll().subscribe((settings) => (createdSettings = settings));
     tick();
 
     expect(createdSettings['language']).toBeTruthy();
@@ -41,9 +41,29 @@ describe('SettingsRepository', () => {
     let savedSettings = {};
 
     service.save(settings);
-    service.get().subscribe((settings) => (savedSettings = settings));
+    service.getAll().subscribe((settings) => (savedSettings = settings));
     tick();
 
     expect(savedSettings).toEqual(settings);
+  }));
+
+  it('should get an specific item in the settings', fakeAsync(() => {
+    let isFirstTime;
+
+    service.get('isFirstTime').subscribe((val) => (isFirstTime = val));
+    tick();
+
+    expect(isFirstTime).toBe(true);
+  }));
+
+  it('should set an specifig item in the settings', fakeAsync(() => {
+    let isFirstTime = true;
+
+    service.set('isFirstTime', false);
+    tick();
+    service.get('isFirstTime').subscribe((val) => (isFirstTime = val));
+    tick();
+
+    expect(isFirstTime).toBe(false);
   }));
 });

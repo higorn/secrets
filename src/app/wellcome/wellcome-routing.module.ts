@@ -1,18 +1,17 @@
-import { WellcomeGuard } from './../shared/wellcome.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { StartPage } from './pages/start/start.page';
+
+import { WellcomePage } from './wellcome.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: StartPage,
-    canActivate: [WellcomeGuard],
-  },
+    component: WellcomePage
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class StartPageRoutingModule {}
+export class WellcomePageRoutingModule {}

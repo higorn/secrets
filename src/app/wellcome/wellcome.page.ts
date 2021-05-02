@@ -1,0 +1,106 @@
+import { Router } from '@angular/router';
+import { VaultService } from './../shared/vault.service';
+import { BiometricService } from './../shared/biometric.service';
+import { TranslatorService } from './../shared/translator.service';
+import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { Credentials } from 'capacitor-native-biometric';
+import { SettingsService } from '../shared/settings.service';
+
+@Component({
+  selector: 'app-wellcome',
+  templateUrl: './wellcome.page.html',
+  styleUrls: ['./wellcome.page.scss'],
+})
+export class WellcomePage implements OnInit {
+  pwType = 'password';
+  isPwVisible = false;
+  password: string;
+  opts = {
+    initialSlide: 1,
+    speed: 400,
+  };
+
+  constructor(
+    private translator: TranslatorService,
+    private biometric: BiometricService,
+    private alertController: AlertController,
+    private vault: VaultService,
+    private router: Router,
+    private settings: SettingsService
+  ) {}
+
+  ngOnInit() {}
+
+  showSecret(): void {
+    this.isPwVisible = !this.isPwVisible;
+    this.pwType = this.isPwVisible ? 'text' : 'password';
+  }
+
+  createPwd(): void {
+    this.biometric.isAvailable().subscribe(
+      (isAvailable) => {
+        if (isAvailable) {
+          this.askForBiometric();
+          return;
+        }
+        this.unsealVault(this.password);
+      },
+      (error) => {
+        this.unsealVault(this.password);
+      }
+    );
+  }
+
+  async askForBiometric() {
+    const text = this.getTextForAlert();
+    const alert = await this.alertController.create({
+      header: text.title,
+      message: text.message,
+      buttons: [
+        {
+          text: text.cancel,
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => this.unsealVault(this.password),
+        },
+        {
+          text: text.yes,
+          handler: () => this.enableBiometric(),
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  private enableBiometric(): void {
+    this.biometric
+      .enableBiometric(this.password)
+      .subscribe((creds: Credentials) => {
+        this.unsealVault(creds.password);
+      });
+  }
+
+  private getTextForAlert(): any {
+    let text: any = {};
+    this.translator
+      .get('wellcome.step2.askbio.title')
+      .subscribe((t) => (text.title = t));
+    this.translator
+      .get('wellcome.step2.askbio.message')
+      .subscribe((t) => (text.message = t));
+    this.translator
+      .get('wellcome.step2.askbio.no')
+      .subscribe((t) => (text.cancel = t));
+    this.translator
+      .get('wellcome.step2.askbio.yes')
+      .subscribe((t) => (text.yes = t));
+    return text;
+  }
+
+  private unsealVault(pass: string): void {
+    this.settings.set('isFirstTime', false);
+    this.vault.unseal(pass).subscribe(() => (this.password = null));
+    this.router.navigate(['/tabs/secrets']);
+  }
+}

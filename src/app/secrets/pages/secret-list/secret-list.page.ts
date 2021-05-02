@@ -41,8 +41,12 @@ export class SecretListPage implements OnInit, OnDestroy {
 
   getIcon(type: string) {
     switch (type) {
+      case 'web':
+        return 'globe-outline';
+      case 'mail':
+        return 'mail-outline';
       case 'login':
-        return 'log-in-outline';
+        return 'key-outline';
       case 'card':
         return 'card-outline';
       case 'bank':
