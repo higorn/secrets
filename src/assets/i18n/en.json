@@ -1,27 +1,28 @@
 {
   "wellcome": {
     "step2": {
-      "message": "Define the master password that will be used to unlock your secrets.",
+      "message": "Create a master password that will be used to unseal your secrets.",
       "pwd": "Password",
       "btn": "Create password",
       "askbio": {
         "title": "Biometric",
-        "message": "Would you like to unlock using biometric? You can always enable/disable this option on the settings page.",
+        "message": "Would you like to unseal using biometric? You can always enable/disable this option on the settings page.",
         "yes": "Yes",
         "no": "No"
       },
       "biometric": {
-        "reason": "Secrets",
-        "title": "Secrets",
+        "reason": "Unseal",
+        "title": "Unseal",
         "subtitle": "Biometric verification",
-        "description": "Biometric verification"
+        "description": "Biometric verification",
+        "cancel": "Cancel"
       }
     }
   },
   "start": {
-    "message": "Enter the master password.",
+    "message": "Secrets are sealed",
     "password": "Password",
-    "unlock": "unlock"
+    "unlock": "unseal"
   },
   "tabs": {
     "mysecrets": "My secrets",

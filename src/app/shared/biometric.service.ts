@@ -61,6 +61,7 @@ export class BiometricService {
       reason: text.reason,
       title: text.title,
       subtitle: text.subtitle,
+      negativeButtonText: text.cancel,
     }).then(() => {
       this.verified.next(creds);
     });
@@ -80,6 +81,9 @@ export class BiometricService {
     this.translator
       .get('wellcome.step2.biometric.description')
       .subscribe((t) => (text.description = t));
+    this.translator
+      .get('wellcome.step2.biometric.cancel')
+      .subscribe((t) => (text.cancel = t));
     return text;
   }
 }

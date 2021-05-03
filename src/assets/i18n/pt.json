@@ -11,17 +11,18 @@
         "no": "No"
       },
       "biometric": {
-        "reason": "Secrets",
-        "title": "Secrets",
+        "reason": "Deslacrar",
+        "title": "Deslacrar",
         "subtitle": "Verificação biométrica",
-        "description": "Verificação biométrica"
+        "description": "Verificação biométrica",
+        "cancel": "Cancelar"
       }
     }
   },
   "start": {
-    "message": "Entre com a senha mestra.",
+    "message": "Segredos lacrados",
     "password": "Senha",
-    "unlock": "Entrar"
+    "unlock": "Deslacrar"
   },
   "tabs": {
     "mysecrets": "Meus segredos",

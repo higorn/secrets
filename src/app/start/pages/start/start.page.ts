@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Credentials } from 'capacitor-native-biometric';
@@ -23,18 +23,20 @@ export class StartPage implements OnInit {
     private translate: TranslatorService,
     private plt: Platform,
     private biometric: BiometricService,
-    private settingsRepo: SettingsService
+    private settingsRepo: SettingsService,
+    private zone: NgZone
   ) {
     this.plt.pause.subscribe(() => {
-      this.vault.seal();
-      this.router.navigate(['/start']);
+      console.log('pause');
+      this.zone.run(() => {
+        this.vault.seal();
+        this.router.navigate(['/start']);
+      });
     });
   }
 
   ngOnInit() {
-    this.biometric
-      .verifyIdentity()
-      .subscribe((creds) => this.unsealWithCreds(creds));
+    this.unlockWithBiometric();
   }
 
   showSecret(): void {
@@ -42,8 +44,14 @@ export class StartPage implements OnInit {
     this.pwType = this.isPwVisible ? 'text' : 'password';
   }
 
-  unsealWithPwd(): void {
+  unlockWithPwd(): void {
     this.unseal(this.password);
+  }
+
+  unlockWithBiometric(): void {
+    this.biometric
+      .verifyIdentity()
+      .subscribe((creds) => this.unsealWithCreds(creds));
   }
 
   private unsealWithCreds(creds: Credentials): void {
