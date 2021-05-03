@@ -20,9 +20,13 @@
     }
   },
   "start": {
-    "message": "Secrets are sealed",
+    "message": "Secrets sealed",
     "password": "Password",
-    "unlock": "unseal"
+    "unlock": "unseal",
+    "biometric-failed": "Biometric verification failed. Please try agin."
+  },
+  "loading": {
+    "unseal": "Unsealing, please wait..."
   },
   "tabs": {
     "mysecrets": "My secrets",
@@ -31,6 +35,16 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
+    "biometric": {
+      "label": "Unseal with biometric",
+      "creds": {
+        "title": "Biometric credentials",
+        "message": "Type the master password to create the biometric credentials.",
+        "cancel-btn": "Cancel",
+        "create-btn": "Create",
+        "input": "Password"
+      }
+    },
     "wipe": {
       "btn": "Wipe divice data",
       "title": "Wipe data",

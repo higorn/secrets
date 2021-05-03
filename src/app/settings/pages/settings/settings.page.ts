@@ -1,10 +1,11 @@
+import { BiometricCredentialsComponent } from './../../components/biometric-credentials/biometric-credentials.component';
 import { BiometricService } from 'src/app/shared/biometric.service';
 import { VaultService } from '../../../shared/vault.service';
 import { StorageService } from 'src/app/shared/storage.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { SettingsService } from 'src/app/shared/settings.service';
 
 @Component({
@@ -14,15 +15,18 @@ import { SettingsService } from 'src/app/shared/settings.service';
 })
 export class SettingsPage implements OnInit, OnDestroy {
   settings: any = {};
+  isBiometricAvailable = false;
+  toggleClicked = false;
   private settingsSubscription: Subscription;
 
   constructor(
-    private repository: SettingsService,
+    private service: SettingsService,
     private translator: TranslatorService,
     private storage: StorageService,
     private alertController: AlertController,
     private vaultService: VaultService,
-    private biometric: BiometricService
+    private biometric: BiometricService,
+    private modal: ModalController
   ) {}
 
   ngOnDestroy(): void {
@@ -38,21 +42,48 @@ export class SettingsPage implements OnInit, OnDestroy {
   }
 
   private loadSettings() {
-    this.settingsSubscription = this.repository
+    this.settingsSubscription = this.service
       .getAll()
-      .subscribe((settins) => (this.settings = settins));
+      .subscribe((settings) => (this.settings = settings));
+    this.biometric
+      .isAvailable()
+      .subscribe((isAvailable) => (this.isBiometricAvailable = isAvailable));
   }
 
   changeLanguage(): void {
     this.translator.setLang(this.settings.language);
-    this.repository.save(this.settings);
+    this.service.save(this.settings);
+  }
+
+  onToggleClick(): void {
+    this.toggleClicked = true;
+  }
+  toggleBiometric(): void {
+    if (!this.toggleClicked) return;
+    this.service.save(this.settings);
+    this.settings.biometric && this.enableBiometric();
+    this.toggleClicked = false;
+  }
+
+  private async enableBiometric(): Promise<void> {
+    const modal = await this.modal.create({
+      component: BiometricCredentialsComponent,
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    if (data.password) {
+      this.biometric.createCredentials(data.password);
+      return;
+    }
+    this.settings.biometric = false;
+    this.service.save(this.settings);
   }
 
   wipe(): void {
-    this.presentConfirmation();
+    this.confirmWipe();
   }
 
-  async presentConfirmation() {
+  async confirmWipe() {
     const text = this.getTextForAlert();
     const alert = await this.alertController.create({
       header: text.title,

@@ -39,6 +39,7 @@ describe('SettingsPage', () => {
   };
   const spyBiometric = {
     removeCredentials: jest.fn(),
+    isAvailable: jest.fn(),
   };
 
   beforeEach(
@@ -55,6 +56,7 @@ describe('SettingsPage', () => {
         ],
       }).compileComponents();
 
+      spyBiometric.isAvailable.mockReturnValue(of(false));
       alertController = TestBed.inject(AlertController);
       fixture = TestBed.createComponent(SettingsPage);
       component = fixture.componentInstance;

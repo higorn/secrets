@@ -19,7 +19,7 @@ export class BiometricService {
     const isAvailableObs = new Subject<boolean>();
     NativeBiometric.isAvailable().then(
       (result: AvailableResult) => isAvailableObs.next(result.isAvailable),
-      (error) => isAvailableObs.error('Biometric not available')
+      (error) => isAvailableObs.next(false)
     );
     return isAvailableObs.asObservable();
   }
@@ -31,12 +31,6 @@ export class BiometricService {
     return this.verified$;
   }
 
-  removeCredentials(): void {
-    NativeBiometric.deleteCredentials({
-      server: 'www.secrets.com',
-    }).then();
-  }
-
   enableBiometric(password: string): Observable<Credentials> {
     NativeBiometric.getCredentials({ server: 'www.secrets.com' }).then(
       (creds: Credentials) => this.verifyIdentiyWithCreds(creds),
@@ -45,14 +39,20 @@ export class BiometricService {
     return this.verified$;
   }
 
-  private createCredentials(password: string) {
+  createCredentials(password: string) {
     const creds = {
       username: 'secrets',
       password: password,
       server: 'www.secrets.com',
     };
-    NativeBiometric.setCredentials(creds).then();
+    NativeBiometric.setCredentials(creds);
     return creds;
+  }
+
+  removeCredentials(): void {
+    NativeBiometric.deleteCredentials({
+      server: 'www.secrets.com',
+    }).then();
   }
 
   private verifyIdentiyWithCreds(creds: Credentials) {
@@ -62,9 +62,10 @@ export class BiometricService {
       title: text.title,
       subtitle: text.subtitle,
       negativeButtonText: text.cancel,
-    }).then(() => {
-      this.verified.next(creds);
-    });
+    }).then(
+      () => this.verified.next(creds),
+      (error) => this.verified.next(null)
+    );
   }
 
   private getText(): any {

@@ -2,17 +2,18 @@ import { Router } from '@angular/router';
 import { VaultService } from './../shared/vault.service';
 import { BiometricService } from './../shared/biometric.service';
 import { TranslatorService } from './../shared/translator.service';
-import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Credentials } from 'capacitor-native-biometric';
 import { SettingsService } from '../shared/settings.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-wellcome',
   templateUrl: './wellcome.page.html',
   styleUrls: ['./wellcome.page.scss'],
 })
-export class WellcomePage implements OnInit {
+export class WellcomePage implements OnInit, OnDestroy {
   pwType = 'password';
   isPwVisible = false;
   password: string;
@@ -20,6 +21,10 @@ export class WellcomePage implements OnInit {
     initialSlide: 1,
     speed: 400,
   };
+  private biometricIsAvailableSub: Subscription;
+  private biometricEnableSub: Subscription;
+  private unsealSub: Subscription;
+  private translateSub: Subscription;
 
   constructor(
     private translator: TranslatorService,
@@ -27,8 +32,16 @@ export class WellcomePage implements OnInit {
     private alertController: AlertController,
     private vault: VaultService,
     private router: Router,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private loading: LoadingController
   ) {}
+
+  ngOnDestroy(): void {
+    this.biometricIsAvailableSub && this.biometricIsAvailableSub.unsubscribe();
+    this.biometricEnableSub && this.biometricEnableSub.unsubscribe();
+    this.unsealSub && this.unsealSub.unsubscribe();
+    this.translateSub && this.translateSub.unsubscribe();
+  }
 
   ngOnInit() {}
 
@@ -38,7 +51,7 @@ export class WellcomePage implements OnInit {
   }
 
   createPwd(): void {
-    this.biometric.isAvailable().subscribe(
+    this.biometricIsAvailableSub = this.biometric.isAvailable().subscribe(
       (isAvailable) => {
         if (isAvailable) {
           this.askForBiometric();
@@ -73,14 +86,6 @@ export class WellcomePage implements OnInit {
     await alert.present();
   }
 
-  private enableBiometric(): void {
-    this.biometric
-      .enableBiometric(this.password)
-      .subscribe((creds: Credentials) => {
-        this.unsealVault(creds.password);
-      });
-  }
-
   private getTextForAlert(): any {
     let text: any = {};
     this.translator
@@ -98,9 +103,34 @@ export class WellcomePage implements OnInit {
     return text;
   }
 
-  private unsealVault(pass: string): void {
+  private enableBiometric(): void {
+    this.settings.enableBiometric();
+    this.biometricEnableSub = this.biometric
+      .enableBiometric(this.password)
+      .subscribe((creds: Credentials) => {
+        this.unsealVault(creds.password);
+      });
+  }
+
+  private async unsealVault(pass: string): Promise<void> {
     this.settings.set('isFirstTime', false);
-    this.vault.unseal(pass).subscribe(() => (this.password = null));
-    this.router.navigate(['/tabs/secrets']);
+    await this.presentLoading();
+    this.unsealSub = this.vault.unseal(pass).subscribe(() => {
+      this.password = null;
+      this.loading.dismiss();
+      this.router.navigate(['/tabs/secrets']);
+    });
+  }
+
+  private async presentLoading(): Promise<any> {
+    let message = 'Unsealing, please wait.';
+    this.translateSub = this.translator
+      .get('loading.unseal')
+      .subscribe((msg) => (message = msg));
+    const loading = await this.loading.create({
+      message: message,
+      duration: 10000,
+    });
+    return loading.present();
   }
 }

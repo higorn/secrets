@@ -17,6 +17,14 @@
         <ion-select-option value="pt">Português</ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-item *ngIf="isBiometricAvailable">
+      <ion-label>{{ 'settings.biometric.label' | translate }}</ion-label>
+      <ion-toggle
+        [(ngModel)]="settings.biometric"
+        (click)="onToggleClick()"
+        (ionChange)="toggleBiometric()"
+      ></ion-toggle>
+    </ion-item>
   </ion-list>
   <p class="ion-padding-horizontal">
     <ion-button

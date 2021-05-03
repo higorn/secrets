@@ -1,3 +1,4 @@
+import { BiometricCredentialsComponent } from './components/biometric-credentials/biometric-credentials.component';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -24,6 +25,6 @@ import { SettingsPage } from './pages/settings/settings.page';
       },
     }),
   ],
-  declarations: [SettingsPage],
+  declarations: [SettingsPage, BiometricCredentialsComponent],
 })
 export class SettingsPageModule {}

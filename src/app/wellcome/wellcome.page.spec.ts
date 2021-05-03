@@ -7,7 +7,11 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { AlertController, IonicModule } from '@ionic/angular';
+import {
+  AlertController,
+  IonicModule,
+  LoadingController,
+} from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { WellcomePage } from './wellcome.page';
@@ -23,6 +27,7 @@ describe('WellcomePage', () => {
   let component: WellcomePage;
   let fixture: ComponentFixture<WellcomePage>;
   let alertController: AlertController;
+  let loadingController: LoadingController;
   const spyBiometricService = {
     isAvailable: jest.fn(),
     enableBiometric: jest.fn(),
@@ -38,6 +43,7 @@ describe('WellcomePage', () => {
   };
   const spySettings = {
     set: jest.fn(),
+    enableBiometric: jest.fn(),
   };
 
   beforeEach(
@@ -55,6 +61,7 @@ describe('WellcomePage', () => {
       }).compileComponents();
 
       alertController = TestBed.inject(AlertController);
+      loadingController = TestBed.inject(LoadingController);
 
       spyStorage.getItem.mockReturnValue(of(DEFAULT_SETTINGS));
       fixture = TestBed.createComponent(WellcomePage);
@@ -93,12 +100,18 @@ describe('WellcomePage', () => {
 
   it('when biometrics is not available, then unlock with password', fakeAsync(() => {
     spyBiometricService.isAvailable.mockReturnValue(of(false));
-    spyVaultService.unseal.mockReturnValue(of());
+    spyVaultService.unseal.mockReturnValue(of(null));
     spyOn(alertController, 'create').and.callFake((obj) => {});
-    fixture.detectChanges();
+    spyOn(loadingController, 'create').and.callFake((obj) => {
+      return new Promise((resolve, reject) => {
+        resolve({ present: jest.fn() });
+      });
+    });
+    spyOn(loadingController, 'dismiss').and.callFake((obj) => {});
 
     component.password = '123';
     component.createPwd();
+    tick();
 
     expect(alertController.create).not.toHaveBeenCalled();
     expect(spyBiometricService.enableBiometric).not.toHaveBeenCalled();
@@ -132,6 +145,7 @@ describe('WellcomePage', () => {
     tick();
 
     expect(spyBiometricService.enableBiometric).toHaveBeenCalledWith('123');
+    expect(spySettings.enableBiometric).toHaveBeenCalled();
     expect(spySettings.set).toHaveBeenCalledWith('isFirstTime', false);
     expect(spyVaultService.unseal).toHaveBeenCalledWith('123');
     expect(spyRouter.navigate).toHaveBeenCalledWith(['/tabs/secrets']);

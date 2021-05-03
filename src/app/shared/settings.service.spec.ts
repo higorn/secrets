@@ -66,4 +66,57 @@ describe('SettingsRepository', () => {
 
     expect(isFirstTime).toBe(false);
   }));
+
+  it('should get the biometric option', fakeAsync(() => {
+    let isEnabled = true;
+
+    service
+      .isBiometricEnabled()
+      .subscribe((_isEnabled) => (isEnabled = _isEnabled));
+    tick();
+
+    expect(isEnabled).toBe(false);
+  }));
+
+  it('should enable biometric', fakeAsync(() => {
+    let isEnabled = true;
+
+    service
+      .isBiometricEnabled()
+      .subscribe((_isEnabled) => (isEnabled = _isEnabled));
+    tick();
+
+    expect(isEnabled).toBe(false);
+
+    service.enableBiometric();
+    tick();
+
+    service
+      .isBiometricEnabled()
+      .subscribe((_isEnabled) => (isEnabled = _isEnabled));
+    tick();
+
+    expect(isEnabled).toBe(true);
+  }));
+
+  it('should disable biometric', fakeAsync(() => {
+    let isEnabled;
+
+    service
+      .isBiometricEnabled()
+      .subscribe((_isEnabled) => (isEnabled = _isEnabled));
+    tick();
+
+    expect(isEnabled).toBe(true);
+
+    service.disableBiometric();
+    tick();
+
+    service
+      .isBiometricEnabled()
+      .subscribe((_isEnabled) => (isEnabled = _isEnabled));
+    tick();
+
+    expect(isEnabled).toBe(false);
+  }));
 });

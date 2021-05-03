@@ -22,7 +22,11 @@
   "start": {
     "message": "Segredos lacrados",
     "password": "Senha",
-    "unlock": "Deslacrar"
+    "unlock": "Deslacrar",
+    "biometric-failed": "Verificação biométrica falhou. Por favor tente novamente."
+  },
+  "loading": {
+    "unseal": "Deslacrando, por favor aguarde..."
   },
   "tabs": {
     "mysecrets": "Meus segredos",
@@ -31,6 +35,16 @@
   "settings": {
     "title": "Configurações",
     "language": "Idioma",
+    "biometric": {
+      "label": "Deslacrar com biometria",
+      "creds": {
+        "title": "Credencial biométrica",
+        "message": "Digite a senha mestre para criar a credencial biométrica",
+        "cancel-btn": "Cancelar",
+        "create-btn": "Criar",
+        "input": "Senha"
+      }
+    },
     "wipe": {
       "btn": "Apagar dados do dispositivo",
       "title": "Apagar dados",
