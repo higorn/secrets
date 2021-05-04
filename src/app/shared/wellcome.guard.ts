@@ -24,10 +24,9 @@ export class WellcomeGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.settings.getAll().pipe(
-      map((settings) => {
-        if (settings && settings.isFirstTime)
-          return this.router.parseUrl('/wellcome');
+    return this.settings.isFirstTime().pipe(
+      map((isFirstTime) => {
+        if (isFirstTime) return this.router.parseUrl('/wellcome');
         return true;
       })
     );

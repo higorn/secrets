@@ -23,7 +23,8 @@
     "message": "Segredos lacrados",
     "password": "Senha",
     "unlock": "Deslacrar",
-    "biometric-failed": "Verificação biométrica falhou. Por favor tente novamente."
+    "biometric-failed": "Verificação biométrica falhou. Por favor tente novamente.",
+    "unlock-failed": "Deslacre falhou. Por favor tente novamente."
   },
   "loading": {
     "unseal": "Deslacrando, por favor aguarde..."

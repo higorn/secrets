@@ -3,15 +3,14 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  waitForAsync,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonicModule, Platform } from '@ionic/angular';
+import { IonicModule, LoadingController, Platform } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { merge, of, zip } from 'rxjs';
-import { map, reduce } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { BiometricService } from 'src/app/shared/biometric.service';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { SettingsService } from 'src/app/shared/settings.service';
@@ -23,6 +22,7 @@ import { StartPage } from './start.page';
 describe('StartPage', () => {
   let component: StartPage;
   let fixture: ComponentFixture<StartPage>;
+  let loadingController: LoadingController;
   const spyRouter = {
     navigate: jest.fn(),
   };
@@ -70,6 +70,7 @@ describe('StartPage', () => {
       spySettings.isBiometricEnabled.mockReturnValue(of(false));
       spyBiometric.isAvailable.mockReturnValue(of(false));
       spyBiometric.verifyIdentity.mockReturnValue(of());
+      loadingController = TestBed.inject(LoadingController);
       fixture = TestBed.createComponent(StartPage);
       component = fixture.componentInstance;
     })
@@ -107,11 +108,19 @@ describe('StartPage', () => {
     expect(component.isBiometric).toBe(false);
   }));
 
-  it('should call the biometric service', () => {
-    // expect(spyBiometric.verifyIdentity).toHaveBeenCalled();
-  });
+  it('should show error when wrong password', fakeAsync(() => {
+    // let unlockSuccess = true;
+    spyVaultService.unseal.mockReturnValue(of(false));
+    spyOn(loadingController, 'create').and.callFake((obj) => {
+      return new Promise((resolve, reject) => {
+        resolve({ present: jest.fn() });
+      });
+    });
+    spyOn(loadingController, 'dismiss').and.callFake((obj) => {});
 
-  it('should go to the wellcome page if is the first time in the app', () => {
-    // expect(spyRouter.navigate).toHaveBeenCalledWith(['/wellcome']);
-  });
+    component.unlockWithPwd();
+    tick();
+
+    expect(component.unlockFailed).toBe(true);
+  }));
 });

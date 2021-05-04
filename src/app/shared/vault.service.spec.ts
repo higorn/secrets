@@ -80,4 +80,14 @@ describe('VaultService', () => {
     expect(vault.isSealed()).toBe(true);
     expect(encode).toThrow(Error);
   }));
+
+  it('should throw error when try to unseal with wrong password', fakeAsync(() => {
+    let unsealSuccess = true;
+    expect(vault.isSealed()).toBe(true);
+
+    vault.unseal('wrong').subscribe((isSuccess) => (unsealSuccess = isSuccess));
+    tick();
+
+    expect(unsealSuccess).toBe(false);
+  }));
 });

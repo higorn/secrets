@@ -2,8 +2,8 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController, Platform } from '@ionic/angular';
 import { Credentials } from 'capacitor-native-biometric';
-import { Subscription, zip, Observable, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, Subscription, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BiometricService } from 'src/app/shared/biometric.service';
 import { SettingsService } from 'src/app/shared/settings.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
@@ -19,6 +19,7 @@ export class StartPage implements OnInit, OnDestroy {
   isPwVisible = false;
   isBiometric = false;
   biometricFailed = false;
+  unlockFailed = false;
   password: string;
   private pauseSub: Subscription;
   private biometricIsAvailableSub: Subscription;
@@ -37,7 +38,6 @@ export class StartPage implements OnInit, OnDestroy {
     private loading: LoadingController
   ) {
     this.plt.pause.subscribe(() => {
-      console.log('pause');
       this.zone.run(() => {
         this.vault.seal();
         this.router.navigate(['/start']);
@@ -96,18 +96,23 @@ export class StartPage implements OnInit, OnDestroy {
   }
 
   private unsealWithCreds(creds: Credentials): void {
-    console.log('biometric success');
     this.unseal(creds.password);
     this.biometricFailed = false;
   }
 
-  private unseal(pass: string): void {
-    this.presentLoading().then(() => {
-      this.unsealSub = this.vault.unseal(pass).subscribe(() => {
-        this.password = null;
-        this.loading.dismiss();
-        this.router.navigate(['/tabs/secrets']);
-      });
+  private async unseal(pass: string): Promise<void> {
+    await this.presentLoading();
+    this.unsealSub = this.vault.unseal(pass).subscribe((isSuccess) => {
+      this.password = null;
+      this.loading.dismiss();
+      if (!isSuccess) {
+        this.unlockFailed = true;
+        console.log('unlock failed', this.unlockFailed);
+        return;
+      }
+      console.log('unlock success');
+      this.unlockFailed = false;
+      this.router.navigate(['/tabs/secrets']);
     });
   }
 

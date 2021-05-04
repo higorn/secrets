@@ -47,5 +47,13 @@
         </ion-text>
       </p>
     </div>
+    <p
+      *ngIf="unlockFailed"
+      class="ion-text-center ion-padding-top ion-padding-vertical"
+    >
+      <ion-text color="danger">
+        <h4>{{ 'start.unlock-failed' | translate }}</h4>
+      </ion-text>
+    </p>
   </div>
 </ion-content>

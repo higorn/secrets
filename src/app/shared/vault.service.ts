@@ -14,18 +14,19 @@ export class VaultService {
   private keypair: forge.pki.rsa.KeyPair;
   private sealed = true;
   private unsealing = false;
-  private unsealedCompleteSource = new Subject<void>();
-  ready$ = this.unsealedCompleteSource.asObservable();
+  private unsealComplete = new Subject<boolean>();
+  private unsealComplete$ = this.unsealComplete.asObservable();
 
   constructor(private storage: StorageService) {}
 
-  unseal(pass: string): Observable<void> {
+  unseal(pass: string): Observable<boolean> {
     this.unsealing = true;
-    this.storage.getItem('vault').subscribe((vault) => {
-      if (vault) this.restoreVault(vault, pass);
-      else this.createVault(pass);
-    });
-    return this.ready$;
+    this.storage
+      .getItem('vault')
+      .subscribe((vault) =>
+        vault ? this.restoreVault(vault, pass) : this.createVault(pass)
+      );
+    return this.unsealComplete$;
   }
 
   seal() {
@@ -123,16 +124,21 @@ export class VaultService {
   }
 
   private unsealKeys(vault: any, kpair: forge.pki.rsa.KeyPair, pass: string) {
-    this.key1 = this.getKey1(vault[0]);
-    this.keypair = this.getKeyPair(vault[1], kpair, pass);
-    this.key2 = this.getKey2(vault[2]);
-    this.notify();
+    try {
+      this.key1 = this.getKey1(vault[0]);
+      this.keypair = this.getKeyPair(vault[1], kpair, pass);
+      this.key2 = this.getKey2(vault[2]);
+      this.notify();
+    } catch (e) {
+      // console.error(e);
+      this.unsealComplete.next(false);
+    }
   }
 
   private notify() {
     this.sealed = false;
     this.unsealing = false;
-    this.unsealedCompleteSource.next();
+    this.unsealComplete.next(true);
   }
 
   private getKey1(encodedKey: string): { salt: Bytes; iv: Bytes } {

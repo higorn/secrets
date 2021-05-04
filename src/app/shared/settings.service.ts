@@ -31,7 +31,6 @@ export class SettingsService {
   }
 
   get(key: string): Observable<any> {
-    // return this.storage.getItem('settings').pipe(
     return this.getAll().pipe(
       map((settings) => settings[key]),
       catchError((err) => {
@@ -42,11 +41,14 @@ export class SettingsService {
   }
 
   set(key: string, val: any): void {
-    // this.storage.getItem('settings').subscribe((settings) => {
     this.getAll().subscribe((settings) => {
       settings[key] = val;
       this.storage.setItem('settings', settings);
     });
+  }
+
+  isFirstTime(): Observable<boolean> {
+    return this.get('isFirstTime');
   }
 
   isBiometricEnabled(): Observable<boolean> {
