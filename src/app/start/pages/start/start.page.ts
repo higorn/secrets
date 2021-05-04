@@ -107,10 +107,8 @@ export class StartPage implements OnInit, OnDestroy {
       this.loading.dismiss();
       if (!isSuccess) {
         this.unlockFailed = true;
-        console.log('unlock failed', this.unlockFailed);
         return;
       }
-      console.log('unlock success');
       this.unlockFailed = false;
       this.router.navigate(['/tabs/secrets']);
     });

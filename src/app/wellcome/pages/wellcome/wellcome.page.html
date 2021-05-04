@@ -1,0 +1,79 @@
+<ion-content>
+  <ion-slides #slides pager="true" [options]="opts">
+    <ion-slide>
+      <div class="slide">
+        <h2>Wellcome to e-Secrets</h2>
+        <p>
+          The easiest and simplest way to keep all your passwords or any secrets
+          safe.
+        </p>
+        <ion-button fill="clear" (click)="slides.slideNext()"
+          >Tell me more <ion-icon slot="end" name="arrow-forward"></ion-icon
+        ></ion-button>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <h2>The problem</h2>
+        <p>
+          Are you strogle managing to keep many passwords, login credentials,
+          bank account, credit card, or any other private information?
+          <b>e-Secrets</b>
+          take care of this for you with only one password.
+        </p>
+        <ion-button fill="clear" (click)="slides.slideNext()"
+          >The solution <ion-icon slot="end" name="arrow-forward"></ion-icon
+        ></ion-button>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <h2>What is e-Secrets?</h2>
+        <p>
+          <b>e-Secrets</b> is a secrets manger that aims to manage all your
+          electronic private information, in a easy and simple way.
+        </p>
+        <ion-button fill="clear" (click)="slides.slideNext()"
+          >How it works? <ion-icon slot="end" name="arrow-forward"></ion-icon
+        ></ion-button>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <h2>How it works?</h2>
+        <p>
+          With only one password <b>e-Secrets</b> keep and manage all your other
+          passwords or private information. You can register and keep
+          information like: passwords, login credentials like email, Fakebook,
+          Instagran, and others, and also bank account, cred card, and many
+          others.
+        </p>
+        <ion-button fill="clear" (click)="slides.slideNext()"
+          >Is it safe? <ion-icon slot="end" name="arrow-forward"></ion-icon
+        ></ion-button>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <h2>e-Secrets is safe because</h2>
+        <p style="font-size: 14px">
+          All your information is kept locally on your device and sealed using
+          the most advanced and updated encryption technologies (RSA and
+          AES-256), that can only be unsealed by a master password, defined by
+          you, or via biometric verification (if your device supports).
+        </p>
+        <p style="font-size: 14px">
+          You don't need to register any account, only the password to encrypt
+          your data. We offer to backup and sync your data on some cloud storage
+          service like Google Drive or Dropbox. However, in this case your data
+          will left your device already sealed and so it will be kept in the
+          cloud. There is no way it can be violated, unless with the passes of
+          the master password, so keep it safe.
+        </p>
+        <ion-button fill="clear" (click)="start()"
+          >Start <ion-icon slot="end" name="arrow-forward"></ion-icon
+        ></ion-button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

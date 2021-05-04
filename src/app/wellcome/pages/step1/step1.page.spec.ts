@@ -14,18 +14,18 @@ import {
 } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { WellcomePage } from './wellcome.page';
-import { StorageService } from '../shared/storage.service';
+import { Step1Page } from './step1.page';
+import { StorageService } from '../../../shared/storage.service';
 import { of } from 'rxjs';
-import { DEFAULT_SETTINGS } from '../shared/settings';
+import { DEFAULT_SETTINGS } from '../../../shared/settings';
 import { By } from '@angular/platform-browser';
-import { VaultService } from '../shared/vault.service';
+import { VaultService } from '../../../shared/vault.service';
 import { Router } from '@angular/router';
-import { SettingsService } from '../shared/settings.service';
+import { SettingsService } from '../../../shared/settings.service';
 
-describe('WellcomePage', () => {
-  let component: WellcomePage;
-  let fixture: ComponentFixture<WellcomePage>;
+describe('Step1', () => {
+  let component: Step1Page;
+  let fixture: ComponentFixture<Step1Page>;
   let alertController: AlertController;
   let loadingController: LoadingController;
   const spyBiometricService = {
@@ -49,7 +49,7 @@ describe('WellcomePage', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [WellcomePage],
+        declarations: [Step1Page],
         imports: [IonicModule, FormsModule, TranslateModule.forRoot()],
         providers: [
           { provide: BiometricService, useValue: spyBiometricService },
@@ -64,7 +64,7 @@ describe('WellcomePage', () => {
       loadingController = TestBed.inject(LoadingController);
 
       spyStorage.getItem.mockReturnValue(of(DEFAULT_SETTINGS));
-      fixture = TestBed.createComponent(WellcomePage);
+      fixture = TestBed.createComponent(Step1Page);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })

@@ -1,24 +1,24 @@
 import { Router } from '@angular/router';
-import { VaultService } from './../shared/vault.service';
-import { BiometricService } from './../shared/biometric.service';
-import { TranslatorService } from './../shared/translator.service';
+import { VaultService } from '../../../shared/vault.service';
+import { BiometricService } from '../../../shared/biometric.service';
+import { TranslatorService } from '../../../shared/translator.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Credentials } from 'capacitor-native-biometric';
-import { SettingsService } from '../shared/settings.service';
+import { SettingsService } from '../../../shared/settings.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-wellcome',
-  templateUrl: './wellcome.page.html',
-  styleUrls: ['./wellcome.page.scss'],
+  selector: 'app-step1',
+  templateUrl: './step1.page.html',
+  styleUrls: ['./step1.page.scss'],
 })
-export class WellcomePage implements OnInit, OnDestroy {
+export class Step1Page implements OnInit, OnDestroy {
   pwType = 'password';
   isPwVisible = false;
   password: string;
   opts = {
-    initialSlide: 1,
+    initialSlide: 0,
     speed: 400,
   };
   private biometricIsAvailableSub: Subscription;
