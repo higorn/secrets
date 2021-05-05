@@ -24,6 +24,13 @@ const routes: Routes = [
         (m) => m.PasswordCreationPageModule
       ),
   },
+  {
+    path: 'cloud-sync',
+    loadChildren: () =>
+      import('./cloud-sync/cloud-sync.module').then(
+        (m) => m.CloudSyncPageModule
+      ),
+  },
   { path: '**', redirectTo: '/start' },
 ];
 @NgModule({

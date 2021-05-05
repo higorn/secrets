@@ -121,7 +121,7 @@ export class StartPage implements OnInit, OnDestroy {
       .subscribe((msg) => (message = msg));
     const loading = await this.loading.create({
       message: message,
-      duration: 10000,
+      duration: 5000,
     });
     return loading.present();
   }

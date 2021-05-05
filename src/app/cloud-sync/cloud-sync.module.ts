@@ -4,9 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PasswordCreationPageRoutingModule } from './password-creation-routing.module';
-
-import { PasswordCreationPage } from './pages/password-creation/password-creation.page';
+import { CloudSyncPageRoutingModule } from './cloud-sync-routing.module';
+import { CloudSyncPage } from './pages/cloud-sync/cloud-sync.page';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Httpi18nLoaderFactory } from '../shared/utils';
 import { HttpClient } from '@angular/common/http';
@@ -16,7 +15,7 @@ import { HttpClient } from '@angular/common/http';
     CommonModule,
     FormsModule,
     IonicModule,
-    PasswordCreationPageRoutingModule,
+    CloudSyncPageRoutingModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -25,6 +24,6 @@ import { HttpClient } from '@angular/common/http';
       },
     }),
   ],
-  declarations: [PasswordCreationPage],
+  declarations: [CloudSyncPage],
 })
-export class PasswordCreationPageModule {}
+export class CloudSyncPageModule {}

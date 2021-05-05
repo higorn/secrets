@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { PasswordCreationPage } from './pages/password-creation/password-creation.page';
+import { CloudSyncPage } from './pages/cloud-sync/cloud-sync.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: PasswordCreationPage,
+    component: CloudSyncPage,
   },
 ];
 
@@ -14,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PasswordCreationPageRoutingModule {}
+export class CloudSyncPageRoutingModule {}

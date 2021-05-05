@@ -1,22 +1,25 @@
 {
   "wellcome": {
-    "step2": {
-      "message": "Create a master password that will be used to unseal your secrets.",
-      "pwd": "Password",
-      "btn": "Create password",
-      "askbio": {
-        "title": "Biometric",
-        "message": "Would you like to unseal using biometric? You can always enable/disable this option on the settings page.",
-        "yes": "Yes",
-        "no": "No"
-      },
-      "biometric": {
-        "reason": "Unseal",
-        "title": "Unseal",
-        "subtitle": "Biometric verification",
-        "description": "Biometric verification",
-        "cancel": "Cancel"
-      }
+  },
+  "cloud-sync": {
+    "skip-btn": "skip"
+  },
+  "pwd-creation": {
+    "message": "Create a master password that will be used to unseal your secrets.",
+    "pwd": "Password",
+    "btn": "Create password",
+    "askbio": {
+      "title": "Biometric",
+      "message": "Would you like to unseal using biometric? You can always enable/disable this option on the settings page.",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "biometric": {
+      "reason": "Unseal",
+      "title": "Unseal",
+      "subtitle": "Biometric verification",
+      "description": "Biometric verification",
+      "cancel": "Cancel"
     }
   },
   "start": {

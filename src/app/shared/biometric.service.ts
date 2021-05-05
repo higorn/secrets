@@ -71,19 +71,19 @@ export class BiometricService {
   private getText(): any {
     let text: any = {};
     this.translator
-      .get('wellcome.step2.biometric.reason')
+      .get('pwd-creation.biometric.reason')
       .subscribe((t) => (text.reason = t));
     this.translator
-      .get('wellcome.step2.biometric.title')
+      .get('pwd-creation.biometric.title')
       .subscribe((t) => (text.title = t));
     this.translator
-      .get('wellcome.step2.biometric.subtitle')
+      .get('pwd-creation.biometric.subtitle')
       .subscribe((t) => (text.subtitle = t));
     this.translator
-      .get('wellcome.step2.biometric.description')
+      .get('pwd-creation.biometric.description')
       .subscribe((t) => (text.description = t));
     this.translator
-      .get('wellcome.step2.biometric.cancel')
+      .get('pwd-creation.biometric.cancel')
       .subscribe((t) => (text.cancel = t));
     return text;
   }

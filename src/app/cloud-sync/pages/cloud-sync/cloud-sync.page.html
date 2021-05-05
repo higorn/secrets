@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>cloud-sync</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="skip()"
+        >{{ 'cloud-sync.skip-btn' | translate }}</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item (click)="signIn()">
+      <ion-thumbnail slot="start">
+        <ion-img src="assets/img/gdrive.png"></ion-img>
+      </ion-thumbnail>
+      <ion-label>Google Drive</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

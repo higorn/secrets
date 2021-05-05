@@ -18,10 +18,10 @@ import { PasswordCreationPage } from './password-creation.page';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { StorageService } from '../shared/storage.service';
-import { VaultService } from '../shared/vault.service';
-import { SettingsService } from '../shared/settings.service';
-import { DEFAULT_SETTINGS } from '../shared/settings';
+import { StorageService } from 'src/app/shared/storage.service';
+import { VaultService } from 'src/app/shared/vault.service';
+import { SettingsService } from 'src/app/shared/settings.service';
+import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 
 describe('Step1', () => {
   let component: PasswordCreationPage;
@@ -117,7 +117,7 @@ describe('Step1', () => {
     expect(spyBiometricService.enableBiometric).not.toHaveBeenCalled();
     expect(spySettings.set).toHaveBeenCalledWith('isFirstTime', false);
     expect(spyVaultService.unseal).toHaveBeenCalledWith('123');
-    expect(spyRouter.navigate).toHaveBeenCalledWith(['/tabs/secrets']);
+    expect(spyRouter.navigate).toHaveBeenCalledWith(['/cloud-sync']);
   }));
 
   it('when choose to unlock with biometrics, then unlock with biometrics', fakeAsync(() => {
@@ -148,7 +148,7 @@ describe('Step1', () => {
     expect(spySettings.enableBiometric).toHaveBeenCalled();
     expect(spySettings.set).toHaveBeenCalledWith('isFirstTime', false);
     expect(spyVaultService.unseal).toHaveBeenCalledWith('123');
-    expect(spyRouter.navigate).toHaveBeenCalledWith(['/tabs/secrets']);
+    expect(spyRouter.navigate).toHaveBeenCalledWith(['/cloud-sync']);
   }));
 
   it('when decline to unlock with biometrics, then unlock with password', fakeAsync(() => {
@@ -175,6 +175,6 @@ describe('Step1', () => {
     expect(spyBiometricService.enableBiometric).not.toHaveBeenCalled();
     expect(spySettings.set).toHaveBeenCalledWith('isFirstTime', false);
     expect(spyVaultService.unseal).toHaveBeenCalledWith('123');
-    expect(spyRouter.navigate).toHaveBeenCalledWith(['/tabs/secrets']);
+    expect(spyRouter.navigate).toHaveBeenCalledWith(['/cloud-sync']);
   }));
 });

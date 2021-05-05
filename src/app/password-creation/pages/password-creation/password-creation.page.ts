@@ -3,10 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Credentials } from 'capacitor-native-biometric';
 import { Subscription } from 'rxjs';
-import { TranslatorService } from '../shared/translator.service';
-import { BiometricService } from '../shared/biometric.service';
-import { VaultService } from '../shared/vault.service';
-import { SettingsService } from '../shared/settings.service';
+import { TranslatorService } from '../../../shared/translator.service';
+import { BiometricService } from '../../../shared/biometric.service';
+import { VaultService } from '../../../shared/vault.service';
+import { SettingsService } from '../../../shared/settings.service';
 
 @Component({
   selector: 'app-password-creation',
@@ -89,16 +89,16 @@ export class PasswordCreationPage implements OnInit, OnDestroy {
   private getTextForAlert(): any {
     let text: any = {};
     this.translator
-      .get('wellcome.step2.askbio.title')
+      .get('pwd-creation.askbio.title')
       .subscribe((t) => (text.title = t));
     this.translator
-      .get('wellcome.step2.askbio.message')
+      .get('pwd-creation.askbio.message')
       .subscribe((t) => (text.message = t));
     this.translator
-      .get('wellcome.step2.askbio.no')
+      .get('pwd-creation.askbio.no')
       .subscribe((t) => (text.cancel = t));
     this.translator
-      .get('wellcome.step2.askbio.yes')
+      .get('pwd-creation.askbio.yes')
       .subscribe((t) => (text.yes = t));
     return text;
   }
@@ -118,7 +118,7 @@ export class PasswordCreationPage implements OnInit, OnDestroy {
     this.unsealSub = this.vault.unseal(pass).subscribe(() => {
       this.password = null;
       this.loading.dismiss();
-      this.router.navigate(['/tabs/secrets']);
+      this.router.navigate(['/cloud-sync']);
     });
   }
 
@@ -129,7 +129,7 @@ export class PasswordCreationPage implements OnInit, OnDestroy {
       .subscribe((msg) => (message = msg));
     const loading = await this.loading.create({
       message: message,
-      duration: 10000,
+      duration: 5000,
     });
     return loading.present();
   }

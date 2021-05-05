@@ -1,3 +1,5 @@
+import { GoogleDriveSyncService } from './shared/google-drive-sync.service';
+import { CloudSyncService } from 'src/app/shared/cloud-sync.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -42,6 +44,7 @@ import { Httpi18nLoaderFactory } from './shared/utils';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: StorageService, useClass: IonicStorageService },
+    { provide: CloudSyncService, useClass: GoogleDriveSyncService },
   ],
   bootstrap: [AppComponent],
 })

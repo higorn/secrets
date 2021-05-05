@@ -1,22 +1,25 @@
 {
   "wellcome": {
-    "step2": {
-      "message": "Defina a senha mestre que será usada para desbloquer seus segredos.",
-      "pwd": "Senha",
-      "btn": "Criar senha",
-      "askbio": {
-        "title": "Biometric",
-        "message": "Would you like to unlock using biometric? You can always enable/disable this option on the settings page.",
-        "yes": "Yes",
-        "no": "No"
-      },
-      "biometric": {
-        "reason": "Deslacrar",
-        "title": "Deslacrar",
-        "subtitle": "Verificação biométrica",
-        "description": "Verificação biométrica",
-        "cancel": "Cancelar"
-      }
+  },
+  "cloud-sync": {
+    "skip-btn": "pular"
+  },
+  "pwd-creation": {
+    "message": "Defina a senha mestre que será usada para desbloquer seus segredos.",
+    "pwd": "Senha",
+    "btn": "Criar senha",
+    "askbio": {
+      "title": "Biometric",
+      "message": "Would you like to unlock using biometric? You can always enable/disable this option on the settings page.",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "biometric": {
+      "reason": "Deslacrar",
+      "title": "Deslacrar",
+      "subtitle": "Verificação biométrica",
+      "description": "Verificação biométrica",
+      "cancel": "Cancelar"
     }
   },
   "start": {
