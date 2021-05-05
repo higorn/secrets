@@ -17,6 +17,7 @@ export class CloudSyncPage implements OnInit {
   }
 
   signIn(): void {
-    console.log('signIn');
+    this.cloud.signIn();
+    this.cloud.sync();
   }
 }
