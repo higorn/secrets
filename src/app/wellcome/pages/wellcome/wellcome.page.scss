@@ -22,11 +22,20 @@ ion-slides {
     font-weight: 500;
   }
 
-  p {
+  p,
+  .text {
     padding: 0 40px;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 1.5;
     color: var(--ion-color-step-600, #60646b);
+
+    &.small {
+      font-size: 14px;
+    }
+  }
+
+  ul {
+    text-align: justify;
   }
 
   p b {

@@ -4,7 +4,7 @@
       <div class="slide">
         <h2>Wellcome to e-Secrets</h2>
         <p>
-          The easiest and simplest way to keep all your passwords or any secrets
+          The most simple and easy way to keep all your passwords and secrets
           safe.
         </p>
         <ion-button fill="clear" (click)="slides.slideNext()"
@@ -16,8 +16,11 @@
       <div class="slide">
         <h2>The problem</h2>
         <p>
-          Are you strogle managing to keep many passwords, login credentials,
-          bank account, credit card, or any other private information?
+          Are you strogle managing to keep many passwords and login credentials
+          from different web sites, email, social networks or any other
+          electronic accounts?<br />
+          And because of this you keep the same password for all of them?<br />
+          This is very unsafe and you may be at risk of being hacked.<br />
           <b>e-Secrets</b>
           take care of this for you with only one password.
         </p>
@@ -30,8 +33,8 @@
       <div class="slide">
         <h2>What is e-Secrets?</h2>
         <p>
-          <b>e-Secrets</b> is a secrets manger that aims to manage all your
-          electronic private information, in a easy and simple way.
+          <b>e-Secrets</b> is a secrets manger that aims to keep all your
+          electronic private information, in a simple and easy way.
         </p>
         <ion-button fill="clear" (click)="slides.slideNext()"
           >How it works? <ion-icon slot="end" name="arrow-forward"></ion-icon
@@ -41,38 +44,35 @@
     <ion-slide>
       <div class="slide">
         <h2>How it works?</h2>
-        <p>
-          With only one password <b>e-Secrets</b> keep and manage all your other
-          passwords or private information. You can register and keep
-          information like: passwords, login credentials like email, Fakebook,
-          Instagran, and others, and also bank account, cred card, and many
-          others.
+        <p class="text small">
+          All your data is stored locally on your device in an electronic vault
+          that is sealed using the most advanced and updated encryption
+          technologies (RSA and AES256). This vault can only be unsealed by your
+          master password, or using the biomettric verification methods provided
+          by your device.
         </p>
-        <ion-button fill="clear" (click)="slides.slideNext()"
-          >Is it safe? <ion-icon slot="end" name="arrow-forward"></ion-icon
-        ></ion-button>
+        <ion-button fill="clear" (click)="slides.slideNext()">
+          Features <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
       </div>
     </ion-slide>
     <ion-slide>
       <div class="slide">
-        <h2>e-Secrets is safe because</h2>
-        <p style="font-size: 14px">
-          All your information is kept locally on your device and sealed using
-          the most advanced and updated encryption technologies (RSA and
-          AES-256), that can only be unsealed by a master password, defined by
-          you, or via biometric verification (if your device supports).
-        </p>
-        <p style="font-size: 14px">
-          You don't need to register any account, only the password to encrypt
-          your data. We offer to backup and sync your data on some cloud storage
-          service like Google Drive or Dropbox. However, in this case your data
-          will left your device already sealed and so it will be kept in the
-          cloud. There is no way it can be violated, unless with the passes of
-          the master password, so keep it safe.
-        </p>
-        <ion-button fill="clear" (click)="start()"
-          >Start <ion-icon slot="end" name="arrow-forward"></ion-icon
-        ></ion-button>
+        <h2>Here are some features</h2>
+        <ul class="text small">
+          <li>No account registration</li>
+          <li>Data stored locally and sealed with strong cryptography</li>
+          <li>Backup your data on Google Drive or Dropbox</li>
+          <li>Restore your data at any time from any device</li>
+          <li>
+            Keep any type of information, from a single password to many other
+            private information like, email, web account, social network, bank
+            account, cred card and many others
+          </li>
+        </ul>
+        <ion-button fill="clear" (click)="start()">
+          Get started <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
       </div>
     </ion-slide>
   </ion-slides>
