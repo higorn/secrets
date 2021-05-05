@@ -17,6 +17,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./wellcome/wellcome.module').then((m) => m.WellcomePageModule),
   },
+  {
+    path: 'password-creation',
+    loadChildren: () =>
+      import('./password-creation/password-creation.module').then(
+        (m) => m.PasswordCreationPageModule
+      ),
+  },
   { path: '**', redirectTo: '/start' },
 ];
 @NgModule({

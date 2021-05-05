@@ -1,19 +1,22 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
+
+import { PasswordCreationPageRoutingModule } from './password-creation-routing.module';
+
+import { PasswordCreationPage } from './password-creation.page';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Httpi18nLoaderFactory } from '../shared/utils';
-import { WellcomePage } from './pages/wellcome/wellcome.page';
-import { WellcomePageRoutingModule } from './wellcome-routing.module';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    WellcomePageRoutingModule,
+    PasswordCreationPageRoutingModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -22,6 +25,6 @@ import { WellcomePageRoutingModule } from './wellcome-routing.module';
       },
     }),
   ],
-  declarations: [WellcomePage],
+  declarations: [PasswordCreationPage],
 })
-export class WellcomePageModule {}
+export class PasswordCreationPageModule {}

@@ -1,19 +1,19 @@
 import { Router } from '@angular/router';
-import { VaultService } from '../../../shared/vault.service';
-import { BiometricService } from '../../../shared/biometric.service';
-import { TranslatorService } from '../../../shared/translator.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Credentials } from 'capacitor-native-biometric';
-import { SettingsService } from '../../../shared/settings.service';
 import { Subscription } from 'rxjs';
+import { TranslatorService } from '../shared/translator.service';
+import { BiometricService } from '../shared/biometric.service';
+import { VaultService } from '../shared/vault.service';
+import { SettingsService } from '../shared/settings.service';
 
 @Component({
-  selector: 'app-step1',
-  templateUrl: './step1.page.html',
-  styleUrls: ['./step1.page.scss'],
+  selector: 'app-password-creation',
+  templateUrl: './password-creation.page.html',
+  styleUrls: ['./password-creation.page.scss'],
 })
-export class Step1Page implements OnInit, OnDestroy {
+export class PasswordCreationPage implements OnInit, OnDestroy {
   pwType = 'password';
   isPwVisible = false;
   password: string;

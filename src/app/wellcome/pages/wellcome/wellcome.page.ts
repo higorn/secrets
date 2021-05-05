@@ -1,6 +1,5 @@
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-wellcome',
@@ -18,6 +17,6 @@ export class WellcomePage implements OnInit {
   ngOnInit() {}
 
   start(): void {
-    this.router.navigate(['/wellcome/step1']);
+    this.router.navigate(['/password-creation']);
   }
 }
