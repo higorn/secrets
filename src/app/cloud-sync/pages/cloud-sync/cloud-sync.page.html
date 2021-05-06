@@ -10,12 +10,20 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item (click)="signIn()">
+  <ion-radio-group [(ngModel)]="provider" (ionChange)="select()">
+    <ion-item>
       <ion-thumbnail slot="start">
         <ion-img src="assets/img/gdrive.png"></ion-img>
       </ion-thumbnail>
       <ion-label>Google Drive</ion-label>
+      <ion-radio slot="end" value="google-drive"></ion-radio>
     </ion-item>
-  </ion-list>
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <ion-img src="assets/img/ban.png"></ion-img>
+      </ion-thumbnail>
+      <ion-label>None</ion-label>
+      <ion-radio slot="end" value="none"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
 </ion-content>

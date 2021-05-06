@@ -62,4 +62,12 @@ export class SettingsService {
   disableBiometric(): void {
     this.set('biometric', false);
   }
+
+  getCloudSync(): Observable<string> {
+    return this.get('cloudSync');
+  }
+
+  setCloudSync(provider: string): void {
+    this.set('cloudSync', provider);
+  }
 }

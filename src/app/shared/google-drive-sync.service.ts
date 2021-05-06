@@ -1,34 +1,45 @@
-import { CloudSyncService } from 'src/app/shared/cloud-sync.service';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, zip } from 'rxjs';
+import { rejects } from 'node:assert';
+import { from, Observable, of, zip } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { CloudSyncService } from 'src/app/shared/cloud-sync.service';
 import { environment } from 'src/environments/environment';
+import { SettingsService } from './settings.service';
 import { StorageService } from './storage.service';
-import { stripGeneratedFileSuffix } from '@angular/compiler/src/aot/util';
 
-declare var gapi: any;
+declare const gapi: any;
 
 @Injectable({
   providedIn: 'root',
 })
 export class GoogleDriveSyncService extends CloudSyncService {
-  constructor(private storage: StorageService) {
+  constructor(
+    private storage: StorageService,
+    private settings: SettingsService,
+    private http: HttpClient
+  ) {
     super();
-    this.init();
+    this.settings.getCloudSync().subscribe((cloudSync) => {
+      cloudSync === 'google-drive' && this.init().subscribe(file => console.log('file updated', file.id));
+    });
   }
 
-  async init() {
+  init(): Observable<any> {
     console.log('init1');
-    const gAuth = await this.getAuth();
-    console.log('init2', gAuth);
-    gAuth.isSignedIn.listen(this.updateSigninStatus);
-    this.updateSigninStatus(gAuth.isSignedIn.get());
+    // const gAuth = await this.getAuth();
+    return from(this.getAuth()).pipe(switchMap(gAuth => {
+      console.log('init2', gAuth);
+      gAuth.isSignedIn.listen((isSignedIn) =>
+        this.updateSigninStatus(isSignedIn)
+      );
+      return this.updateSigninStatus(gAuth.isSignedIn.get());
+    }))
   }
 
   private getAuth(): Promise<any> {
     return new Promise((resolve, reject) => {
-      gapi.load(
-        'client:auth2',
-        async () => {
+      gapi.load('client:auth2', async () => {
           await gapi.client.init({
             apiKey: environment.gapi.API_KEY,
             clientId: environment.gapi.CLIENT_ID,
@@ -37,66 +48,93 @@ export class GoogleDriveSyncService extends CloudSyncService {
           });
           resolve(gapi.auth2.getAuthInstance());
         },
-        reject
+        (error) => {
+          // console.error('gapi.load', error);
+          console.log('gapi.load', error);
+          reject(error);
+        }
       );
     });
   }
 
-  private updateSigninStatus(isSignedIn) {
+  private updateSigninStatus(isSignedIn): Observable<any> {
     console.log('signin st', isSignedIn);
     if (isSignedIn) {
-      this.sync();
-    }
+      this.settings.setCloudSync('google-drive');
+      return this.sync();
+    } else return from(gapi.auth2.getAuthInstance().signIn());
   }
 
   signIn(): Observable<any> {
     console.log('signIn...');
-    gapi.auth2.getAuthInstance().signIn();
-    return of(null);
+    return this.init();
   }
 
   sync(): Observable<any> {
-    zip(
+    return zip(
       this.storage.getItem('secrets'),
       this.storage.getItem('settings'),
       this.storage.getItem('vault')
-    ).subscribe((data) => {
-      const payload = JSON.stringify({
-        secrets: data[0],
-        settings: data[1],
-        vault: data[2],
-      });
-      this.sendFile(payload);
-    });
-    return of(null);
+    ).pipe(switchMap((data) => {
+        const payload = JSON.stringify({
+          secrets: data[0],
+          settings: data[1],
+          vault: data[2],
+        });
+        return this.sendFile(payload);
+      })
+    )
   }
-  sendFile(payload: string) {
-    var fileContent = payload;
-    var file = new Blob([fileContent], { type: 'text/plain' });
-    var metadata = {
-      name: 'e-Secrets.db', // Filename at Google Drive
-      mimeType: 'text/plain', // mimeType at Google Drive
-      // 'parents': ['### folder ID ###'], // Folder ID at Google Drive
+
+  private sendFile(payload: string): Observable<any> {
+    const file = new Blob([payload], { type: 'text/plain' });
+    const metadata = {
+      name: 'e-Secrets.db',
+      mimeType: 'text/plain',
     };
 
-    var accessToken = gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
-    var form = new FormData();
-    form.append(
-      'metadata',
-      new Blob([JSON.stringify(metadata)], { type: 'application/json' })
-    );
-    form.append('file', file);
+    const accessToken = gapi.auth.getToken().access_token;
+    const header = new HttpHeaders({ Authorization: 'Bearer ' + accessToken });
 
-    var xhr = new XMLHttpRequest();
-    xhr.open(
-      'post',
-      'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id'
-    );
-    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      console.log(xhr.response.id); // Retrieve uploaded file ID.
-    };
-    xhr.send(form);
+    const params = new HttpParams()
+      .set('q', 'name="e-Secrets.db"')
+      .set('fields', 'files(id)');
+    return this.http.get('https://www.googleapis.com/drive/v3/files', { headers: header, params: params })
+      .pipe(switchMap((res) => {
+          console.log('res get', res);
+          if (res['files'].length === 0) return this.createFile(header, metadata, file);
+          else return this.updateFile(header, metadata, file, res['files'][0].id);
+        })
+      )
+  }
+
+  private createFile(header: HttpHeaders, metadata: any, file: any): Observable<any> {
+    return this.http.post<any>(
+        'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable',
+        metadata,
+        { headers: header, observe: 'response' }
+      ).pipe(switchMap((res) => (
+          this.http.put(res.headers.get('location'), file, { headers: header })
+            .pipe(tap((res) => {
+              console.log('created', res);
+            }))
+          )
+        )
+      )
+  }
+
+  private updateFile(header: HttpHeaders, metadata: any, file: any, id: any): Observable<any> {
+    return this.http.patch(
+        `https://www.googleapis.com/upload/drive/v3/files/${id}?uploadType=resumable`,
+        metadata,
+        { headers: header, observe: 'response' }
+      ).pipe(switchMap((res) => (
+          this.http.put(res.headers.get('location'), file, { headers: header })
+            .pipe(tap((res) => {
+              console.log('updated', res);
+            }))
+          )
+        )
+      )
   }
 }
