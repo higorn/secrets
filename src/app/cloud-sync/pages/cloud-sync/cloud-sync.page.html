@@ -1,16 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>cloud-sync</ion-title>
+    <ion-title>{{ 'cloud-sync.title' | translate }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="skip()"
-        >{{ 'cloud-sync.skip-btn' | translate }}</ion-button
-      >
+      <ion-button (click)="skip()">{{ 'cloud-sync.skip-btn' | translate }}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-radio-group [(ngModel)]="provider" (ionChange)="select()">
+  <ion-radio-group [(ngModel)]="provider" (click)="select()">
     <ion-item>
       <ion-thumbnail slot="start">
         <ion-img src="assets/img/gdrive.png"></ion-img>
@@ -22,7 +20,7 @@
       <ion-thumbnail slot="start">
         <ion-img src="assets/img/ban.png"></ion-img>
       </ion-thumbnail>
-      <ion-label>None</ion-label>
+      <ion-label>{{ 'cloud-sync.none' | translate }}</ion-label>
       <ion-radio slot="end" value="none"></ion-radio>
     </ion-item>
   </ion-radio-group>

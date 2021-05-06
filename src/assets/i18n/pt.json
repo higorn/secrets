@@ -1,8 +1,10 @@
 {
-  "wellcome": {
-  },
+  "wellcome": {},
   "cloud-sync": {
-    "skip-btn": "pular"
+    "title": "Sincronização com a nuvem",
+    "skip-btn": "pular",
+    "none": "Nenhum",
+    "loading": "Please wait"
   },
   "pwd-creation": {
     "message": "Defina a senha mestre que será usada para desbloquer seus segredos.",

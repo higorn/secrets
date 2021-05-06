@@ -1,23 +1,34 @@
-import { GoogleDriveSyncService } from './../../../shared/google-drive-sync.service';
-import { SettingsService } from './../../../shared/settings.service';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { CloudSyncService } from 'src/app/shared/cloud-sync.service';
+import { TranslatorService } from 'src/app/shared/translator.service';
+import { GoogleDriveSyncService } from './../../../shared/google-drive-sync.service';
+import { NullCloudSyncService } from './../../../shared/null-cloud-sync.service';
+import { SettingsService } from './../../../shared/settings.service';
 
 @Component({
   selector: 'app-cloud-sync',
   templateUrl: './cloud-sync.page.html',
   styleUrls: ['./cloud-sync.page.scss'],
 })
-export class CloudSyncPage implements OnInit {
+export class CloudSyncPage implements OnInit, OnDestroy {
   provider: string;
+  private cloud: CloudSyncService
+  private translateSub: Subscription;
 
   constructor(
     private router: Router,
-    private cloud: CloudSyncService,
     private settings: SettingsService,
-    private injector: Injector
+    private injector: Injector,
+    private translator: TranslatorService,
+    private loading: LoadingController
   ) {}
+
+  ngOnDestroy(): void {
+    this.translateSub && this.translateSub.unsubscribe();
+  }
 
   ngOnInit() {
     this.settings.getCloudSync().subscribe(cloudProvider => this.provider = cloudProvider)
@@ -27,24 +38,36 @@ export class CloudSyncPage implements OnInit {
     this.router.navigate(['/tabs/secrets']);
   }
 
-  select(): void {
-    console.log('provider', this.provider);
-    this.cloud = this.getProvider(this.provider)
-    this.cloud && this.cloud.signIn().subscribe((res) => {
-      console.log('signIn res', res)
-    });
-
-/*     this.provider === 'google-drive' && this.cloud.signIn().subscribe((res) => {
-      console.log('signIn res', res)
-    }); */
+  async select(): Promise<void> {
+    await this.presentLoading();
+    setTimeout(() => {
+      this.cloud = this.getProvider(this.provider)
+      this.cloud.signIn().subscribe(async (res) => {
+        console.log('signIn res', res)
+        await this.loading.dismiss()
+        this.router.navigate(['/tabs/secrets']);
+      });
+    })
   }
 
-  getProvider(provider: string): CloudSyncService {
+  private getProvider(provider: string): CloudSyncService {
     switch(provider) {
       case 'google-drive':
         return this.injector.get(GoogleDriveSyncService)
       default:
-        return null
+        return this.injector.get(NullCloudSyncService)
     }
+  }
+
+  private async presentLoading(): Promise<any> {
+    let message = 'Please wait.';
+    this.translateSub = this.translator
+      .get('cloud-sync.loading')
+      .subscribe((msg) => (message = msg));
+    const loading = await this.loading.create({
+      message: message,
+      duration: 5000,
+    });
+    return loading.present();
   }
 }

@@ -1,8 +1,10 @@
 {
-  "wellcome": {
-  },
+  "wellcome": {},
   "cloud-sync": {
-    "skip-btn": "skip"
+    "title": "Cloud synchronization",
+    "skip-btn": "skip",
+    "none": "None",
+    "loading": "Please wait"
   },
   "pwd-creation": {
     "message": "Create a master password that will be used to unseal your secrets.",
@@ -174,7 +176,6 @@
           "name": "Bank web site",
           "placeholder": "www.mybank.com"
         }
-
       }
     }
   }
