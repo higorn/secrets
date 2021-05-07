@@ -1,0 +1,14 @@
+{
+  "appId": "io.esecrets",
+  "appName": "e-Secrets",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {},
+  "linuxAndroidStudioPath": "/home/higor/Applications/android-studio/bin/studio.sh"
+}
