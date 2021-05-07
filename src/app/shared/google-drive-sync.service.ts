@@ -21,6 +21,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
   ) {
     super();
     this.settings.getCloudSync().subscribe((cloudSync) => {
+      console.log('cloud sync', cloudSync)
       cloudSync === 'google-drive' && this.init().subscribe(file => console.log('file updated', file.id));
     });
   }
@@ -30,9 +31,9 @@ export class GoogleDriveSyncService extends CloudSyncService {
     // const gAuth = await this.getAuth();
     return from(this.getAuth()).pipe(switchMap(gAuth => {
       console.log('init2', gAuth);
-      gAuth.isSignedIn.listen((isSignedIn) =>
+/*       gAuth.isSignedIn.listen((isSignedIn) =>
         this.updateSigninStatus(isSignedIn)
-      );
+      ); */
       return this.updateSigninStatus(gAuth.isSignedIn.get());
     }))
   }
@@ -62,7 +63,11 @@ export class GoogleDriveSyncService extends CloudSyncService {
     if (isSignedIn) {
       this.settings.setCloudSync('google-drive');
       return this.sync();
-    } else return from(gapi.auth2.getAuthInstance().signIn());
+    } else return from(gapi.auth2.getAuthInstance().signIn()).pipe(switchMap(authRes => {
+      console.log('back from login', authRes)
+      this.settings.setCloudSync('google-drive');
+      return this.sync();
+    }));
   }
 
   signIn(): Observable<any> {

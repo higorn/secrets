@@ -115,9 +115,9 @@ export class PasswordCreationPage implements OnInit, OnDestroy {
   private async unsealVault(pass: string): Promise<void> {
     this.settings.set('isFirstTime', false);
     await this.presentLoading();
-    this.unsealSub = this.vault.unseal(pass).subscribe(async () => {
+    this.unsealSub = this.vault.unseal(pass).subscribe(() => {
       this.password = null;
-      await this.loading.dismiss();
+      this.loading.dismiss();
       this.router.navigate(['/cloud-sync']);
     });
   }

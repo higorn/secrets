@@ -32,9 +32,11 @@
               },
               "src/manifest.webmanifest"
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
-            "scripts": [
-            ]
+            "styles": [
+              "src/theme/variables.scss",
+              "src/global.scss"
+            ],
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -62,6 +64,39 @@
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
             },
+            "android-prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.android-prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
+            },
+            "android": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.android.ts"
+                }
+              ]
+            },
             "ci": {
               "progress": false
             }
@@ -75,6 +110,9 @@
           "configurations": {
             "production": {
               "browserTarget": "app:build:production"
+            },
+            "android": {
+              "browserTarget": "app:build:android"
             },
             "ci": {
               "progress": false
@@ -119,6 +157,9 @@
           "configurations": {
             "production": {
               "browserTarget": "app:build:production"
+            },
+            "android": {
+              "browserTarget": "app:build:android"
             }
           }
         },
@@ -132,6 +173,10 @@
             "production": {
               "cordovaBuildTarget": "app:ionic-cordova-build:production",
               "devServerTarget": "app:serve:production"
+            },
+            "android": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:android",
+              "devServerTarget": "app:serve:android"
             }
           }
         }

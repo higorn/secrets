@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "ng run app:serve --host=0.0.0.0 --port=8100",
     "start-pwa": "http-server -p 8080 -S -c-1 www/",
-    "start-android": "ionic cap run android --livereload --external",
+    "start-android": "ionic cap run android --livereload --external -c=android",
     "build": "ng build",
     "build-prod": "ng build --prod",
     "deploy": "firebase deploy",

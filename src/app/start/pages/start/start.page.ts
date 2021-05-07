@@ -102,9 +102,9 @@ export class StartPage implements OnInit, OnDestroy {
 
   private async unseal(pass: string): Promise<void> {
     await this.presentLoading();
-    this.unsealSub = this.vault.unseal(pass).subscribe(async (isSuccess) => {
+    this.unsealSub = this.vault.unseal(pass).subscribe((isSuccess) => {
       this.password = null;
-      await this.loading.dismiss();
+      this.loading.dismiss();
       if (!isSuccess) {
         this.unlockFailed = true;
         return;
