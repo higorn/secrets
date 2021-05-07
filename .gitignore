@@ -34,6 +34,9 @@ npm-debug.log*
 /www
 /icons
 /keystore
+/android/app/build/*
 
 *.pem
 *.keystore
+
+**/*.idea
