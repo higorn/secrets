@@ -1,3 +1,4 @@
+import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync.service.provider';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { StorageService } from 'src/app/shared/storage.service';
@@ -18,13 +19,17 @@ describe('SecretStorageService', () => {
     encode: jest.fn(),
     decode: jest.fn(),
   }
+  const spyCloudSyncProvider = {
+    get: jest.fn(),
+  }
 
   beforeEach(() => {
     spyStorageService.getItem.mockReturnValue(of([]));
     TestBed.configureTestingModule({
       providers: [
         { provide: StorageService, useValue: spyStorageService },
-        { provide: VaultService, usevalue: spyVaultService }
+        { provide: VaultService, useValue: spyVaultService },
+        { provide: CloudSyncServiceProvider, useValue: spyCloudSyncProvider }
       ]
     });
     service = TestBed.inject(SecretRepository);
