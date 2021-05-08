@@ -15,6 +15,8 @@ import { AppComponent } from './app.component';
 import { IonicStorageService } from './shared/ionic-storage.service';
 import { StorageService } from './shared/storage.service';
 import { Httpi18nLoaderFactory } from './shared/utils';
+import { CloudSyncServiceProvider } from './shared/cloud-sync.service.provider';
+import { CloudSyncServiceFatcory } from './shared/cloud-sync.service.fatcory';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,7 +46,7 @@ import { Httpi18nLoaderFactory } from './shared/utils';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: StorageService, useClass: IonicStorageService },
-    { provide: CloudSyncService, useClass: GoogleDriveSyncService },
+    { provide: CloudSyncServiceProvider, useClass: CloudSyncServiceFatcory },
   ],
   bootstrap: [AppComponent],
 })

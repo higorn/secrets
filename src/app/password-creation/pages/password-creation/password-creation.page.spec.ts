@@ -107,7 +107,9 @@ describe('Step1', () => {
         resolve({ present: jest.fn() });
       });
     });
-    spyOn(loadingController, 'dismiss').and.callFake((obj) => {});
+    spyOn(loadingController, 'dismiss').and.callFake((obj) => {
+      return new Promise((resolve, reject) => {resolve(true)})
+    });
 
     component.password = '123';
     component.createPwd();

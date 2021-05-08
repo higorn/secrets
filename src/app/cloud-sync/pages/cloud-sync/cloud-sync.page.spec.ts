@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync.service.provider';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { StorageService } from 'src/app/shared/storage.service';
 import { SettingsService } from './../../../shared/settings.service';
@@ -31,6 +32,9 @@ describe('CloudSyncPage', () => {
   const spyStorage = {
     getItem: jest.fn(),
   };
+  const spyCloudSyncProvider = {
+    getByName: jest.fn(),
+  }
 
   beforeEach(
     waitForAsync(() => {
@@ -44,7 +48,7 @@ describe('CloudSyncPage', () => {
         providers: [
           { provide: Router, useValue: spyRouter },
           { provide: SettingsService, useValue: spySettings },
-          { provide: Injector, useValue: spyInjector },
+          { provide: CloudSyncServiceProvider, useValue: spyCloudSyncProvider },
           { provide: StorageService, useValue: spyStorage },
         ],
       }).compileComponents();
@@ -79,7 +83,8 @@ describe('CloudSyncPage', () => {
   it('after choose the provider should redirect to the secrets list', fakeAsync(() => {
     component.provider = 'none'
     spyCloud.signIn.mockReturnValue(of(null))
-    spyOn(component, 'getProvider').and.returnValue(spyCloud)
+    spyCloudSyncProvider.getByName.mockReturnValue(spyCloud)
+    // spyOn(component, 'getProvider').and.returnValue(spyCloud)
     spyOn(loadingController, 'create').and.callFake((obj) => {
       return new Promise((resolve, reject) => {
         resolve({ present: jest.fn() });

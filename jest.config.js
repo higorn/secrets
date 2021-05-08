@@ -11,5 +11,5 @@ module.exports = {
   coverageDirectory: 'coverage/Secrets',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/'
-  }),
+  })
 };

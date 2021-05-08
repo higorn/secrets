@@ -117,7 +117,7 @@ export class PasswordCreationPage implements OnInit, OnDestroy {
     await this.presentLoading();
     this.unsealSub = this.vault.unseal(pass).subscribe(() => {
       this.password = null;
-      this.loading.dismiss();
+      this.loading.dismiss().then((res) => console.log('dismiss2', res), (err) => console.log(err))
       this.router.navigate(['/cloud-sync']);
     });
   }

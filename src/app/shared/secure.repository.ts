@@ -30,8 +30,4 @@ export abstract class SecureRepository<T extends Entity> extends CrudRepository<
     if (!data) return data;
     return JSON.parse(this.vault.decode(data))
   }
-
-  save(item: T): void {
-    super.save(item);
-  }
 }

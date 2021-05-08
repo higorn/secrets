@@ -109,14 +109,15 @@ describe('StartPage', () => {
   }));
 
   it('should show error when wrong password', fakeAsync(() => {
-    // let unlockSuccess = true;
     spyVaultService.unseal.mockReturnValue(of(false));
     spyOn(loadingController, 'create').and.callFake((obj) => {
       return new Promise((resolve, reject) => {
         resolve({ present: jest.fn() });
       });
     });
-    spyOn(loadingController, 'dismiss').and.callFake((obj) => {});
+    spyOn(loadingController, 'dismiss').and.callFake((obj) => {
+      return new Promise((resolve, reject) => {resolve(true)})
+    });
 
     component.unlockWithPwd();
     tick();
