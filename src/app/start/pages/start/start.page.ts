@@ -37,7 +37,7 @@ export class StartPage implements OnInit, OnDestroy {
     private zone: NgZone,
     private loading: LoadingController
   ) {
-    this.plt.pause.subscribe(() => {
+/*     this.plt.pause.subscribe(() => {
       this.zone.run(() => {
         this.vault.seal();
         this.router.navigate(['/start']);
@@ -45,7 +45,7 @@ export class StartPage implements OnInit, OnDestroy {
           (result) => (this.isBiometric = result)
         );
       });
-    });
+    }); */
   }
 
   ngOnDestroy(): void {
@@ -60,13 +60,6 @@ export class StartPage implements OnInit, OnDestroy {
     this.useBiometricIfPossible();
   }
 
-  private isBiometricPossible(): Observable<boolean> {
-    return zip(
-      this.biometric.isAvailable(),
-      this.settingsRepo.isBiometricEnabled()
-    ).pipe(map((results) => results.every((r) => r)));
-  }
-
   private useBiometricIfPossible() {
     this.biometricIsAvailableSub = this.isBiometricPossible().subscribe(
       (result) => {
@@ -74,6 +67,13 @@ export class StartPage implements OnInit, OnDestroy {
         result && this.unlockWithBiometric();
       }
     );
+  }
+
+  private isBiometricPossible(): Observable<boolean> {
+    return zip(
+      this.biometric.isAvailable(),
+      this.settingsRepo.isBiometricEnabled()
+    ).pipe(map((results) => results.every((r) => r)));
   }
 
   showSecret(): void {

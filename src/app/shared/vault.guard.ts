@@ -23,6 +23,8 @@ export class VaultGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    console.log('isSealed', this.vault.isSealed())
+    console.log('is not unsealing', !this.vault.isUnsealing())
     return this.vault.isSealed() && !this.vault.isUnsealing()
       ? this.router.parseUrl('/start')
       : true;

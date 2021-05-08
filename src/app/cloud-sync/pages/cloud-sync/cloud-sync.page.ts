@@ -1,3 +1,4 @@
+import { catchError } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
@@ -45,6 +46,9 @@ export class CloudSyncPage implements OnInit, OnDestroy {
         console.log('signIn res', res)
         this.loading.dismiss().then((res) => console.log('dismiss', res), (err) => console.log(err))
         this.router.navigate(['/tabs/secrets']);
+      }, (error) => {
+        console.log('sign in error', error)
+        this.loading.dismiss().then((res) => console.log('dismiss', res), (err) => console.log(err))
       });
     })
   }
@@ -56,7 +60,7 @@ export class CloudSyncPage implements OnInit, OnDestroy {
       .subscribe((msg) => (message = msg));
     const loading = await this.loading.create({
       message: message,
-      duration: 5000,
+      duration: 60000,
     });
     return loading.present();
   }
