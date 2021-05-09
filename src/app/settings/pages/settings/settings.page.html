@@ -17,6 +17,9 @@
         <ion-select-option value="pt">Português</ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-item [routerLink]="['/cloud-sync']" detail>
+      <ion-label>{{ 'cloud-sync.title' | translate }}</ion-label>
+    </ion-item>
     <ion-item *ngIf="isBiometricAvailable">
       <ion-label>{{ 'settings.biometric.label' | translate }}</ion-label>
       <ion-toggle

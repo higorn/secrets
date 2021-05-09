@@ -42,12 +42,11 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     setTimeout(() => {
       this.cloud = this.cloudSyncServiceProvider.getByName(this.provider)
       this.cloud.signIn().subscribe((res) => {
-        console.log('signIn res', res)
-        this.loading.dismiss().then((res) => console.log('dismiss', res), (err) => console.log(err))
+        this.loading.dismiss().then(() => {}, (err) => console.log(err))
         this.router.navigate(['/tabs/secrets']);
       }, (error) => {
         console.log('sign in error', error)
-        this.loading.dismiss().then((res) => console.log('dismiss', res), (err) => console.log(err))
+        this.loading.dismiss().then(() => {}, (err) => console.log(err))
       });
     })
   }

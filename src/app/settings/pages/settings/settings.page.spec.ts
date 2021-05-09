@@ -17,6 +17,7 @@ import { DEFAULT_SETTINGS } from './../../../shared/settings';
 import { SettingsPage } from './settings.page';
 import { VaultService } from 'src/app/shared/vault/vault.service';
 import { StorageService } from 'src/app/shared/storage/storage.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SettingsPage', () => {
   let component: SettingsPage;
@@ -46,7 +47,12 @@ describe('SettingsPage', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [SettingsPage],
-        imports: [IonicModule, FormsModule, TranslateModule.forRoot()],
+        imports: [
+          IonicModule,
+          FormsModule,
+          TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([]),
+         ],
         providers: [
           { provide: SettingsService, useValue: spyRepository },
           { provide: TranslatorService, useValue: spyTranslator },

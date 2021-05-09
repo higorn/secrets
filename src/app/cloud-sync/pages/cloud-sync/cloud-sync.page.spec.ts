@@ -1,9 +1,11 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { SecretListPage } from 'src/app/secrets/pages/secret-list/secret-list.page';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { StorageService } from 'src/app/shared/storage/storage.service';
@@ -15,18 +17,13 @@ describe('CloudSyncPage', () => {
   let component: CloudSyncPage;
   let fixture: ComponentFixture<CloudSyncPage>;
   let loadingController: LoadingController;
-  const spyRouter = {
-    navigate: jest.fn(),
-  };
+  let router: Router;
   const spyCloud = {
     signIn: jest.fn(),
     sync: jest.fn(),
   };
   const spySettings = {
     getCloudSync: jest.fn()
-  }
-  const spyInjector = {
-    get: jest.fn()
   }
   const spyStorage = {
     getItem: jest.fn(),
@@ -43,15 +40,18 @@ describe('CloudSyncPage', () => {
           IonicModule,
           FormsModule,
           TranslateModule.forRoot(),
+          RouterTestingModule.withRoutes([
+            { path: 'tabs/secrets', component: CloudSyncPage },
+          ]),
         ],
         providers: [
-          { provide: Router, useValue: spyRouter },
           { provide: SettingsService, useValue: spySettings },
           { provide: CloudSyncServiceProvider, useValue: spyCloudSyncProvider },
           { provide: StorageService, useValue: spyStorage },
         ],
       }).compileComponents();
 
+      router = TestBed.inject(Router);
       loadingController = TestBed.inject(LoadingController);
 
       spySettings.getCloudSync.mockReturnValue(of('none'))
@@ -62,10 +62,6 @@ describe('CloudSyncPage', () => {
     })
   );
 
-  afterEach(() => {
-    spyRouter.navigate.mockReset()
-  })
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -74,16 +70,17 @@ describe('CloudSyncPage', () => {
     expect(component.provider).toEqual('none')
   })
 
-  it('when skip should redirect to the secrets list', () => {
+  it('when skip should redirect to the secrets list', fakeAsync(() => {
     component.skip()
-    expect(spyRouter.navigate).toHaveBeenCalledWith(['/tabs/secrets'])
-  })
+    tick()
+
+    expect(router.url).toBe('/tabs/secrets');
+  }))
 
   it('after choose the provider should redirect to the secrets list', fakeAsync(() => {
     component.provider = 'none'
     spyCloud.signIn.mockReturnValue(of(null))
     spyCloudSyncProvider.getByName.mockReturnValue(spyCloud)
-    // spyOn(component, 'getProvider').and.returnValue(spyCloud)
     spyOn(loadingController, 'create').and.callFake((obj) => {
       return new Promise((resolve, reject) => {
         resolve({ present: jest.fn() });
@@ -96,6 +93,6 @@ describe('CloudSyncPage', () => {
     component.select()
     tick()
 
-    expect(spyRouter.navigate).toHaveBeenCalledWith(['/tabs/secrets'])
+    expect(router.url).toBe('/tabs/secrets');
   }))
 });
