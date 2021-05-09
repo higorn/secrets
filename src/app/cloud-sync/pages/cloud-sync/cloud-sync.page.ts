@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { CloudSyncService } from 'src/app/shared/cloud-sync/cloud-sync.service';
@@ -14,10 +14,13 @@ import { SettingsService } from './../../../shared/settings.service';
 })
 export class CloudSyncPage implements OnInit, OnDestroy {
   provider: string;
+  op: string;
   private cloud: CloudSyncService
   private translateSub: Subscription;
+  private routeSubscription: Subscription;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private settings: SettingsService,
     private cloudSyncServiceProvider: CloudSyncServiceProvider,
@@ -27,9 +30,11 @@ export class CloudSyncPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.translateSub && this.translateSub.unsubscribe();
+    this.routeSubscription && this.routeSubscription.unsubscribe();
   }
 
   ngOnInit() {
+    this.routeSubscription = this.route.paramMap.subscribe((params) => this.op = params.get('op'));
     this.settings.getCloudSync().subscribe(cloudProvider => this.provider = cloudProvider)
   }
 

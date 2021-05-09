@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,6 +9,7 @@ import { SecretListPage } from 'src/app/secrets/pages/secret-list/secret-list.pa
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { StorageService } from 'src/app/shared/storage/storage.service';
+import { ActivatedRouteStub } from 'src/app/testing/activated-route-stub';
 import { SettingsService } from './../../../shared/settings.service';
 import { CloudSyncPage } from './cloud-sync.page';
 
@@ -18,6 +19,7 @@ describe('CloudSyncPage', () => {
   let fixture: ComponentFixture<CloudSyncPage>;
   let loadingController: LoadingController;
   let router: Router;
+  const routeStub = new ActivatedRouteStub();
   const spyCloud = {
     signIn: jest.fn(),
     sync: jest.fn(),
@@ -45,6 +47,7 @@ describe('CloudSyncPage', () => {
           ]),
         ],
         providers: [
+          { provide: ActivatedRoute, useValue: routeStub },
           { provide: SettingsService, useValue: spySettings },
           { provide: CloudSyncServiceProvider, useValue: spyCloudSyncProvider },
           { provide: StorageService, useValue: spyStorage },
@@ -68,6 +71,11 @@ describe('CloudSyncPage', () => {
 
   it('should get the provider from the settings when it is set', () => {
     expect(component.provider).toEqual('none')
+  })
+
+  it('when the operation is restore, then should set op field', () => {
+      routeStub.setParamMap({ op: 'restore' });
+      expect(component.op).toEqual('restore')
   })
 
   it('when skip should redirect to the secrets list', fakeAsync(() => {

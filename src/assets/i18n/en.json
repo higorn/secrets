@@ -7,6 +7,7 @@
     "loading": "Please wait"
   },
   "pwd-creation": {
+    "title": "Password creation",
     "message": "Create a master password that will be used to unseal your secrets.",
     "pwd": "Password",
     "btn": "Create password",

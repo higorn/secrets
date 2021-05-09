@@ -70,9 +70,24 @@
             account, cred card and many others
           </li>
         </ul>
-        <ion-button fill="clear" (click)="start()">
+        <ion-button fill="clear" (click)="slides.slideNext()">
           Get started <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <h2>Databse setup</h2>
+        <ion-button fill="clear" [routerLink]="['/password-creation']">
+          Create a new databse<ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" [routerLink]="['/cloud-sync', 'restore']">
+          Restore from the cloud<ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+        <p class="text small">
+          If this is your first time here, than you should choose <b>'Create a new database'</b>.<br />
+          If you already used the app before, than you can restore your database from the cloud.
+        </p>
       </div>
     </ion-slide>
   </ion-slides>

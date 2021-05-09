@@ -7,6 +7,10 @@ const routes: Routes = [
     path: '',
     component: CloudSyncPage,
   },
+  {
+    path: ':op',
+    component: CloudSyncPage,
+  },
 ];
 
 @NgModule({

@@ -1,12 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <!--
-    -->
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{ 'cloud-sync.title' | translate }}</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons *ngIf="op !== 'restore'" slot="end">
       <ion-button (click)="skip()">{{ 'cloud-sync.skip-btn' | translate }}</ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -21,7 +19,7 @@
       <ion-label>Google Drive</ion-label>
       <ion-radio slot="end" value="google-drive"></ion-radio>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="op !== 'restore'">
       <ion-thumbnail slot="start">
         <ion-img src="assets/img/ban.png"></ion-img>
       </ion-thumbnail>

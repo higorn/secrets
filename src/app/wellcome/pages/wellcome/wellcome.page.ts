@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wellcome',
@@ -12,11 +11,7 @@ export class WellcomePage implements OnInit {
     speed: 400,
   };
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   ngOnInit() {}
-
-  start(): void {
-    this.router.navigate(['/password-creation']);
-  }
 }
