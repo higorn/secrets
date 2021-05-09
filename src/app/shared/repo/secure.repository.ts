@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Entity } from '../entity';
+import { StorageService } from '../storage/storage.service';
+import { VaultService } from '../vault/vault.service';
 import { CrudRepository } from './crud.repository';
-import { Entity } from './entity';
-import { StorageService } from './storage/storage.service';
-import { VaultService } from './vault.service';
 
 export abstract class SecureRepository<T extends Entity> extends CrudRepository<T> {
 

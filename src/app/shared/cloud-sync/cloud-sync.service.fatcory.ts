@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SettingsService } from '../settings.service';
 import { CloudSyncService } from './cloud-sync.service';
 import { CloudSyncServiceProvider } from './cloud-sync.service.provider';
 import { GoogleDriveSyncService } from './google-drive-sync.service';
 import { NullCloudSyncService } from './null-cloud-sync.service';
-import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root'

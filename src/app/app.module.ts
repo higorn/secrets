@@ -1,5 +1,3 @@
-import { GoogleDriveSyncService } from './shared/google-drive-sync.service';
-import { CloudSyncService } from 'src/app/shared/cloud-sync.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,11 +10,11 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CloudSyncServiceFatcory } from './shared/cloud-sync/cloud-sync.service.fatcory';
+import { CloudSyncServiceProvider } from './shared/cloud-sync/cloud-sync.service.provider';
 import { IonicStorageService } from './shared/storage/ionic-storage.service';
 import { StorageService } from './shared/storage/storage.service';
 import { Httpi18nLoaderFactory } from './shared/utils';
-import { CloudSyncServiceProvider } from './shared/cloud-sync.service.provider';
-import { CloudSyncServiceFatcory } from './shared/cloud-sync.service.fatcory';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,7 +44,7 @@ import { CloudSyncServiceFatcory } from './shared/cloud-sync.service.fatcory';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: StorageService, useClass: IonicStorageService },
-    { provide: CloudSyncServiceProvider, useClass: CloudSyncServiceFatcory },
+    { provide: CloudSyncServiceProvider, useClass: CloudSyncServiceFatcory }
   ],
   bootstrap: [AppComponent],
 })

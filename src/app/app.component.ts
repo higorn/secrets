@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
+import { VaultService } from './shared/vault/vault.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,17 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(
+    private plt: Platform,
+    private zone: NgZone,
+    private vault: VaultService,
+    private router: Router,
+  ) {
+    this.plt.pause.subscribe(() => {
+      this.zone.run(() => {
+        this.vault.seal();
+        this.router.navigate(['/start']);
+      });
+    });
+  }
 }

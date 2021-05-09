@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core';
-import "capacitor-gapi";
+import 'capacitor-gapi';
+import { Authentication, User } from 'capacitor-gapi/dist/esm/user';
 import { from, Observable, zip } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { SettingsService } from '../settings.service';
@@ -23,7 +24,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
 
   signIn(): Observable<any> {
     console.log('signIn...');
-    return from(Plugins.Gapi.signIn()).pipe(switchMap((user) => {
+    return from(Plugins.Gapi.signIn()).pipe(switchMap((user: User) => {
       console.log('user', user);
       this.settings.setCloudSync('google-drive');
       return this.sync(user.authentication.accessToken)
@@ -44,7 +45,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
         if (token)
           return this.sendFile(payload, token);
 
-        return from(Plugins.Gapi.refresh()).pipe(switchMap((auth) => {
+        return from(Plugins.Gapi.refresh()).pipe(switchMap((auth: Authentication) => {
           console.log('init2', auth)
           return this.sendFile(payload, auth.accessToken);
         }))

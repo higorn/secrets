@@ -31,9 +31,9 @@ export class StartPage implements OnInit, OnDestroy {
     private router: Router,
     private vault: VaultService,
     private translator: TranslatorService,
-    private plt: Platform,
     private biometric: BiometricService,
     private settingsRepo: SettingsService,
+    private plt: Platform,
     private zone: NgZone,
     private loading: LoadingController
   ) {
