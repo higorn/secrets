@@ -1,9 +1,9 @@
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { Observable, of } from 'rxjs';
-import { StorageService } from 'src/app/shared/storage.service';
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { Settings, DEFAULT_SETTINGS } from './settings';
+import { StorageService } from './storage/storage.service';
 
 @Injectable({
   providedIn: 'root',

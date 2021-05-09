@@ -18,10 +18,10 @@ import { PasswordCreationPage } from './password-creation.page';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { StorageService } from 'src/app/shared/storage.service';
-import { VaultService } from 'src/app/shared/vault.service';
 import { SettingsService } from 'src/app/shared/settings.service';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
+import { StorageService } from 'src/app/shared/storage/storage.service';
+import { VaultService } from 'src/app/shared/vault/vault.service';
 
 describe('Step1', () => {
   let component: PasswordCreationPage;

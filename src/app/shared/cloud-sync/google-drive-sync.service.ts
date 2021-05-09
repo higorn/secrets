@@ -4,9 +4,9 @@ import { Plugins } from '@capacitor/core';
 import "capacitor-gapi";
 import { from, Observable, zip } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { CloudSyncService } from 'src/app/shared/cloud-sync.service';
-import { SettingsService } from './settings.service';
-import { StorageService } from './storage.service';
+import { SettingsService } from '../settings.service';
+import { StorageService } from '../storage/storage.service';
+import { CloudSyncService } from './cloud-sync.service';
 
 
 @Injectable({

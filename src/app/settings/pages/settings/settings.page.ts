@@ -1,12 +1,12 @@
-import { BiometricCredentialsComponent } from './../../components/biometric-credentials/biometric-credentials.component';
-import { BiometricService } from 'src/app/shared/biometric.service';
-import { VaultService } from '../../../shared/vault.service';
-import { StorageService } from 'src/app/shared/storage.service';
-import { Subscription, Observable } from 'rxjs';
-import { TranslatorService } from 'src/app/shared/translator.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { BiometricService } from 'src/app/shared/biometric.service';
 import { SettingsService } from 'src/app/shared/settings.service';
+import { StorageService } from 'src/app/shared/storage/storage.service';
+import { TranslatorService } from 'src/app/shared/translator.service';
+import { VaultService } from 'src/app/shared/vault/vault.service';
+import { BiometricCredentialsComponent } from './../../components/biometric-credentials/biometric-credentials.component';
 
 @Component({
   selector: 'app-settings',

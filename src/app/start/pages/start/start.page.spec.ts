@@ -14,8 +14,8 @@ import { of } from 'rxjs';
 import { BiometricService } from 'src/app/shared/biometric.service';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { SettingsService } from 'src/app/shared/settings.service';
-import { StorageService } from 'src/app/shared/storage.service';
-import { VaultService } from 'src/app/shared/vault.service';
+import { StorageService } from 'src/app/shared/storage/storage.service';
+import { VaultService } from 'src/app/shared/vault/vault.service';
 import { StartPageRoutingModule } from '../../start-routing.module';
 import { StartPage } from './start.page';
 

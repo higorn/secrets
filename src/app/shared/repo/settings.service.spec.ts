@@ -1,9 +1,9 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { StorageService } from 'src/app/shared/storage.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { MockStorageService } from 'src/app/testing/mock-storage-service';
-import { DEFAULT_SETTINGS } from './settings';
-import { SettingsService } from './settings.service';
+import { DEFAULT_SETTINGS } from '../settings';
+import { SettingsService } from '../settings.service';
+import { StorageService } from '../storage/storage.service';
 
 describe('SettingsRepository', () => {
   let service: SettingsService;

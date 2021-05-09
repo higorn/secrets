@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Entity } from './entity';
-import { StorageService } from './storage.service';
+import { StorageService } from './storage/storage.service';
 
 export abstract class CrudRepository<T extends Entity> {
   protected dataChangedSource = new Subject<void>();

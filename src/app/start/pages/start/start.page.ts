@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { BiometricService } from 'src/app/shared/biometric.service';
 import { SettingsService } from 'src/app/shared/settings.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
-import { VaultService } from 'src/app/shared/vault.service';
+import { VaultService } from 'src/app/shared/vault/vault.service';
 
 @Component({
   selector: 'app-start',

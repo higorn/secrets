@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { SettingsService } from '../settings.service';
 
 import { NullCloudSyncService } from './null-cloud-sync.service';
-import { SettingsService } from './settings.service';
 
 describe('NullCloudSyncService', () => {
   let service: NullCloudSyncService;

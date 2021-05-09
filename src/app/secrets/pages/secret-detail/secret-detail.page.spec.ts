@@ -1,17 +1,16 @@
-import { TranslatorService } from 'src/app/shared/translator.service';
 import { CommonModule } from '@angular/common';
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
-  waitForAsync,
+  waitForAsync
 } from '@angular/core/testing';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,13 +18,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AlertController, IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { StorageService } from 'src/app/shared/storage/storage.service';
 import { ActivatedRouteStub } from 'src/app/testing/activated-route-stub';
 import { Secret } from '../../shared/secret';
 import { SecretRepository } from '../../shared/secret.repository';
 import { SecretListPage } from '../secret-list/secret-list.page';
-import { SecretsPageModule } from './../../secrets.module';
 import { SecretDetailPage } from './secret-detail.page';
-import { StorageService } from 'src/app/shared/storage.service';
 
 describe('SecretDetailPage', () => {
   let component: SecretDetailPage;

@@ -3,7 +3,7 @@ import * as forge from 'node-forge';
 import { Bytes } from 'node-forge';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { StorageService } from './storage.service';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
   providedIn: 'root',

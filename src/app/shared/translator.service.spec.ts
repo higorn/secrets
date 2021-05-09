@@ -2,7 +2,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { TestBed } from '@angular/core/testing';
 
 import { TranslatorService } from './translator.service';
-import { StorageService } from './storage.service';
+import { StorageService } from './storage/storage.service';
 import { of } from 'rxjs';
 
 describe('TranslatorService', () => {

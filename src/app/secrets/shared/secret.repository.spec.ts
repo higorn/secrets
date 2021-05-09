@@ -1,8 +1,8 @@
-import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync.service.provider';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { StorageService } from 'src/app/shared/storage.service';
-import { VaultService } from 'src/app/shared/vault.service';
+import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
+import { StorageService } from 'src/app/shared/storage/storage.service';
+import { VaultService } from 'src/app/shared/vault/vault.service';
 import { SecretRepository } from './secret.repository';
 
 

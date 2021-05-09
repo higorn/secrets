@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { VaultGuard } from '../shared/vault.guard';
+import { VaultGuard } from '../shared/vault/vault.guard';
 import { SecretDetailPage } from './pages/secret-detail/secret-detail.page';
 import { SecretListPage } from './pages/secret-list/secret-list.page';
 

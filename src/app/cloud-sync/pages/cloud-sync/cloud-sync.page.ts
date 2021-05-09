@@ -1,10 +1,9 @@
-import { catchError } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { CloudSyncService } from 'src/app/shared/cloud-sync.service';
-import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync.service.provider';
+import { CloudSyncService } from 'src/app/shared/cloud-sync/cloud-sync.service';
+import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { SettingsService } from './../../../shared/settings.service';
 

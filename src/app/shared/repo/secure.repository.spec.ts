@@ -1,9 +1,9 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import { from } from 'rxjs';
-import { MockStorageService } from '../testing/mock-storage-service';
-import { Entity } from './entity';
+import { MockStorageService } from '../../testing/mock-storage-service';
+import { Entity } from '../entity';
+import { VaultService } from '../vault/vault.service';
 import { SecureRepository } from './secure.repository';
-import { VaultService } from './vault.service';
 
 
 interface MyCollection extends Entity {

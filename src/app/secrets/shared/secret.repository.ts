@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync.service.provider';
-import { SecureRepository } from 'src/app/shared/secure.repository';
-import { StorageService } from 'src/app/shared/storage.service';
-import { VaultService } from 'src/app/shared/vault.service';
+import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
+import { SecureRepository } from 'src/app/shared/repo/secure.repository';
+import { StorageService } from 'src/app/shared/storage/storage.service';
+import { VaultService } from 'src/app/shared/vault/vault.service';
 import { Secret } from './secret';
 
 @Injectable({

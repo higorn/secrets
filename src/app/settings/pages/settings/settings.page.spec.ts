@@ -12,11 +12,11 @@ import { AlertController, IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { SettingsService } from 'src/app/shared/settings.service';
-import { StorageService } from 'src/app/shared/storage.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
-import { VaultService } from 'src/app/shared/vault.service';
 import { DEFAULT_SETTINGS } from './../../../shared/settings';
 import { SettingsPage } from './settings.page';
+import { VaultService } from 'src/app/shared/vault/vault.service';
+import { StorageService } from 'src/app/shared/storage/storage.service';
 
 describe('SettingsPage', () => {
   let component: SettingsPage;

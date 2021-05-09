@@ -1,5 +1,5 @@
 import { from, Observable, of } from "rxjs";
-import { StorageService } from "../shared/storage.service";
+import { StorageService } from "../shared/storage/storage.service";
 
 export class MockStorageService extends StorageService {
   getItem(key: string): Observable<any> {

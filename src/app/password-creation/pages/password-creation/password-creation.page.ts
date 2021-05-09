@@ -5,8 +5,8 @@ import { Credentials } from 'capacitor-native-biometric';
 import { Subscription } from 'rxjs';
 import { TranslatorService } from '../../../shared/translator.service';
 import { BiometricService } from '../../../shared/biometric.service';
-import { VaultService } from '../../../shared/vault.service';
 import { SettingsService } from '../../../shared/settings.service';
+import { VaultService } from 'src/app/shared/vault/vault.service';
 
 @Component({
   selector: 'app-password-creation',

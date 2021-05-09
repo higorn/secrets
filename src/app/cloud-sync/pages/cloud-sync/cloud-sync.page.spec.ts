@@ -1,13 +1,12 @@
-import { Injector } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync.service.provider';
+import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
-import { StorageService } from 'src/app/shared/storage.service';
+import { StorageService } from 'src/app/shared/storage/storage.service';
 import { SettingsService } from './../../../shared/settings.service';
 import { CloudSyncPage } from './cloud-sync.page';
 

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { StorageService } from '../shared/storage.service';
+import { StorageService } from '../shared/storage/storage.service';
 
 import { TabsPage } from './tabs.page';
 

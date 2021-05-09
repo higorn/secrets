@@ -1,7 +1,7 @@
-import { CloudSyncService } from 'src/app/shared/cloud-sync.service';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { SettingsService } from './settings.service';
+import { SettingsService } from '../settings.service';
+import { CloudSyncService } from './cloud-sync.service';
 
 @Injectable({
   providedIn: 'root'
