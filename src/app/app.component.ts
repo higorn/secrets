@@ -16,10 +16,11 @@ export class AppComponent {
     private router: Router,
   ) {
     this.plt.pause.subscribe(() => {
-      this.zone.run(() => {
+      console.log('paused')
+/*       this.zone.run(() => {
         this.vault.seal();
         this.router.navigate(['/start']);
-      });
+      }); */
     });
   }
 }
