@@ -39,6 +39,7 @@ export class CloudSyncPage implements OnInit, OnDestroy {
   }
 
   skip(): void {
+    this.settings.setFirstTime(false);
     this.router.navigate(['/tabs/secrets']);
   }
 
@@ -46,13 +47,9 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     await this.presentLoading();
     setTimeout(() => {
       this.cloud = this.cloudSyncServiceProvider.getByName(this.provider)
-      this.cloud.signIn().subscribe((res) => {
-        this.loading.dismiss().then(() => {}, (err) => console.log(err))
-        this.router.navigate(['/tabs/secrets']);
-      }, (error) => {
-        console.log('sign in error', error)
-        this.loading.dismiss().then(() => {}, (err) => console.log(err))
-      });
+      this.cloud[this.op]().subscribe(
+        (providerId: string) => this.handleCloudSyncSucess(providerId),
+        (error) => this.handleCloudSyncError(error));
     })
   }
 
@@ -66,5 +63,17 @@ export class CloudSyncPage implements OnInit, OnDestroy {
       duration: 60000,
     });
     return loading.present();
+  }
+
+  private async handleCloudSyncSucess(providerId: any) {
+    await this.settings.setFirstTime(false).toPromise();
+    this.settings.setCloudSync(providerId);
+    this.loading.dismiss().then(() => { }, (err) => console.log(err));
+    this.router.navigate(this.op === 'restore' ? ['/start'] : ['/tabs/secrets']);
+  }
+
+  private handleCloudSyncError(error: any) {
+    console.log('cloud sync setup error', error);
+    this.loading.dismiss().then(() => { }, (err) => console.log(err));
   }
 }

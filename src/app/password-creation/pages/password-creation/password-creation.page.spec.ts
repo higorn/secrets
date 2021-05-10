@@ -24,7 +24,7 @@ import { StorageService } from 'src/app/shared/storage/storage.service';
 import { VaultService } from 'src/app/shared/vault/vault.service';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('Step1', () => {
+describe('PasswordCreationPage', () => {
   let component: PasswordCreationPage;
   let fixture: ComponentFixture<PasswordCreationPage>;
   let alertController: AlertController;
@@ -44,7 +44,6 @@ describe('Step1', () => {
     navigate: jest.fn(),
   };
   const spySettings = {
-    set: jest.fn(),
     enableBiometric: jest.fn(),
   };
 
@@ -57,7 +56,7 @@ describe('Step1', () => {
           FormsModule,
           TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([
-            { path: 'cloud-sync', component: PasswordCreationPage},
+            { path: 'cloud-sync/setup', component: PasswordCreationPage},
           ]),
         ],
         providers: [
@@ -128,7 +127,6 @@ describe('Step1', () => {
 
     expect(alertController.create).not.toHaveBeenCalled();
     expect(spyBiometricService.enableBiometric).not.toHaveBeenCalled();
-    expect(spySettings.set).toHaveBeenCalledWith('isFirstTime', false);
     expect(spyVaultService.unseal).toHaveBeenCalledWith('123');
     // expect(spyRouter.navigate).toHaveBeenCalledWith(['/cloud-sync']);
   }));
@@ -160,7 +158,6 @@ describe('Step1', () => {
 
     expect(spyBiometricService.enableBiometric).toHaveBeenCalledWith('123');
     expect(spySettings.enableBiometric).toHaveBeenCalled();
-    expect(spySettings.set).toHaveBeenCalledWith('isFirstTime', false);
     expect(spyVaultService.unseal).toHaveBeenCalledWith('123');
     // expect(spyRouter.navigate).toHaveBeenCalledWith(['/cloud-sync']);
   }));
@@ -187,7 +184,6 @@ describe('Step1', () => {
     tick();
 
     expect(spyBiometricService.enableBiometric).not.toHaveBeenCalled();
-    expect(spySettings.set).toHaveBeenCalledWith('isFirstTime', false);
     expect(spyVaultService.unseal).toHaveBeenCalledWith('123');
     // expect(spyRouter.navigate).toHaveBeenCalledWith(['/cloud-sync']);
   }));

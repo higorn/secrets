@@ -30,21 +30,8 @@ export class SettingsService {
     );
   }
 
-  get(key: string): Observable<any> {
-    return this.getAll().pipe(
-      map((settings) => settings[key]),
-      catchError((err) => {
-        console.error(err);
-        return of(undefined);
-      })
-    );
-  }
-
-  set(key: string, val: any): void {
-    this.getAll().subscribe((settings) => {
-      settings[key] = val;
-      this.storage.setItem('settings', settings);
-    });
+  setFirstTime(isFirstTime: boolean): Observable<void> {
+    return this.set('isFirstTime', isFirstTime);
   }
 
   isFirstTime(): Observable<boolean> {
@@ -56,11 +43,11 @@ export class SettingsService {
   }
 
   enableBiometric(): void {
-    this.set('biometric', true);
+    this.set('biometric', true).subscribe();
   }
 
   disableBiometric(): void {
-    this.set('biometric', false);
+    this.set('biometric', false).subscribe();
   }
 
   getCloudSync(): Observable<string> {
@@ -68,6 +55,23 @@ export class SettingsService {
   }
 
   setCloudSync(provider: string): void {
-    this.set('cloudSync', provider);
+    this.set('cloudSync', provider).subscribe();
+  }
+
+  private get(key: string): Observable<any> {
+    return this.getAll().pipe(
+      map((settings) => settings[key]),
+      catchError((err) => {
+        console.error(err);
+        return of(undefined);
+      })
+    );
+  }
+
+  private set(key: string, val: any): Observable<void> {
+    return this.getAll().pipe(map((settings) => {
+      settings[key] = val;
+      this.storage.setItem('settings', settings);
+    }));
   }
 }

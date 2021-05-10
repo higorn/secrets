@@ -111,7 +111,7 @@ export class SettingsPage implements OnInit, OnDestroy {
     this.vaultService.reset().subscribe(() => {
       this.storage.clear();
     });
-    this.biometric.removeCredentials();
+    this.isBiometricAvailable && this.biometric.removeCredentials();
   }
 
   private getTextForAlert() {

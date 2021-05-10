@@ -21,11 +21,13 @@ describe('CloudSyncPage', () => {
   let router: Router;
   const routeStub = new ActivatedRouteStub();
   const spyCloud = {
-    signIn: jest.fn(),
-    sync: jest.fn(),
+    setup: jest.fn(),
+    restore: jest.fn(),
   };
   const spySettings = {
-    getCloudSync: jest.fn()
+    getCloudSync: jest.fn(),
+    setCloudSync: jest.fn(),
+    setFirstTime: jest.fn()
   }
   const spyStorage = {
     getItem: jest.fn(),
@@ -44,6 +46,7 @@ describe('CloudSyncPage', () => {
           TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([
             { path: 'tabs/secrets', component: CloudSyncPage },
+            { path: 'start', component: CloudSyncPage },
           ]),
         ],
         providers: [
@@ -73,10 +76,33 @@ describe('CloudSyncPage', () => {
     expect(component.provider).toEqual('none')
   })
 
-  it('when the operation is restore, then should set op field', () => {
-      routeStub.setParamMap({ op: 'restore' });
-      expect(component.op).toEqual('restore')
+  it('when the operation is restore, then should set op field as restore', () => {
+    routeStub.setParamMap({ op: 'restore' });
+    expect(component.op).toEqual('restore')
   })
+
+  it('when the operation is restore, then should call the restore method on the choosen provider ' +
+     'and redirect to the start page', fakeAsync(() => {
+    routeStub.setParamMap({ op: 'restore' });
+    component.provider = 'google-drive'
+    spyCloud.restore.mockReturnValue(of('google-drive'))
+    spyCloudSyncProvider.getByName.mockReturnValue(spyCloud)
+    spySettings.setFirstTime.mockReturnValue(of())
+    spyOn(loadingController, 'create').and.callFake((obj) => {
+      return new Promise((resolve, reject) => {
+        resolve({ present: jest.fn() });
+      });
+    });
+    spyOn(loadingController, 'dismiss').and.callFake((obj) => {
+      return new Promise((resolve, reject) => {resolve(true)})
+    });
+
+    component.select()
+    tick()
+
+    expect(spyCloud.restore).toHaveBeenCalled()
+    expect(router.url).toBe('/start');
+  }))
 
   it('when skip should redirect to the secrets list', fakeAsync(() => {
     component.skip()
@@ -86,9 +112,11 @@ describe('CloudSyncPage', () => {
   }))
 
   it('after choose the provider should redirect to the secrets list', fakeAsync(() => {
+    routeStub.setParamMap({ op: 'setup' });
     component.provider = 'none'
-    spyCloud.signIn.mockReturnValue(of(null))
+    spyCloud.setup.mockReturnValue(of('none'))
     spyCloudSyncProvider.getByName.mockReturnValue(spyCloud)
+    spySettings.setFirstTime.mockReturnValue(of())
     spyOn(loadingController, 'create').and.callFake((obj) => {
       return new Promise((resolve, reject) => {
         resolve({ present: jest.fn() });

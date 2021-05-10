@@ -50,7 +50,7 @@ describe('SettingsRepository', () => {
   it('should get an specific item in the settings', fakeAsync(() => {
     let isFirstTime;
 
-    service.get('isFirstTime').subscribe((val) => (isFirstTime = val));
+    service.isFirstTime().subscribe((val) => (isFirstTime = val));
     tick();
 
     expect(isFirstTime).toBe(true);
@@ -59,9 +59,9 @@ describe('SettingsRepository', () => {
   it('should set an specifig item in the settings', fakeAsync(() => {
     let isFirstTime = true;
 
-    service.set('isFirstTime', false);
+    service.setFirstTime(false).subscribe();
     tick();
-    service.get('isFirstTime').subscribe((val) => (isFirstTime = val));
+    service.isFirstTime().subscribe((val) => (isFirstTime = val));
     tick();
 
     expect(isFirstTime).toBe(false);

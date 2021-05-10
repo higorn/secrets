@@ -14,8 +14,11 @@ export class NullCloudSyncService extends CloudSyncService {
     super();
   }
 
-  signIn(): Observable<any> {
+  setup(): Observable<any> {
     return of(this.settings.setCloudSync('none'));
+  }
+  restore(): Observable<any> {
+    throw new Error('Method not implemented.');
   }
   sync(): Observable<any> {
     throw new Error('Method not implemented.');
