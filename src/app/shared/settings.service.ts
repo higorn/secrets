@@ -1,3 +1,4 @@
+import { CloudSync } from './cloud-sync/cloud-sync.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -50,12 +51,20 @@ export class SettingsService {
     this.set('biometric', false).subscribe();
   }
 
-  getCloudSync(): Observable<string> {
+  getCloudSync(): Observable<CloudSync> {
     return this.get('cloudSync');
   }
 
-  setCloudSync(provider: string): void {
-    this.set('cloudSync', provider).subscribe();
+  setCloudSync(cloudSync: CloudSync): void {
+    this.set('cloudSync', cloudSync).subscribe();
+  }
+
+  getDbFileName(): Observable<string> {
+    return this.get('dbFileName');
+  }
+
+  setDbFileName(fileName: string) {
+    this.set('dbFileName', fileName).subscribe();
   }
 
   private get(key: string): Observable<any> {

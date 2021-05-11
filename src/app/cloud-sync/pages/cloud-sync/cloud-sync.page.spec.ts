@@ -1,3 +1,4 @@
+import { CloudSync } from './../../../shared/cloud-sync/cloud-sync.service';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,7 +28,7 @@ describe('CloudSyncPage', () => {
   const spySettings = {
     getCloudSync: jest.fn(),
     setCloudSync: jest.fn(),
-    setFirstTime: jest.fn()
+    setFirstTime: jest.fn(),
   }
   const spyStorage = {
     getItem: jest.fn(),
@@ -60,13 +61,17 @@ describe('CloudSyncPage', () => {
       router = TestBed.inject(Router);
       loadingController = TestBed.inject(LoadingController);
 
-      spySettings.getCloudSync.mockReturnValue(of('none'))
+      spySettings.getCloudSync.mockReturnValue(of({ provider: 'none', file: null }))
       spyStorage.getItem.mockReturnValue(of(DEFAULT_SETTINGS));
       fixture = TestBed.createComponent(CloudSyncPage);
       component = fixture.componentInstance;
       fixture.detectChanges();
     })
   );
+
+  afterEach(() => {
+    spySettings.getCloudSync.mockReset()
+  })
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -85,7 +90,7 @@ describe('CloudSyncPage', () => {
      'and redirect to the start page', fakeAsync(() => {
     routeStub.setParamMap({ op: 'restore' });
     component.provider = 'google-drive'
-    spyCloud.restore.mockReturnValue(of('google-drive'))
+    spyCloud.restore.mockReturnValue(of([{ id: 'abc', name: 'eSecrets.db' }]))
     spyCloudSyncProvider.getByName.mockReturnValue(spyCloud)
     spySettings.setFirstTime.mockReturnValue(of())
     spyOn(loadingController, 'create').and.callFake((obj) => {
@@ -114,7 +119,7 @@ describe('CloudSyncPage', () => {
   it('after choose the provider should redirect to the secrets list', fakeAsync(() => {
     routeStub.setParamMap({ op: 'setup' });
     component.provider = 'none'
-    spyCloud.setup.mockReturnValue(of('none'))
+    spyCloud.setup.mockReturnValue(of({ id: 'abc', name: 'eSecrets.db' }))
     spyCloudSyncProvider.getByName.mockReturnValue(spyCloud)
     spySettings.setFirstTime.mockReturnValue(of())
     spyOn(loadingController, 'create').and.callFake((obj) => {
@@ -129,6 +134,7 @@ describe('CloudSyncPage', () => {
     component.select()
     tick()
 
+    expect(spySettings.setCloudSync).toHaveBeenCalled()
     expect(router.url).toBe('/tabs/secrets');
   }))
 });

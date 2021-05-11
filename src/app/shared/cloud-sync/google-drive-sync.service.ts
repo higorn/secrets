@@ -5,8 +5,9 @@ import 'capacitor-gapi';
 import { Authentication, User } from 'capacitor-gapi/dist/esm/user';
 import { from, Observable, of, zip } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { SettingsService } from '../settings.service';
 import { StorageService } from '../storage/storage.service';
-import { CloudSyncService } from './cloud-sync.service';
+import { CloudSyncService, SyncFile, SyncOptions } from './cloud-sync.service';
 
 
 @Injectable({
@@ -15,91 +16,97 @@ import { CloudSyncService } from './cloud-sync.service';
 export class GoogleDriveSyncService extends CloudSyncService {
   constructor(
     private storage: StorageService,
+    private settings: SettingsService,
     private http: HttpClient
   ) {
     super();
   }
 
-  setup(): Observable<any> {
+  setup(): Observable<SyncFile> {
     console.log('signIn...');
     return from(Plugins.Gapi.signIn()).pipe(switchMap((user: User) => {
       console.log('user', user);
-      return this.sync(user.authentication.accessToken).pipe(map((_) => 'google-drive'))
+      return this.sync({ token: user.authentication.accessToken, file: null });
     }))
   }
 
-  restore(): Observable<any> {
+  restore(): Observable<SyncFile[]> {
     console.log('restoring...');
     return from(Plugins.Gapi.signIn()).pipe(switchMap((user: User) => {
       console.log('restoring user', user);
-      return this.restoreFile(user.authentication.accessToken).pipe(map((_) => 'google-drive'))
+      return this.restoreFile(user.authentication.accessToken);
     }))
   }
 
-  sync(token?: string): Observable<any> {
-    return zip(
-      this.storage.getItem('secrets'),
-      this.storage.getItem('settings'),
-      this.storage.getItem('vault')
-    ).pipe(switchMap((data) => {
-        const payload = JSON.stringify({
-          secrets: data[0],
-          settings: data[1],
-          vault: data[2],
-        });
-        if (token)
-          return this.sendFile(payload, token);
+  sync(opts: SyncOptions): Observable<SyncFile> {
+    return this.storage.exportData().pipe(switchMap(data => {
+      console.log('data', data);
+      const payload = JSON.stringify(data);
+      if (opts && opts.token)
+        return this.sendFile(payload, opts.token, opts.file);
 
-        return from(Plugins.Gapi.refresh()).pipe(switchMap((auth: Authentication) => {
-          console.log('init2', auth)
-          return this.sendFile(payload, auth.accessToken);
-        }))
-      })
-    )
+      return from(Plugins.Gapi.refresh()).pipe(switchMap((auth: Authentication) => {
+        console.log('init2', auth)
+        return this.sendFile(payload, auth.accessToken, opts.file);
+      }))
+    }))
   }
 
-  private restoreFile(token: string): Observable<any> {
+  private restoreFile(token: string): Observable<SyncFile[]> {
     const header = new HttpHeaders({ Authorization: 'Bearer ' + token });
     return this.getFiles(header)
-      .pipe(switchMap(({ files }) => {
+      .pipe(switchMap((files) => {
         console.log('files', files);
         const params = new HttpParams().set('alt', 'media')
         return this.http.get<any>(`https://www.googleapis.com/drive/v3/files/${files[0].id}`,
-          { headers: header, params: params }).pipe(map((file) => {
-            console.log('file', file)
-            this.storage.setItem('secrets', file.secrets)
-            this.storage.setItem('settings', file.settings)
-            this.storage.setItem('vault', file.vault)
-            return true;
+          { headers: header, params: params }).pipe(map((data) => {
+            console.log('file', data)
+            this.storage.importData(data)
+            return files;
           }))
       }))
   }
 
-  private getFiles(header: HttpHeaders): Observable<any> {
+  private getFiles(header: HttpHeaders): Observable<SyncFile[]> {
     const params = new HttpParams()
-      .set('q', 'name="e-Secrets.db"')
-      .set('fields', 'files(id)');
-    return this.http.get('https://www.googleapis.com/drive/v3/files', { headers: header, params: params });
+      .set('q', 'name contains \'eSecrets\'')
+    return this.http.get<any>('https://www.googleapis.com/drive/v3/files', { headers: header, params: params })
+      .pipe(map(({ files }) => files))
+/*       .pipe(switchMap(({ files }) => {
+        return this.settings.getDbFileName().pipe(map((fileName) => {
+          if (files.length === 0) return files;
+          const filteredFiles = files.filter((f: SyncFile) => f.name === fileName)
+          if (filteredFiles.length) return filteredFiles;
+          if (files.length === 1) {
+            this.settings.setDbFileName(files[0].name);
+          } else if (files.length > 1) {
+            console.log('Found more than one file')
+          }
+          return files
+        }))
+      })); */
   }
 
-  private sendFile(payload: string, token: string): Observable<any> {
-    const file = new Blob([payload], { type: 'text/plain' });
-    const metadata = {
-      name: 'e-Secrets.db',
-      mimeType: 'text/plain',
-    };
-
+  private sendFile(payload: string, token: string, file: SyncFile): Observable<SyncFile> {
+    const fileContent = new Blob([payload], { type: 'text/plain' });
     const header = new HttpHeaders({ Authorization: 'Bearer ' + token });
-    return this.getFiles(header)
-      .pipe(switchMap(({ files }) => {
+    return file && file.id ? this.updateFile(header, fileContent, file.id) : this.createFile(header, fileContent)
+/*     return this.getFiles(header)
+      .pipe(switchMap((files) => {
           console.log('res get', files);
           if (files.length === 0) return this.createFile(header, metadata, file);
           else return this.updateFile(header, metadata, file, files[0].id);
         })
-      )
+      ) */
   }
 
-  private createFile(header: HttpHeaders, metadata: any, file: any): Observable<any> {
+  private createFile(header: HttpHeaders, file: any): Observable<SyncFile> {
+    const dt = new Date();
+    const metadata = {
+      name: 'eSecrets' + dt.getFullYear() + (dt.getMonth()+1) + dt.getDate()
+        + dt.getHours() + dt.getMinutes() + dt.getSeconds() + '.db',
+      mimeType: 'text/plain',
+    };
     return this.http.post<any>(
         'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable',
         metadata,
@@ -112,10 +119,11 @@ export class GoogleDriveSyncService extends CloudSyncService {
       )
   }
 
-  private updateFile(header: HttpHeaders, metadata: any, file: any, id: any): Observable<any> {
+  // private updateFile(header: HttpHeaders, metadata: any, file: any, id: any): Observable<SyncFile> {
+  private updateFile(header: HttpHeaders, file: any, id: any): Observable<SyncFile> {
     return this.http.patch<any>(
-        `https://www.googleapis.com/upload/drive/v3/files/${id}?uploadType=resumable`,
-        metadata,
+        `https://www.googleapis.com/upload/drive/v3/files/${id}?uploadType=resumable`, {},
+        // metadata,
         { headers: header, observe: 'response' }
       ).pipe(switchMap((res: HttpResponse<void>) => (
           this.uploadFile(res, file, header)
@@ -125,7 +133,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
       )
   }
 
-  private uploadFile(res: HttpResponse<void>, file: any, header: HttpHeaders): Observable<Object> {
-    return this.http.put(res.headers.get('location'), file, { headers: header });
+  private uploadFile(res: HttpResponse<void>, file: any, header: HttpHeaders): Observable<SyncFile> {
+    return this.http.put<any>(res.headers.get('location'), file, { headers: header });
   }
 }

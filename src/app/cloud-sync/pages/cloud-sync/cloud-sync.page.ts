@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { CloudSyncService } from 'src/app/shared/cloud-sync/cloud-sync.service';
+import { CloudSyncService, SyncFile } from 'src/app/shared/cloud-sync/cloud-sync.service';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { SettingsService } from './../../../shared/settings.service';
@@ -35,7 +35,7 @@ export class CloudSyncPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeSubscription = this.route.paramMap.subscribe((params) => this.op = params.get('op'));
-    this.settings.getCloudSync().subscribe(cloudProvider => this.provider = cloudProvider)
+    this.settings.getCloudSync().subscribe(cloudSync => this.provider = cloudSync.provider)
   }
 
   skip(): void {
@@ -47,9 +47,14 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     await this.presentLoading();
     setTimeout(() => {
       this.cloud = this.cloudSyncServiceProvider.getByName(this.provider)
-      this.cloud[this.op]().subscribe(
-        (providerId: string) => this.handleCloudSyncSucess(providerId),
-        (error) => this.handleCloudSyncError(error));
+      if (this.op === 'setup')
+        this.cloud.setup().subscribe(
+          (file: SyncFile) => this.handleCloudSyncSetupSucess(file),
+          (error) => this.handleCloudSyncError(error));
+      if (this.op === 'restore')
+        this.cloud.restore().subscribe(
+          (files: SyncFile[]) => this.handleCloudSyncRestoreSucess(files),
+          (error) => this.handleCloudSyncError(error));
     })
   }
 
@@ -65,11 +70,18 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     return loading.present();
   }
 
-  private async handleCloudSyncSucess(providerId: any) {
+  private async handleCloudSyncSetupSucess(file: SyncFile) {
     await this.settings.setFirstTime(false).toPromise();
-    this.settings.setCloudSync(providerId);
+    this.settings.setCloudSync({ provider: this.provider, file: file });
     this.loading.dismiss().then(() => { }, (err) => console.log(err));
     this.router.navigate(this.op === 'restore' ? ['/start'] : ['/tabs/secrets']);
+  }
+
+  handleCloudSyncRestoreSucess(files: SyncFile[]): void {
+    // if (files.length === 1) {
+      this.handleCloudSyncSetupSucess(files[0]);
+      // return;
+    // }
   }
 
   private handleCloudSyncError(error: any) {

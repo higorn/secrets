@@ -29,6 +29,6 @@ export class CloudSyncServiceFatcory extends CloudSyncServiceProvider {
   }
 
   get(): Observable<CloudSyncService> {
-    return this.settings.getCloudSync().pipe(map(name => this.getByName(name)))
+    return this.settings.getCloudSync().pipe(map(cloudSync => this.getByName(cloudSync.provider)))
   }
 }
