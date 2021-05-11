@@ -1,0 +1,29 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>{{ "cloud-sync.data-choose.title" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">{{
+        "cloud-sync.data-choose.cancel-btn" | translate
+      }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <div class="ion-text-center ion-padding-top">
+    <p class="ion-padding-horizontal ion-padding-vertical">
+      <ion-text>
+        <h4>
+          {{ "cloud-sync.data-choose.message" | translate }}
+        </h4>
+      </ion-text>
+    </p>
+  </div>
+  <ion-radio-group [(ngModel)]="file" (click)="select()">
+    <ion-item *ngFor="let f of files">
+      <ion-label>{{ f.name }}</ion-label>
+      <ion-radio slot="end" [value]="f"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+</ion-content>
+

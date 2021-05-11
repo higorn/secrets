@@ -4,7 +4,12 @@
     "title": "Sincronização com a nuvem",
     "skip-btn": "pular",
     "none": "Nenhum",
-    "loading": "Please wait"
+    "loading": "Please wait",
+    "data-choose": {
+      "title": "Restauração de dados",
+      "cancel-btn": "Cancelar",
+      "message": "Encontramos mais de uma base de dados que pode ser restaurada. Por favor escolha qual deseja restaurar."
+    }
   },
   "pwd-creation": {
     "title": "Password creation",

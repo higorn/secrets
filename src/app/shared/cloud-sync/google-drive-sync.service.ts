@@ -22,19 +22,19 @@ export class GoogleDriveSyncService extends CloudSyncService {
     super();
   }
 
-  setup(): Observable<SyncFile> {
+  setup(file?: SyncFile): Observable<SyncFile> {
     console.log('signIn...');
     return from(Plugins.Gapi.signIn()).pipe(switchMap((user: User) => {
       console.log('user', user);
-      return this.sync({ token: user.authentication.accessToken, file: null });
+      return this.sync({ token: user.authentication.accessToken, file: file });
     }))
   }
 
-  restore(): Observable<SyncFile[]> {
+  restore(file?: SyncFile): Observable<SyncFile[]> {
     console.log('restoring...');
     return from(Plugins.Gapi.signIn()).pipe(switchMap((user: User) => {
       console.log('restoring user', user);
-      return this.restoreFile(user.authentication.accessToken);
+      return this.restoreFile(user.authentication.accessToken, file);
     }))
   }
 
@@ -52,14 +52,20 @@ export class GoogleDriveSyncService extends CloudSyncService {
     }))
   }
 
-  private restoreFile(token: string): Observable<SyncFile[]> {
+  private restoreFile(token: string, file: SyncFile): Observable<SyncFile[]> {
     const header = new HttpHeaders({ Authorization: 'Bearer ' + token });
+    if (file) {
+      return this.getFileContent(header, file.id).pipe(map((data) => {
+          console.log('file', data)
+          this.storage.importData(data)
+          return [file];
+        }))
+    }
     return this.getFiles(header)
       .pipe(switchMap((files) => {
         console.log('files', files);
-        const params = new HttpParams().set('alt', 'media')
-        return this.http.get<any>(`https://www.googleapis.com/drive/v3/files/${files[0].id}`,
-          { headers: header, params: params }).pipe(map((data) => {
+        if (files.length > 1) return of(files);
+        return this.getFileContent(header, files[0].id).pipe(map((data) => {
             console.log('file', data)
             this.storage.importData(data)
             return files;
@@ -67,37 +73,23 @@ export class GoogleDriveSyncService extends CloudSyncService {
       }))
   }
 
+  private getFileContent(header: HttpHeaders, fileId: string): Observable<any> {
+    const params = new HttpParams().set('alt', 'media')
+    return this.http.get<any>(`https://www.googleapis.com/drive/v3/files/${fileId}`,
+      { headers: header, params: params });
+  }
+
   private getFiles(header: HttpHeaders): Observable<SyncFile[]> {
     const params = new HttpParams()
       .set('q', 'name contains \'eSecrets\'')
     return this.http.get<any>('https://www.googleapis.com/drive/v3/files', { headers: header, params: params })
       .pipe(map(({ files }) => files))
-/*       .pipe(switchMap(({ files }) => {
-        return this.settings.getDbFileName().pipe(map((fileName) => {
-          if (files.length === 0) return files;
-          const filteredFiles = files.filter((f: SyncFile) => f.name === fileName)
-          if (filteredFiles.length) return filteredFiles;
-          if (files.length === 1) {
-            this.settings.setDbFileName(files[0].name);
-          } else if (files.length > 1) {
-            console.log('Found more than one file')
-          }
-          return files
-        }))
-      })); */
   }
 
   private sendFile(payload: string, token: string, file: SyncFile): Observable<SyncFile> {
     const fileContent = new Blob([payload], { type: 'text/plain' });
     const header = new HttpHeaders({ Authorization: 'Bearer ' + token });
     return file && file.id ? this.updateFile(header, fileContent, file.id) : this.createFile(header, fileContent)
-/*     return this.getFiles(header)
-      .pipe(switchMap((files) => {
-          console.log('res get', files);
-          if (files.length === 0) return this.createFile(header, metadata, file);
-          else return this.updateFile(header, metadata, file, files[0].id);
-        })
-      ) */
   }
 
   private createFile(header: HttpHeaders, file: any): Observable<SyncFile> {
@@ -119,11 +111,9 @@ export class GoogleDriveSyncService extends CloudSyncService {
       )
   }
 
-  // private updateFile(header: HttpHeaders, metadata: any, file: any, id: any): Observable<SyncFile> {
   private updateFile(header: HttpHeaders, file: any, id: any): Observable<SyncFile> {
     return this.http.patch<any>(
         `https://www.googleapis.com/upload/drive/v3/files/${id}?uploadType=resumable`, {},
-        // metadata,
         { headers: header, observe: 'response' }
       ).pipe(switchMap((res: HttpResponse<void>) => (
           this.uploadFile(res, file, header)

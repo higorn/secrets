@@ -7,6 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Httpi18nLoaderFactory } from '../shared/utils';
 import { CloudSyncPageRoutingModule } from './cloud-sync-routing.module';
 import { CloudSyncPage } from './pages/cloud-sync/cloud-sync.page';
+import { DataRestoreChooseComponent } from './components/data-restore-choose/data-restore-choose.component';
 
 
 
@@ -24,6 +25,6 @@ import { CloudSyncPage } from './pages/cloud-sync/cloud-sync.page';
       },
     }),
   ],
-  declarations: [CloudSyncPage],
+  declarations: [CloudSyncPage, DataRestoreChooseComponent],
 })
 export class CloudSyncPageModule {}

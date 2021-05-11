@@ -1,12 +1,10 @@
-import { CloudSync } from './../../../shared/cloud-sync/cloud-sync.service';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IonicModule, LoadingController } from '@ionic/angular';
+import { IonicModule, LoadingController, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { SecretListPage } from 'src/app/secrets/pages/secret-list/secret-list.page';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { StorageService } from 'src/app/shared/storage/storage.service';
@@ -19,6 +17,7 @@ describe('CloudSyncPage', () => {
   let component: CloudSyncPage;
   let fixture: ComponentFixture<CloudSyncPage>;
   let loadingController: LoadingController;
+  let modalController: ModalController;
   let router: Router;
   const routeStub = new ActivatedRouteStub();
   const spyCloud = {
@@ -60,6 +59,7 @@ describe('CloudSyncPage', () => {
 
       router = TestBed.inject(Router);
       loadingController = TestBed.inject(LoadingController);
+      modalController = TestBed.inject(ModalController);
 
       spySettings.getCloudSync.mockReturnValue(of({ provider: 'none', file: null }))
       spyStorage.getItem.mockReturnValue(of(DEFAULT_SETTINGS));
@@ -71,6 +71,7 @@ describe('CloudSyncPage', () => {
 
   afterEach(() => {
     spySettings.getCloudSync.mockReset()
+    spyCloud.restore.mockReset()
   })
 
   it('should create', () => {

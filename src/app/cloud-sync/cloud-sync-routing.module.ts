@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { VaultGuard } from '../shared/vault/vault.guard';
 import { CloudSyncPage } from './pages/cloud-sync/cloud-sync.page';
 
 const routes: Routes = [

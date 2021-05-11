@@ -16,7 +16,7 @@ export interface SyncOptions {
 }
 
 export abstract class CloudSyncService {
-  abstract setup(): Observable<SyncFile>;
-  abstract restore(): Observable<SyncFile[]>;
+  abstract setup(file?: SyncFile): Observable<SyncFile>;
+  abstract restore(file?: SyncFile): Observable<SyncFile[]>;
   abstract sync(options: SyncOptions): Observable<SyncFile>;
 }

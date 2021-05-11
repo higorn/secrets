@@ -1,6 +1,8 @@
+import { CloudSync } from './../../../shared/cloud-sync/cloud-sync.service';
+import { DataRestoreChooseComponent } from './../../components/data-restore-choose/data-restore-choose.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { CloudSyncService, SyncFile } from 'src/app/shared/cloud-sync/cloud-sync.service';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
@@ -15,6 +17,7 @@ import { SettingsService } from './../../../shared/settings.service';
 export class CloudSyncPage implements OnInit, OnDestroy {
   provider: string;
   op: string;
+  private cloudSync: CloudSync;
   private cloud: CloudSyncService
   private translateSub: Subscription;
   private routeSubscription: Subscription;
@@ -25,7 +28,8 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     private settings: SettingsService,
     private cloudSyncServiceProvider: CloudSyncServiceProvider,
     private translator: TranslatorService,
-    private loading: LoadingController
+    private loading: LoadingController,
+    private modal: ModalController
   ) {}
 
   ngOnDestroy(): void {
@@ -35,7 +39,10 @@ export class CloudSyncPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeSubscription = this.route.paramMap.subscribe((params) => this.op = params.get('op'));
-    this.settings.getCloudSync().subscribe(cloudSync => this.provider = cloudSync.provider)
+    this.settings.getCloudSync().subscribe(cloudSync => {
+      this.cloudSync = cloudSync;
+      this.provider = cloudSync && cloudSync.provider
+    })
   }
 
   skip(): void {
@@ -45,10 +52,12 @@ export class CloudSyncPage implements OnInit, OnDestroy {
 
   async select(): Promise<void> {
     await this.presentLoading();
-    setTimeout(() => {
+    setTimeout(async () => {
       this.cloud = this.cloudSyncServiceProvider.getByName(this.provider)
+      const cloudSync = await this.settings.getCloudSync().toPromise();
+      const file = this.provider === (cloudSync && cloudSync.provider) ? cloudSync.file : null;
       if (this.op === 'setup')
-        this.cloud.setup().subscribe(
+        this.cloud.setup(file).subscribe(
           (file: SyncFile) => this.handleCloudSyncSetupSucess(file),
           (error) => this.handleCloudSyncError(error));
       if (this.op === 'restore')
@@ -77,11 +86,33 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     this.router.navigate(this.op === 'restore' ? ['/start'] : ['/tabs/secrets']);
   }
 
-  handleCloudSyncRestoreSucess(files: SyncFile[]): void {
-    // if (files.length === 1) {
+  private async handleCloudSyncRestoreSucess(files: SyncFile[]): Promise<void> {
+    if (files.length === 1) {
       this.handleCloudSyncSetupSucess(files[0]);
-      // return;
-    // }
+      return;
+    }
+    this.loading.dismiss().then(() => { }, (err) => console.log(err));
+
+    const file = await this.presentFiles(files)
+    if (file) {
+      await this.presentLoading();
+      this.cloud.restore(file).subscribe(
+        (files: SyncFile[]) => this.handleCloudSyncRestoreSucess(files),
+        (error) => this.handleCloudSyncError(error));
+    }
+  }
+
+  private async presentFiles(files: SyncFile[]): Promise<SyncFile> {
+    const modal = await this.modal.create({
+      component: DataRestoreChooseComponent,
+      componentProps: {
+        files: files
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    if (data.cancel) return null;
+    return data.file;
   }
 
   private handleCloudSyncError(error: any) {

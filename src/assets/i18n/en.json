@@ -4,7 +4,12 @@
     "title": "Cloud synchronization",
     "skip-btn": "skip",
     "none": "None",
-    "loading": "Please wait"
+    "loading": "Please wait",
+    "data-choose": {
+      "title": "Data restore",
+      "cancel-btn": "Cancel",
+      "message": "We found more than one data base that can be restored. Please choose which one you'd like to restore."
+    }
   },
   "pwd-creation": {
     "title": "Password creation",
