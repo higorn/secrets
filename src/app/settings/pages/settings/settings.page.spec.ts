@@ -18,6 +18,7 @@ import { SettingsPage } from './settings.page';
 import { VaultService } from 'src/app/shared/vault/vault.service';
 import { StorageService } from 'src/app/shared/storage/storage.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AutofillService } from 'src/app/shared/autofill/autofill.service';
 
 describe('SettingsPage', () => {
   let component: SettingsPage;
@@ -42,6 +43,9 @@ describe('SettingsPage', () => {
     removeCredentials: jest.fn(),
     isAvailable: jest.fn(),
   };
+  const spyAutofill = {
+    isAvailable: jest.fn(),
+  }
 
   beforeEach(
     waitForAsync(() => {
@@ -59,10 +63,12 @@ describe('SettingsPage', () => {
           { provide: StorageService, useValue: spyStorage },
           { provide: VaultService, useValue: spyVault },
           { provide: BiometricService, useValue: spyBiometric },
+          { provide: AutofillService, useValue: spyAutofill },
         ],
       }).compileComponents();
 
       spyBiometric.isAvailable.mockReturnValue(of(false));
+      spyAutofill.isAvailable.mockReturnValue(of(true));
       alertController = TestBed.inject(AlertController);
       fixture = TestBed.createComponent(SettingsPage);
       component = fixture.componentInstance;
@@ -123,4 +129,9 @@ describe('SettingsPage', () => {
     expect(spyStorage.removeItem).toHaveBeenCalledWith('settings');
     expect(spyVault.reset).toHaveBeenCalled();
   }));
+
+  it('should show autofill option when it is available', () => {
+    fixture.detectChanges();
+    expect(component.isAutofillAvailable).toBe(true);
+  })
 });

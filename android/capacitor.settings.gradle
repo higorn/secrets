@@ -2,6 +2,9 @@
 include ':capacitor-android'
 project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
 
+include ':capacitor-autofill-service'
+project(':capacitor-autofill-service').projectDir = new File('../node_modules/capacitor-autofill-service/android')
+
 include ':capacitor-gapi'
 project(':capacitor-gapi').projectDir = new File('../node_modules/capacitor-gapi/android')
 

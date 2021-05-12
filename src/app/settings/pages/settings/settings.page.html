@@ -25,8 +25,16 @@
       <ion-toggle
         [(ngModel)]="settings.biometric"
         (click)="onToggleClick()"
-        (ionChange)="toggleBiometric()"
-      ></ion-toggle>
+        (ionChange)="toggleBiometric()">
+      </ion-toggle>
+    </ion-item>
+    <ion-item *ngIf="isAutofillAvailable">
+      <ion-label>{{ 'settings.autofill.label' | translate }}</ion-label>
+      <ion-toggle
+        [(ngModel)]="settings.autofill"
+        (click)="onToggleClick()"
+        (ionChange)="toggleAutofill()">
+      </ion-toggle>
     </ion-item>
   </ion-list>
   <p class="ion-padding-horizontal">

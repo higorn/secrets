@@ -8,6 +8,7 @@ import com.getcapacitor.Plugin;
 import java.util.ArrayList;
 import io.esecrets.capgapi.Gapi;
 import com.epicshaggy.biometric.NativeBiometric;
+import io.esecrets.capacitor.autofillservice.Autofill;
 
 public class MainActivity extends BridgeActivity {
   @Override
@@ -19,6 +20,7 @@ public class MainActivity extends BridgeActivity {
       // Additional plugins you've installed go here
       add(Gapi.class);
       add(NativeBiometric.class);
+      add(Autofill.class);
     }});
   }
 }

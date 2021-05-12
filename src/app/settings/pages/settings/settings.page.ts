@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
+import { isatty } from 'node:tty';
 import { Subscription } from 'rxjs';
+import { AutofillService } from 'src/app/shared/autofill/autofill.service';
 import { BiometricService } from 'src/app/shared/biometric.service';
 import { SettingsService } from 'src/app/shared/settings.service';
 import { StorageService } from 'src/app/shared/storage/storage.service';
@@ -16,6 +18,7 @@ import { BiometricCredentialsComponent } from './../../components/biometric-cred
 export class SettingsPage implements OnInit, OnDestroy {
   settings: any = {};
   isBiometricAvailable = false;
+  isAutofillAvailable = false;
   toggleClicked = false;
   private settingsSubscription: Subscription;
 
@@ -26,6 +29,7 @@ export class SettingsPage implements OnInit, OnDestroy {
     private alertController: AlertController,
     private vaultService: VaultService,
     private biometric: BiometricService,
+    private autofill: AutofillService,
     private modal: ModalController
   ) {}
 
@@ -42,12 +46,14 @@ export class SettingsPage implements OnInit, OnDestroy {
   }
 
   private loadSettings() {
-    this.settingsSubscription = this.service
-      .getAll()
-      .subscribe((settings) => (this.settings = settings));
-    this.biometric
-      .isAvailable()
-      .subscribe((isAvailable) => (this.isBiometricAvailable = isAvailable));
+    this.settingsSubscription = this.service.getAll().subscribe((settings) => {
+      this.settings = settings
+      this.autofill.isAvailable().subscribe((isAvailable) => {
+        this.isAutofillAvailable = isAvailable;
+        isAvailable && this.autofill.isEnabled().subscribe((isEnabled) => this.settings.autofill = isEnabled)
+      });
+    });
+    this.biometric.isAvailable().subscribe((isAvailable) => (this.isBiometricAvailable = isAvailable));
   }
 
   changeLanguage(): void {
@@ -58,11 +64,17 @@ export class SettingsPage implements OnInit, OnDestroy {
   onToggleClick(): void {
     this.toggleClicked = true;
   }
+
   toggleBiometric(): void {
     if (!this.toggleClicked) return;
     this.service.save(this.settings);
     this.settings.biometric && this.enableBiometric();
     this.toggleClicked = false;
+  }
+
+  toggleAutofill(): void {
+    console.log('autofill', this.settings.autofill);
+    this.settings.autofill ? this.autofill.enable() : this.autofill.disable();
   }
 
   private async enableBiometric(): Promise<void> {

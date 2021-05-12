@@ -57,6 +57,9 @@
         "input": "Senha"
       }
     },
+    "autofill": {
+      "label": "Habilitar auto-preenchimento"
+    },
     "wipe": {
       "btn": "Apagar dados do dispositivo",
       "title": "Apagar dados",

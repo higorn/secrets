@@ -57,6 +57,9 @@
         "input": "Password"
       }
     },
+    "autofill": {
+      "label": "Enable autofill"
+    },
     "wipe": {
       "btn": "Wipe divice data",
       "title": "Wipe data",
