@@ -10,6 +10,7 @@
     "start-android": "ionic cap run android --livereload --external",
     "build": "ng build",
     "build-prod": "ng build --prod",
+    "release-android": "ionic capacitor build android --prod --release",
     "deploy": "firebase deploy",
     "test": "jest --watch --detectOpenHandles",
     "lint": "ng lint",
