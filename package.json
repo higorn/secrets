@@ -10,8 +10,9 @@
     "start-android": "ionic cap run android --livereload --external",
     "build": "ng build",
     "build-prod": "ng build --prod",
-    "release-android": "ionic capacitor build android --prod --release",
     "deploy": "firebase deploy",
+    "release-android": "ionic capacitor build android --prod --release",
+    "resources-android": "cordova-res android --skip-config --copy",
     "test": "jest --watch --detectOpenHandles",
     "lint": "ng lint",
     "e2e": "ng e2e"
