@@ -1,5 +1,47 @@
 {
-  "wellcome": {},
+  "wellcome": {
+    "slide1": {
+      "title": "Wellcome to e-Secrets",
+      "message": "The most simple and easy way to keep all your passwords and secrets safe.",
+      "next-btn": "Tell me more"
+    },
+    "slide2": {
+      "title": "The problem",
+      "message1": "Are you struggle managing to keep many passwords and login credentials from different web sites, email, social networks or any other electronic accounts?",
+      "message2": "And because of this you keep the same password for all of them?",
+      "message3": "This is very unsafe and you may be at risk of being hacked.",
+      "message4": "take care of this for you with only one password.",
+      "next-btn": "The solution"
+    },
+    "slide3": {
+      "title": "What is e-Secrets?",
+      "message": "is a secrets manager that aims to keep safe all your electronic private information, in a simple and easy way.",
+      "next-btn": "How it works?"
+    },
+    "slide4": {
+      "title": "How it works?",
+      "message1": "All your data is stored locally on your device in an electronic vault that is sealed using the most advanced and updated encryption technologies (RSA and AES256).",
+      "message2": "This vault can only be unsealed by your master password, or using the biometric verification methods provided by your device.",
+      "next-btn": "Features"
+    },
+    "slide5": {
+      "title": "Here are some features",
+      "message1": "No account registration",
+      "message2": "Data stored locally and sealed with strong cryptography",
+      "message3": "Backup your data on the cloud",
+      "message4": "Restore your data at any time from any device",
+      "message5": "Keep any type of information, from a single password to many other private information like, email, web account, social network, bank account, cred card and many others",
+      "next-btn": "Get started"
+    },
+    "slide6": {
+      "title": "Databse setup",
+      "message1": "If this is your first time here, than you should choose",
+      "message2": "'Create a new database'",
+      "message3": "If you already used the app before, than you can restore your database from the cloud.",
+      "newdb-btn": "Create a new databse",
+      "restoredb-btn": "Restore from the cloud"
+    }
+  },
   "cloud-sync": {
     "title": "Cloud synchronization",
     "skip-btn": "skip",

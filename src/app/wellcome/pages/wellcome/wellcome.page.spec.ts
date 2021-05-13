@@ -1,15 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
-
+import { TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
+import { StorageService } from 'src/app/shared/storage/storage.service';
 import { WellcomePage } from './wellcome.page';
+
 
 describe('WellcomePage', () => {
   let component: WellcomePage;
   let fixture: ComponentFixture<WellcomePage>;
-  const spyRouter = {
-    navigate: jest.fn(),
+  const spyStorage = {
+    getItem: jest.fn(),
   };
 
   beforeEach(
@@ -17,11 +20,16 @@ describe('WellcomePage', () => {
       TestBed.configureTestingModule({
         declarations: [WellcomePage],
         imports: [
-          IonicModule.forRoot(),
+          IonicModule,
+          TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([]),
+        ],
+        providers: [
+          { provide: StorageService, useValue: spyStorage },
         ],
       }).compileComponents();
 
+      spyStorage.getItem.mockReturnValue(of(DEFAULT_SETTINGS));
       fixture = TestBed.createComponent(WellcomePage);
       component = fixture.componentInstance;
       fixture.detectChanges();

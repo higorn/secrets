@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslatorService } from 'src/app/shared/translator.service';
 
 @Component({
   selector: 'app-wellcome',
@@ -11,7 +12,7 @@ export class WellcomePage implements OnInit {
     speed: 400,
   };
 
-  constructor() {}
+  constructor(private translate: TranslatorService) {}
 
   ngOnInit() {}
 }

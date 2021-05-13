@@ -2,91 +2,80 @@
   <ion-slides #slides pager="true" [options]="opts">
     <ion-slide>
       <div class="slide">
-        <h2>Wellcome to e-Secrets</h2>
-        <p>
-          The most simple and easy way to keep all your passwords and secrets
-          safe.
-        </p>
-        <ion-button fill="clear" (click)="slides.slideNext()"
-          >Tell me more <ion-icon slot="end" name="arrow-forward"></ion-icon
-        ></ion-button>
-      </div>
-    </ion-slide>
-    <ion-slide>
-      <div class="slide">
-        <h2>The problem</h2>
-        <p>
-          Are you strogle managing to keep many passwords and login credentials
-          from different web sites, email, social networks or any other
-          electronic accounts?<br />
-          And because of this you keep the same password for all of them?<br />
-          This is very unsafe and you may be at risk of being hacked.<br />
-          <b>e-Secrets</b>
-          take care of this for you with only one password.
-        </p>
-        <ion-button fill="clear" (click)="slides.slideNext()"
-          >The solution <ion-icon slot="end" name="arrow-forward"></ion-icon
-        ></ion-button>
-      </div>
-    </ion-slide>
-    <ion-slide>
-      <div class="slide">
-        <h2>What is e-Secrets?</h2>
-        <p>
-          <b>e-Secrets</b> is a secrets manger that aims to keep all your
-          electronic private information, in a simple and easy way.
-        </p>
-        <ion-button fill="clear" (click)="slides.slideNext()"
-          >How it works? <ion-icon slot="end" name="arrow-forward"></ion-icon
-        ></ion-button>
-      </div>
-    </ion-slide>
-    <ion-slide>
-      <div class="slide">
-        <h2>How it works?</h2>
-        <p class="text small">
-          All your data is stored locally on your device in an electronic vault
-          that is sealed using the most advanced and updated encryption
-          technologies (RSA and AES256). This vault can only be unsealed by your
-          master password, or using the biomettric verification methods provided
-          by your device.
-        </p>
+        <h2>{{ 'wellcome.slide1.title' | translate }}</h2>
+        <p>{{ 'wellcome.slide1.message' | translate }}</p>
         <ion-button fill="clear" (click)="slides.slideNext()">
-          Features <ion-icon slot="end" name="arrow-forward"></ion-icon>
+          {{ 'wellcome.slide1.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
     </ion-slide>
     <ion-slide>
       <div class="slide">
-        <h2>Here are some features</h2>
+        <h2>{{ 'wellcome.slide2.title' | translate }}</h2>
+        <p>
+          {{ 'wellcome.slide2.message1' | translate }}<br />
+          {{ 'wellcome.slide2.message2' | translate }}<br />
+          {{ 'wellcome.slide2.message3' | translate }}<br />
+          <b>e-Secrets</b>
+          {{ 'wellcome.slide2.message4' | translate }}
+        </p>
+        <ion-button fill="clear" (click)="slides.slideNext()">
+          {{ 'wellcome.slide2.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <h2>{{ 'wellcome.slide3.title' | translate }}</h2>
+        <p>
+          <b>e-Secrets</b>
+          {{ 'wellcome.slide3.message' | translate }}<br />
+        </p>
+        <ion-button fill="clear" (click)="slides.slideNext()">
+          {{ 'wellcome.slide3.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <h2>{{ 'wellcome.slide4.title' | translate }}</h2>
+        <p class="text small">
+          {{ 'wellcome.slide4.message1' | translate }}<br />
+          {{ 'wellcome.slide4.message2' | translate }}
+        </p>
+        <ion-button fill="clear" (click)="slides.slideNext()">
+          {{ 'wellcome.slide4.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <h2>{{ 'wellcome.slide5.title' | translate }}</h2>
         <ul class="text small">
-          <li>No account registration</li>
-          <li>Data stored locally and sealed with strong cryptography</li>
-          <li>Backup your data on Google Drive or Dropbox</li>
-          <li>Restore your data at any time from any device</li>
-          <li>
-            Keep any type of information, from a single password to many other
-            private information like, email, web account, social network, bank
-            account, cred card and many others
-          </li>
+          <li>{{ 'wellcome.slide5.message1' | translate }}</li>
+          <li>{{ 'wellcome.slide5.message2' | translate }}</li>
+          <li>{{ 'wellcome.slide5.message3' | translate }}</li>
+          <li>{{ 'wellcome.slide5.message4' | translate }}</li>
+          <li>{{ 'wellcome.slide5.message5' | translate }}</li>
         </ul>
         <ion-button fill="clear" (click)="slides.slideNext()">
-          Get started <ion-icon slot="end" name="arrow-forward"></ion-icon>
+          {{ 'wellcome.slide5.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
     </ion-slide>
     <ion-slide>
       <div class="slide">
-        <h2>Databse setup</h2>
+        <h2 class="ion-padding-horizontal">{{ 'wellcome.slide6.title' | translate }}</h2>
         <ion-button fill="clear" [routerLink]="['/password-creation']">
-          Create a new databse<ion-icon slot="end" name="arrow-forward"></ion-icon>
+          {{ 'wellcome.slide6.newdb-btn' | translate }}<ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
         <ion-button fill="clear" [routerLink]="['/cloud-sync', 'restore']">
-          Restore from the cloud<ion-icon slot="end" name="arrow-forward"></ion-icon>
+          {{ 'wellcome.slide6.restoredb-btn' | translate }}<ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
         <p class="text small">
-          If this is your first time here, than you should choose <b>'Create a new database'</b>.<br />
-          If you already used the app before, than you can restore your database from the cloud.
+          {{ 'wellcome.slide6.message1' | translate }}<b>
+          {{ 'wellcome.slide6.message2' | translate }}</b>.<br />
+          {{ 'wellcome.slide6.message3' | translate }}
         </p>
       </div>
     </ion-slide>

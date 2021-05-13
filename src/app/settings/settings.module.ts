@@ -15,7 +15,7 @@ import { SettingsPage } from './pages/settings/settings.page';
     IonicModule,
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: SettingsPage }]),
+    // RouterModule.forChild([{ path: '', component: SettingsPage }]),
     SettingsPageRoutingModule,
     TranslateModule.forChild({
       loader: {

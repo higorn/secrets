@@ -1,5 +1,47 @@
 {
-  "wellcome": {},
+  "wellcome": {
+    "slide1": {
+      "title": "Ben vindo ao e-Secrets",
+      "message": "O jeito mais simples e fácil de manter seus segredos seguros.",
+      "next-btn": "Saiba mais"
+    },
+    "slide2": {
+      "title": "O problema",
+      "message1": "Você tem dificuldades em gerenciar e manter várias senhas e credenciais de login de diferentes web sites, emails, redes sociais, ou qualquer outra conta eletrônica?",
+      "message2": "E por causa disso você usa a mesma senha para tudo?",
+      "message3": "Isso é muito inseguro e você está correndo risco de ser hackeado e ter sua privacidade invadida.",
+      "message4": "cuida disso pra você com uma única senha.",
+      "next-btn": "A solução"
+    },
+    "slide3": {
+      "title": "O que é o e-Secrets?",
+      "message": "é um gerenciador de segredos e senhas que visa manter as suas informações privadas seguras, de um jeito simples e fácil.",
+      "next-btn": "Como funciona?"
+    },
+    "slide4": {
+      "title": "Como funciona?",
+      "message1": "Todos os seus dados são armazenados localmente no seu dispositivo em um cofre eletrônico que é lacrado usando as mais avançadas e atualizadas tecnologias de criptografia (RSA e AES-256).",
+      "message2": "Esse \"cofre\" só pode ser deslacrado pela sua senha mestre ou através de algum dos métodos de verificação biométrica disponíveis no seu dispositivo.",
+      "next-btn": "Funcionalidades"
+    },
+    "slide5": {
+      "title": "Aqui estão algumas funcionalidades",
+      "message1": "Você não precisa criar conta alguma",
+      "message2": "Dados armazenados localmente e lacrados com forte criptografia",
+      "message3": "Cópia de segurança (backup) dos seus dados na nuvem",
+      "message4": "Restauração dos seus dados a qualquer momento e de qualquer dispositivo",
+      "message5": "Mantenha qualquer informação, desde uma simples senha até varias outras informações privadas como: email, contas web, redes sociais, conta de banco, cartões de crédito e vários outros",
+      "next-btn": "Começar a usar"
+    },
+    "slide6": {
+      "title": "Configuração da base de dados",
+      "message1": "Se essa é a sua primeira vez por aqui, então você deveria escolher",
+      "message2": "'Criar nova base de dados'",
+      "message3": "Se você já usou o app antes você pode restaurar seus dados salvos na nuvem.",
+      "newdb-btn": "Criar nova base de dados",
+      "restoredb-btn": "Restaurar da nuvem"
+    }
+  },
   "cloud-sync": {
     "title": "Sincronização com a nuvem",
     "skip-btn": "pular",
