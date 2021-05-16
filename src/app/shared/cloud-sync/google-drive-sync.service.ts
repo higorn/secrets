@@ -64,7 +64,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
     return this.getFiles(header)
       .pipe(switchMap((files) => {
         console.log('files', files);
-        if (files.length > 1) return of(files);
+        if (files.length > 1 || files.length === 0) return of(files);
         return this.getFileContent(header, files[0].id).pipe(map((data) => {
             console.log('file', data)
             this.storage.importData(data)
@@ -74,7 +74,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
   }
 
   private getFileContent(header: HttpHeaders, fileId: string): Observable<any> {
-    const params = new HttpParams().set('alt', 'media')
+    const params = new HttpParams().set('alt', 'media');
     return this.http.get<any>(`https://www.googleapis.com/drive/v3/files/${fileId}`,
       { headers: header, params: params });
   }
@@ -82,6 +82,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
   private getFiles(header: HttpHeaders): Observable<SyncFile[]> {
     const params = new HttpParams()
       .set('q', 'name contains \'eSecrets\'')
+      .set('spaces', 'appDataFolder')
     return this.http.get<any>('https://www.googleapis.com/drive/v3/files', { headers: header, params: params })
       .pipe(map(({ files }) => files))
   }
@@ -98,6 +99,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
       name: 'eSecrets' + dt.getFullYear() + (dt.getMonth()+1) + dt.getDate()
         + dt.getHours() + dt.getMinutes() + dt.getSeconds() + '.db',
       mimeType: 'text/plain',
+      parents: ['appDataFolder']
     };
     return this.http.post<any>(
         'https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable',

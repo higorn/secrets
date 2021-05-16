@@ -51,6 +51,11 @@
       "title": "Restauração de dados",
       "cancel-btn": "Cancelar",
       "message": "Encontramos mais de uma base de dados que pode ser restaurada. Por favor escolha qual deseja restaurar."
+    },
+    "no-restore-alert": {
+      "title": "Nenhum arquivo encontrado",
+      "message": "Nenhum arquivo encontrado para ser restaureado. É necessário criar uma nova base de dados.",
+      "ok-btn": "Ok"
     }
   },
   "pwd-creation": {

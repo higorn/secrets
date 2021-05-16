@@ -2,7 +2,7 @@ import { CloudSync } from './../../../shared/cloud-sync/cloud-sync.service';
 import { DataRestoreChooseComponent } from './../../components/data-restore-choose/data-restore-choose.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { CloudSyncService, SyncFile } from 'src/app/shared/cloud-sync/cloud-sync.service';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
@@ -29,7 +29,8 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     private cloudSyncServiceProvider: CloudSyncServiceProvider,
     private translator: TranslatorService,
     private loading: LoadingController,
-    private modal: ModalController
+    private modal: ModalController,
+    private alert: AlertController
   ) {}
 
   ngOnDestroy(): void {
@@ -92,6 +93,10 @@ export class CloudSyncPage implements OnInit, OnDestroy {
       return;
     }
     this.loading.dismiss().then(() => { }, (err) => console.log(err));
+    if (files.length === 0) {
+      this.handleNoFileToRestore();
+      return;
+    }
 
     const file = await this.presentFiles(files)
     if (file) {
@@ -100,6 +105,23 @@ export class CloudSyncPage implements OnInit, OnDestroy {
         (files: SyncFile[]) => this.handleCloudSyncRestoreSucess(files),
         (error) => this.handleCloudSyncError(error));
     }
+  }
+
+  private async handleNoFileToRestore() {
+    const text = this.getTextForAlert();
+    const alert = await this.alert.create({
+      header: text.title,
+      message: text.message,
+      buttons: [
+        {
+          text: text.ok,
+          handler: () => {
+            this.router.navigate(['/wellcome']);
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   private async presentFiles(files: SyncFile[]): Promise<SyncFile> {
@@ -118,5 +140,13 @@ export class CloudSyncPage implements OnInit, OnDestroy {
   private handleCloudSyncError(error: any) {
     console.log('cloud sync setup error', error);
     this.loading.dismiss().then(() => { }, (err) => console.log(err));
+  }
+
+  private getTextForAlert() {
+    let text: any = {};
+    this.translator.get('cloud-sync.no-restore-alert.title').subscribe((t) => (text.title = t));
+    this.translator.get('cloud-sync.no-restore-alert.message').subscribe((t) => (text.message = t));
+    this.translator.get('cloud-sync.no-restore-alert.ok-btn').subscribe((t) => (text.ok = t));
+    return text;
   }
 }

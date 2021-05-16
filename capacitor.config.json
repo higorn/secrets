@@ -10,7 +10,7 @@
     },
     "Gapi": {
       "scopes": [
-        "https://www.googleapis.com/auth/drive.file"
+        "https://www.googleapis.com/auth/drive.appdata"
       ],
       "serverClientId": "633467320706-bge9vru1vqt8r02qaguctgl1174a7r8l.apps.googleusercontent.com",
       "forceCodeForRefreshToken": false

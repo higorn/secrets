@@ -51,6 +51,11 @@
       "title": "Data restore",
       "cancel-btn": "Cancel",
       "message": "We found more than one data base that can be restored. Please choose which one you'd like to restore."
+    },
+    "no-restore-alert": {
+      "title": "No files found",
+      "message": "No files found to be restored. You need to create a new data base.",
+      "ok-btn": "Ok"
     }
   },
   "pwd-creation": {
