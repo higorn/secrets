@@ -15,6 +15,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'User name',
+      copyable: true,
       autocomplete: 'email|username',
     },
   },
@@ -24,6 +25,7 @@ export const FieldsBundle = {
     options: {
       type: 'email',
       label: 'Email',
+      copyable: true,
       autocomplete: 'email|username',
     },
   },
@@ -33,6 +35,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Name',
+      copyable: true,
       autocomplete: 'name',
     },
   },
@@ -43,6 +46,7 @@ export const FieldsBundle = {
     options: {
       type: 'password',
       label: 'Password',
+      copyable: true,
     },
   },
   site: {
@@ -59,6 +63,7 @@ export const FieldsBundle = {
     options: {
       type: 'number',
       label: 'Number',
+      copyable: true,
       autocomplete: 'number',
     },
   },
@@ -68,6 +73,7 @@ export const FieldsBundle = {
     options: {
       type: 'number',
       label: 'Number',
+      copyable: true,
       autocomplete: 'number',
     },
   },
@@ -77,6 +83,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Owner',
+      copyable: true,
       autocomplete: 'name',
     },
   },
@@ -86,6 +93,7 @@ export const FieldsBundle = {
     options: {
       type: 'date',
       label: 'Expires',
+      copyable: true,
       labelPosition: 'default',
       format: 'MM/YY',
       min: '2021',
@@ -99,6 +107,7 @@ export const FieldsBundle = {
     options: {
       type: 'password',
       label: 'CVV',
+      copyable: true,
       autocomplete: 'cvv',
     },
   },
@@ -109,6 +118,7 @@ export const FieldsBundle = {
     options: {
       type: 'password',
       label: 'PIN',
+      copyable: true,
     },
   },
   pin: {
@@ -118,6 +128,7 @@ export const FieldsBundle = {
     options: {
       type: 'password',
       label: 'PIN',
+      copyable: true,
     },
   },
   birthday: {
@@ -127,6 +138,7 @@ export const FieldsBundle = {
       type: 'date',
       label: 'Birthday',
       labelPosition: 'default',
+      copyable: true,
     },
   },
   issued: {
@@ -136,6 +148,7 @@ export const FieldsBundle = {
       type: 'date',
       label: 'Issued',
       labelPosition: 'default',
+      copyable: true,
     },
   },
   expires: {
@@ -147,6 +160,7 @@ export const FieldsBundle = {
       labelPosition: 'default',
       min: '2021',
       max: '2100',
+      copyable: true,
     },
   },
   bank: {
@@ -155,6 +169,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Bank',
+      copyable: true,
     },
   },
   holder: {
@@ -164,6 +179,7 @@ export const FieldsBundle = {
       type: 'text',
       label: 'Holder',
       autocomplete: 'name',
+      copyable: true,
     },
   },
   type: {
@@ -180,6 +196,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'IBAN',
+      copyable: true,
     },
   },
   login: {
@@ -188,6 +205,7 @@ export const FieldsBundle = {
     options: {
       type: 'text',
       label: 'Login',
+      copyable: true,
       autocomplete: 'email|username',
     },
   },
@@ -198,6 +216,7 @@ export const FieldsBundle = {
     options: {
       type: 'password',
       label: 'Password',
+      copyable: true,
     },
   },
   banksite: {

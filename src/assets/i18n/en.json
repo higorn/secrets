@@ -135,6 +135,7 @@
       "no": "No",
       "cancel": "Cancel"
     },
+    "copied-to-clipboard": "Copied to the clipboard.",
     "form": {
       "new": "New secret",
       "edit": "Edit",

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { ClipboardModule } from 'ngx-clipboard';
 import { Httpi18nLoaderFactory } from '../shared/utils';
 import { SecretDetailPage } from './pages/secret-detail/secret-detail.page';
 import { SecretListPage } from './pages/secret-list/secret-list.page';
@@ -23,6 +24,7 @@ import { SecretsPageRoutingModule } from './secrets-routing.module';
         deps: [HttpClient],
       },
     }),
+    ClipboardModule
   ],
   declarations: [SecretListPage, SecretDetailPage],
 })

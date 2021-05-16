@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
+import { ClipboardService } from 'ngx-clipboard';
 import { Subscription } from 'rxjs';
 import { TranslatorService } from 'src/app/shared/translator.service';
 import { v4 as uuid } from 'uuid';
@@ -29,8 +30,10 @@ export class SecretDetailPage implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private alertController: AlertController,
-    private translate: TranslatorService
+    private translate: TranslatorService,
+    private alert: AlertController,
+    private clipboard: ClipboardService,
+    private toast: ToastController
   ) {}
 
   ngOnDestroy(): void {
@@ -39,9 +42,7 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.translate
-      .get('secrets.form.new')
-      .subscribe((val) => (this.title = val));
+    this.translate.get('secrets.form.new').subscribe((val) => (this.title = val));
     this.routeSubscription = this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       this.getByIdSubscription = this.repository
@@ -91,6 +92,28 @@ export class SecretDetailPage implements OnInit, OnDestroy {
     this.isReadonly = !this.isReadonly;
   }
 
+  async copyAll(): Promise<void> {
+    const content = this.fields.filter(f => f.options.copyable).map(f => this.secret.content[f.name]).join('\r\n');
+    this.clipboard.copyFromContent(content)
+    await this.presetMessage();
+  }
+
+  async copy(field: any): Promise<void> {
+    this.clipboard.copyFromContent(this.secret.content[field.name])
+    await this.presetMessage();
+  }
+
+  private async presetMessage() {
+    let message = '';
+    this.translate.get('secrets.copied-to-clipboard').subscribe((t) => message = t);
+    const toast = await this.toast.create({
+      message: message,
+      translucent: true,
+      duration: 3000
+    });
+    toast.present();
+  }
+
   remove() {
     this.presentConfirmation();
   }
@@ -98,7 +121,7 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   async presentConfirmation() {
     const text = this.getTextForAlert();
 
-    const alert = await this.alertController.create({
+    const alert = await this.alert.create({
       header: text.title,
       message: text.message,
       buttons: [
@@ -122,15 +145,9 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   private getTextForAlert() {
     let text: any = {};
 
-    this.translate
-      .get('secrets.remove.title')
-      .subscribe((t) => (text.title = t));
-    this.translate
-      .get('secrets.remove.message')
-      .subscribe((t) => (text.message = t));
-    this.translate
-      .get('secrets.remove.cancel')
-      .subscribe((t) => (text.cancel = t));
+    this.translate.get('secrets.remove.title').subscribe((t) => (text.title = t));
+    this.translate.get('secrets.remove.message').subscribe((t) => (text.message = t));
+    this.translate.get('secrets.remove.cancel').subscribe((t) => (text.cancel = t));
     this.translate.get('secrets.remove.yes').subscribe((t) => (text.yes = t));
     return text;
   }

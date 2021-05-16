@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AlertController, IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { ClipboardService } from 'ngx-clipboard';
 import { of } from 'rxjs';
 import { StorageService } from 'src/app/shared/storage/storage.service';
 import { ActivatedRouteStub } from 'src/app/testing/activated-route-stub';
@@ -30,6 +31,7 @@ describe('SecretDetailPage', () => {
   let fixture: ComponentFixture<SecretDetailPage>;
   let router: Router;
   let alertController: AlertController;
+  let clipboard: ClipboardService;
   const routeStub = new ActivatedRouteStub();
   const spyRepository = {
     getAll: jest.fn(),
@@ -78,6 +80,7 @@ describe('SecretDetailPage', () => {
       router.initialNavigation();
 
       alertController = TestBed.inject(AlertController);
+      clipboard = TestBed.inject(ClipboardService);
 
       spyRepository.save.mockReset();
       spyStorage.getItem.mockReturnValue(of({ language: 'en' }));
@@ -325,6 +328,29 @@ describe('SecretDetailPage', () => {
       expect(component.form.get('cardpin')).toBeTruthy();
     });
   });
+
+  describe('when coping a secret', () => {
+    it('of type login, then should copy the values to the clipboard', () => {
+      component.form = new FormGroup({});
+      const secret = new Secret('abc', 'login', 'test', {
+        title: 'test',
+        login: 'nicanor',
+        password: '1234',
+      });
+      spyRepository.getById.mockReturnValue(of(secret));
+      routeStub.setParamMap({ id: 'abc' });
+      const expectedCopyContent = "nicanor\r\n1234";
+      let copyContent = '';
+      spyOn(clipboard, 'copyFromContent').and.callFake((content: string) => {
+        copyContent = content;
+      })
+
+      component.copyAll();
+
+      expect(component.secret).toBe(secret);
+      expect(copyContent).toEqual(expectedCopyContent);
+    })
+  })
 
   it('should execute the secret removing only after a confirmation', fakeAsync(() => {
     component.form = new FormGroup({});

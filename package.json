@@ -37,6 +37,7 @@
     "capacitor-autofill-service": "file:../capacitor-autofill-service",
     "capacitor-gapi": "file:../capacitor-gapi",
     "capacitor-native-biometric": "^2.0.9",
+    "ngx-clipboard": "^14.0.1",
     "node-forge": "^0.10.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
