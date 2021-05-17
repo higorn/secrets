@@ -42,7 +42,6 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.translate.get('secrets.form.new').subscribe((val) => (this.title = val));
     this.routeSubscription = this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       this.getByIdSubscription = this.repository
@@ -52,6 +51,7 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   }
 
   private load(secret: Secret, id: string) {
+    this.translate.get('secrets.form.new.' + id).subscribe((val) => (this.title = val));
     this.secret = secret || new Secret(uuid(), id, null, null);
     this.createForm(secret?.type || id);
     if (this.secret.content) {
@@ -93,7 +93,7 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   }
 
   async copyAll(): Promise<void> {
-    const content = this.fields.filter(f => f.options.copyable).map(f => this.secret.content[f.name]).join('\r\n');
+    const content = this.fields.filter(f => f.options.copyable).map(f => this.secret.content[f.name]).join('\t');
     this.clipboard.copyFromContent(content)
     await this.presetMessage();
   }

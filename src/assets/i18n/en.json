@@ -125,7 +125,7 @@
       "login": "Login",
       "card": "Card",
       "bank": "Bank account",
-      "id": "Identity",
+      "identity": "Identity",
       "pin": "PIN"
     },
     "remove": {
@@ -137,7 +137,15 @@
     },
     "copied-to-clipboard": "Copied to the clipboard.",
     "form": {
-      "new": "New secret",
+      "new": {
+        "web": "New Web account",
+        "mail": "New Email account",
+        "login": "New Login",
+        "card": "New Card",
+        "bank": "New Bank account",
+        "identity": "New Identity",
+        "pin": "New PIN"
+      },
       "edit": "Edit",
       "save": "Save",
       "field": {

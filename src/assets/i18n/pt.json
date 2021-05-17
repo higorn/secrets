@@ -125,7 +125,7 @@
       "login": "Login",
       "card": "Cartão",
       "bank": "Conta de banco",
-      "id": "Identidate/CPF/CNH/Passaporte/Outros",
+      "identity": "Identidate/CPF/CNH/Passaporte/Outros",
       "pin": "Senha numérica (PIN)"
     },
     "remove": {
@@ -137,7 +137,15 @@
     },
     "copied-to-clipboard": "Copiado para área de transferência.",
     "form": {
-      "new": "Novo segredo",
+      "new": {
+        "web": "Nova Conta web",
+        "mail": "Nova Conta de email",
+        "login": "Novo Login",
+        "card": "Novo Cartão",
+        "bank": "Nova Conta de banco",
+        "identity": "Nova Identidate/CPF/CNH/Passaporte/Outros",
+        "pin": "Nova Senha numérica (PIN)"
+      },
       "edit": "Editar",
       "save": "Salvar",
       "field": {

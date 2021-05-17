@@ -339,7 +339,7 @@ describe('SecretDetailPage', () => {
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
-      const expectedCopyContent = "nicanor\r\n1234";
+      const expectedCopyContent = "nicanor\t1234";
       let copyContent = '';
       spyOn(clipboard, 'copyFromContent').and.callFake((content: string) => {
         copyContent = content;

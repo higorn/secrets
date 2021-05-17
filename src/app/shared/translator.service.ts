@@ -16,8 +16,8 @@ export class TranslatorService {
     this.setDefaultLang('en');
   }
 
-  get(key: string): Observable<string> {
-    return this.translate.get(key);
+  get(key: string | Array<string>, interpolateParams?: Object): Observable<string> {
+    return this.translate.get(key, interpolateParams);
   }
 
   setLang(lang: string): void {

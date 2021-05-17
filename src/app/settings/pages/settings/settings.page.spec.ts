@@ -45,6 +45,7 @@ describe('SettingsPage', () => {
   };
   const spyAutofill = {
     isAvailable: jest.fn(),
+    isEnabled: jest.fn(),
   }
 
   beforeEach(
@@ -69,6 +70,7 @@ describe('SettingsPage', () => {
 
       spyBiometric.isAvailable.mockReturnValue(of(false));
       spyAutofill.isAvailable.mockReturnValue(of(true));
+      spyAutofill.isEnabled.mockReturnValue(of(true));
       alertController = TestBed.inject(AlertController);
       fixture = TestBed.createComponent(SettingsPage);
       component = fixture.componentInstance;
