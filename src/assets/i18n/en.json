@@ -148,6 +148,7 @@
       },
       "edit": "Edit",
       "save": "Save",
+      "modified": "Modified",
       "field": {
         "title": {
           "name": "Title",

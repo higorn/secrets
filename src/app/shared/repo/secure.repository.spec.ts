@@ -35,7 +35,7 @@ describe('SecureRepository', () => {
     const item = { id: 'a', name: 'nicanor' }
     vaultService.unseal('secret');
     tick(2000);
-    repository.save(item);
+    repository.save(item).subscribe();
     tick();
     spyOn(storageService, 'setItem').and.callFake((key, value) => {
       console.log('encoded item', value);

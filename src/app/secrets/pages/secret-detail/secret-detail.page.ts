@@ -1,3 +1,4 @@
+import { DateUtils } from './../../../shared/date-utils';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -74,7 +75,8 @@ export class SecretDetailPage implements OnInit, OnDestroy {
     if (this.isFormNotEmpty()) {
       this.secret.name = this.form.value.title;
       this.secret.content = this.form.value;
-      this.repository.save(this.secret);
+      this.secret.modified = DateUtils.getUtcTime();
+      const sub = this.repository.save(this.secret).subscribe(() => sub.unsubscribe());
     }
     this.router.navigate(['/tabs/secrets']);
   }
@@ -133,7 +135,7 @@ export class SecretDetailPage implements OnInit, OnDestroy {
         {
           text: text.yes,
           handler: () => {
-            this.repository.remove(this.secret);
+            const sub = this.repository.remove(this.secret).subscribe(() => sub.unsubscribe());
             this.router.navigate(['/tabs/secrets']);
           },
         },

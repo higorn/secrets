@@ -6,7 +6,8 @@ export class Secret implements Entity {
     public id: string,
     public type: string,
     public name: string,
-    public content: any
+    public content: any,
+    public modified?: number 
   ) {}
 }
 

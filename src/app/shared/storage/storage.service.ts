@@ -1,7 +1,10 @@
-import { Observable, zip } from 'rxjs';
+import { Observable, Subject, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 export abstract class StorageService {
+  protected dataChangedSource = new Subject<void>();
+  dataChanged$ = this.dataChangedSource.asObservable();
+  
   abstract getItem(key: string): Observable<any>;
   abstract setItem(key: string, value: any): Observable<any>;
   abstract removeItem(key: string): Observable<any>;
@@ -20,5 +23,4 @@ export abstract class StorageService {
   importData(data: any) {
     Object.keys(data).forEach((key) => this.setItem(key, data[key]))
   }
-
 }

@@ -12,7 +12,7 @@ interface MyCollection extends Entity {
 
 class MyRepository extends CrudRepository<MyCollection> {
   constructor(private storageService: StorageService) {
-    super(storageService);
+    super();
   }
   getCollectionName(): string {
     return 'MyCollection';
@@ -59,7 +59,7 @@ describe('StorageService', () => {
 
     it('when I include a new item, then the collection size should be one', fakeAsync(() => {
       const item = { id: 'a', name: 'nicanor' }
-      repository.save(item);
+      repository.save(item).subscribe();
       tick();
 
       let len: number;
@@ -70,7 +70,7 @@ describe('StorageService', () => {
 
     it('when I include another item, then the collection size should be two', fakeAsync(() => {
       const item = { id: 'b', name: 'nicanor' }
-      repository.save(item);
+      repository.save(item).subscribe();
       tick();
 
       let len: number;
@@ -90,7 +90,7 @@ describe('StorageService', () => {
   it('should not create duplicated entries', fakeAsync(() => {
     const item = { id: 'c', name: 'nicanor' }
 
-    repository.save(item);
+    repository.save(item).subscribe();
     tick();
 
     let len: number;
@@ -98,7 +98,7 @@ describe('StorageService', () => {
     tick();
     expect(len).toEqual(3);
 
-    repository.save(item);
+    repository.save(item).subscribe();
 
     repository.getAll().subscribe(items => len = items.length);
     tick();
@@ -109,18 +109,16 @@ describe('StorageService', () => {
     let updatedItem: MyCollection;
     const item = { id: 'c', name: 'protasio' }
 
-    repository.save(item);
+    repository.save(item).subscribe();
     tick();
 
     repository.getById('c').subscribe(item => {
       updatedItem = item
-      // console.log('c', item)
     })
 
     let len: number;
     repository.getAll().subscribe(items => {
       len = items.length
-      // console.log('len', len)
     });
     tick();
     expect(len).toEqual(3);
@@ -130,7 +128,7 @@ describe('StorageService', () => {
   it('should remove an item', fakeAsync(() => {
     let removedItem = {};
 
-    repository.getById('a').subscribe(item => repository.remove(item))
+    repository.getById('a').subscribe(item => repository.remove(item).subscribe())
     tick();
     repository.getById('a').subscribe(item => removedItem = item)
     tick();

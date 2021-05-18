@@ -3,17 +3,18 @@ import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import 'capacitor-gapi';
 import { Authentication, User } from 'capacitor-gapi/dist/esm/user';
-import { from, Observable, of, zip } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SettingsService } from '../settings.service';
 import { StorageService } from '../storage/storage.service';
-import { CloudSyncService, SyncFile, SyncOptions } from './cloud-sync.service';
+import { CloudSync, CloudSyncService, DataMerger, SyncFile, SyncOptions } from './cloud-sync.service';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class GoogleDriveSyncService extends CloudSyncService {
+  private syncLocked = false;
   constructor(
     private storage: StorageService,
     private settings: SettingsService,
@@ -22,12 +23,56 @@ export class GoogleDriveSyncService extends CloudSyncService {
     super();
   }
 
+  init(merger: DataMerger): void {
+    this.storage.dataChanged$.subscribe(() => {
+      if (this.syncLocked) return;
+      const sub1 = this.settings.getCloudSync().subscribe((cloudSync: CloudSync) => {
+        if (cloudSync.provider !== 'google-drive') return;
+        const sub2 = from(Plugins.Gapi.refresh()).subscribe((auth: Authentication) => {
+          this.syncLocked = true;
+          const sub3 = this.doSync({ token: auth.accessToken, file: cloudSync.file }, merger).subscribe(() => {
+            sub3.unsubscribe()
+            sub2.unsubscribe()
+            sub1.unsubscribe()
+            this.syncLocked = false;
+          })
+        })
+      })
+    })
+  }
+
   setup(file?: SyncFile): Observable<SyncFile> {
     console.log('signIn...');
     return from(Plugins.Gapi.signIn()).pipe(switchMap((user: User) => {
       console.log('user', user);
-      return this.sync({ token: user.authentication.accessToken, file: file });
+      return this.storage.exportData().pipe(switchMap(data => {
+        console.log('data', data);
+        const payload = JSON.stringify(data);
+        return this.sendFile(payload, user.authentication.accessToken, file);
+      }))
     }))
+  }
+
+  sync(merger: DataMerger): Observable<any> {
+    return this.settings.getCloudSync().pipe(switchMap((cloudSync: CloudSync) => {
+      return from(Plugins.Gapi.refresh()).pipe(switchMap((auth: Authentication) => {
+        this.syncLocked = true;
+        return this.doSync({ token: auth.accessToken, file: cloudSync.file }, merger).pipe(tap(() => {
+          this.syncLocked = false;
+        }))
+      }))
+    }))
+  }
+
+  private doSync(opts: SyncOptions, merger: DataMerger): Observable<any> {
+    return this.getFileContent(opts.token, opts.file.id).pipe(switchMap((data) => {
+        console.log('file', data)
+        return merger.merge(data).pipe(switchMap((mergedData) => {
+          console.log('data', mergedData);
+          const payload = JSON.stringify(mergedData);
+          return this.sendFile(payload, opts.token, opts.file);
+        }))
+      }))
   }
 
   restore(file?: SyncFile): Observable<SyncFile[]> {
@@ -38,34 +83,19 @@ export class GoogleDriveSyncService extends CloudSyncService {
     }))
   }
 
-  sync(opts: SyncOptions): Observable<SyncFile> {
-    return this.storage.exportData().pipe(switchMap(data => {
-      console.log('data', data);
-      const payload = JSON.stringify(data);
-      if (opts && opts.token)
-        return this.sendFile(payload, opts.token, opts.file);
-
-      return from(Plugins.Gapi.refresh()).pipe(switchMap((auth: Authentication) => {
-        console.log('init2', auth)
-        return this.sendFile(payload, auth.accessToken, opts.file);
-      }))
-    }))
-  }
-
   private restoreFile(token: string, file: SyncFile): Observable<SyncFile[]> {
-    const header = new HttpHeaders({ Authorization: 'Bearer ' + token });
     if (file) {
-      return this.getFileContent(header, file.id).pipe(map((data) => {
+      return this.getFileContent(token, file.id).pipe(map((data) => {
           console.log('file', data)
           this.storage.importData(data)
           return [file];
         }))
     }
-    return this.getFiles(header)
+    return this.getFiles(token)
       .pipe(switchMap((files) => {
         console.log('files', files);
         if (files.length > 1 || files.length === 0) return of(files);
-        return this.getFileContent(header, files[0].id).pipe(map((data) => {
+        return this.getFileContent(token, files[0].id).pipe(map((data) => {
             console.log('file', data)
             this.storage.importData(data)
             return files;
@@ -73,13 +103,15 @@ export class GoogleDriveSyncService extends CloudSyncService {
       }))
   }
 
-  private getFileContent(header: HttpHeaders, fileId: string): Observable<any> {
+  private getFileContent(token: string, fileId: string): Observable<any> {
+    const header = new HttpHeaders({ Authorization: 'Bearer ' + token });
     const params = new HttpParams().set('alt', 'media');
     return this.http.get<any>(`https://www.googleapis.com/drive/v3/files/${fileId}`,
       { headers: header, params: params });
   }
 
-  private getFiles(header: HttpHeaders): Observable<SyncFile[]> {
+  private getFiles(token: string): Observable<SyncFile[]> {
+    const header = new HttpHeaders({ Authorization: 'Bearer ' + token });
     const params = new HttpParams()
       .set('q', 'name contains \'eSecrets\'')
       .set('spaces', 'appDataFolder')

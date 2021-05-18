@@ -82,7 +82,8 @@ describe('SecretDetailPage', () => {
       alertController = TestBed.inject(AlertController);
       clipboard = TestBed.inject(ClipboardService);
 
-      spyRepository.save.mockReset();
+      spyRepository.save.mockReturnValue(of())
+      spyRepository.remove.mockReturnValue(of())
       spyStorage.getItem.mockReturnValue(of({ language: 'en' }));
 
       fixture = TestBed.createComponent(SecretDetailPage);
@@ -90,6 +91,11 @@ describe('SecretDetailPage', () => {
       fixture.detectChanges();
     })
   );
+
+  afterEach(() => {
+      spyRepository.save.mockReset();
+      spyRepository.remove.mockReset();
+  })
 
   it('should create', () => {
     expect(component).toBeTruthy();

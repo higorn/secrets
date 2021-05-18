@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { from, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 
 @Injectable(
@@ -16,7 +17,7 @@ export class IonicStorageService extends StorageService {
   }
 
   setItem(key: string, value: any): Observable<any> {
-    return from(this.storage.set(key, value));
+    return from(this.storage.set(key, value)).pipe(tap(() => this.dataChangedSource.next()));
   }
 
   getItem(key: string): Observable<any> {

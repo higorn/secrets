@@ -11,12 +11,17 @@ export interface CloudSync {
 }
 
 export interface SyncOptions {
-  token?: string;
+  token: string;
   file: SyncFile
+}
+
+export interface DataMerger {
+  merge(data: any): Observable<any>;
 }
 
 export abstract class CloudSyncService {
   abstract setup(file?: SyncFile): Observable<SyncFile>;
+  abstract init(merger: DataMerger): void;
   abstract restore(file?: SyncFile): Observable<SyncFile[]>;
-  abstract sync(options: SyncOptions): Observable<SyncFile>;
+  abstract sync(merger: DataMerger): Observable<SyncFile>;
 }

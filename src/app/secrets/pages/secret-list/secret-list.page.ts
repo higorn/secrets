@@ -27,6 +27,13 @@ export class SecretListPage implements OnInit {
     if (!this.loading) this.secrets = this.repository.getAll();
   }
 
+  refresh(event: any): void {
+    this.repository.refresh().subscribe(() => {
+      this.secrets = this.repository.getAll();
+      event.target.complete()
+    });
+  }
+
   getIcon(type: string) {
     switch (type) {
       case 'web':
