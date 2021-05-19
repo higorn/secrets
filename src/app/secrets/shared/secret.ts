@@ -7,7 +7,8 @@ export class Secret implements Entity {
     public type: string,
     public name: string,
     public content: any,
-    public modified?: number 
+    public modified?: number,
+    public removed?: boolean
   ) {}
 }
 

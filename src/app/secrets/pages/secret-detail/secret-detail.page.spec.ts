@@ -386,7 +386,7 @@ describe('SecretDetailPage', () => {
     confirmBtnHandler();
     tick();
 
-    expect(spyRepository.remove).toHaveBeenCalledWith(secret);
+    expect(spyRepository.save).toHaveBeenCalledWith(secret);
     expect(router.url).toBe('/tabs/secrets');
   }));
 

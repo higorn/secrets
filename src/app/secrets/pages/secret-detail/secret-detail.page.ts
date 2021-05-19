@@ -135,7 +135,9 @@ export class SecretDetailPage implements OnInit, OnDestroy {
         {
           text: text.yes,
           handler: () => {
-            const sub = this.repository.remove(this.secret).subscribe(() => sub.unsubscribe());
+            this.secret.removed = true;
+            this.secret.modified = DateUtils.getUtcTime()
+            const sub = this.repository.save(this.secret).subscribe(() => sub.unsubscribe());
             this.router.navigate(['/tabs/secrets']);
           },
         },

@@ -32,6 +32,10 @@ export class SecretRepository extends SecureRepository<Secret> {
     return 'secrets';
   }
 
+  getAll(): Observable<Secret[]> {
+    return super.getAll().pipe(map((secrets) => secrets.filter(s => !s.removed)));
+  }
+
   refresh(): Observable<any> {
     return this.cloudSyncService.sync({ merge: (data) => this.merge(data) })
   }
@@ -39,7 +43,7 @@ export class SecretRepository extends SecureRepository<Secret> {
   private merge(data: any): Observable<any> {
     console.log('data to merge', data);
     const externalSecrets: Secret[] = data.secrets ? JSON.parse(this._vault.decode(data.secrets)) : [];
-    return this.getAll().pipe(switchMap((currentSecrets) => {
+    return super.getAll().pipe(switchMap((currentSecrets) => {
       console.log('externalsecrets', externalSecrets);
       console.log('current secret', currentSecrets)
       const mergedSecrets = this.mergeSecrets(externalSecrets || [], currentSecrets || []);
@@ -52,12 +56,15 @@ export class SecretRepository extends SecureRepository<Secret> {
     secretsA.forEach(a => {
       const utcTime = DateUtils.getUtcTime();
       const b = secretsB.find(b => b.id === a.id);
+
       if (!a.modified) a.modified = utcTime
       if (b && !b.modified) b.modified = utcTime
+
       mergedSecrets.push(b && b.modified > a.modified ? b : a);
     })
     secretsB.forEach(b => {
       if (!b.modified) b.modified = DateUtils.getUtcTime()
+
       const a = secretsA.find(a => a.id === b.id);
       if (!a)
         mergedSecrets.push(b);

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
-import { SettingsService } from 'src/app/shared/settings.service';
+import { DateUtils } from 'src/app/shared/date-utils';
 import { StorageService } from 'src/app/shared/storage/storage.service';
 import { VaultService } from 'src/app/shared/vault/vault.service';
+import { v4 as uuid } from 'uuid';
 import { Secret } from './secret';
 import { SecretRepository } from './secret.repository';
-import { v4 as uuid } from 'uuid';
 
 
 describe('SecretStorageService', () => {
@@ -94,7 +94,7 @@ describe('SecretStorageService', () => {
 
     it('when both lists has the same elements, then returns only one list', () => {
       const listA = [
-        new Secret(uuid(), 'login', 'aaa', {login: 'aaa@aa', password: '123'}, new Date())
+        new Secret(uuid(), 'login', 'aaa', {login: 'aaa@aa', password: '123'}, DateUtils.getUtcTime())
       ]
       const listB = [
         listA[0]
@@ -107,9 +107,9 @@ describe('SecretStorageService', () => {
     })
 
     it('when both lists has the same elements with different data, then returns the newest', () => {
-      const d1 = new Date()
-      const d2 = new Date()
-      d2.setHours(d2.getHours() + 1)
+      const d1 = DateUtils.getUtcTime()
+      let d2 = DateUtils.getUtcTime()
+      d2 += 60000;
       const id = uuid();
       const listA = [
         new Secret(id, 'login', 'aaa', {login: 'aaa@aa', password: '123'}, d1)
@@ -124,10 +124,10 @@ describe('SecretStorageService', () => {
       expect(mergedSecrets).toEqual(listB)
     })
 
-    it('when lists A and B has the same different elements and some equal elements', () => {
-      const d1 = new Date()
-      const d2 = new Date()
-      d2.setHours(d2.getHours() + 1)
+    it('when lists A and B has some different elements and some equal elements', () => {
+      const d1 = DateUtils.getUtcTime()
+      let d2 = DateUtils.getUtcTime()
+      d2 += 60000;
       const id = uuid();
       const listA = [
         new Secret(id, 'login', 'aaa', {login: 'aaa@aa', password: '123'}, d1),
@@ -148,6 +148,34 @@ describe('SecretStorageService', () => {
       const mergedSecrets = service.mergeSecrets(listA, listB);
 
       expect(mergedSecrets.length).toBe(5)
+      expect(mergedSecrets).toEqual(expectedMerged)
+    })
+
+    it('when one list has items to be removed and the modified date is newer, then remove the item', () => {
+      const d1 = DateUtils.getUtcTime()
+      let d2 = DateUtils.getUtcTime()
+      d2 += 60000;
+      const id = uuid();
+      const listA = [
+        new Secret(id, 'login', 'aaa', {login: 'aaa@aa', password: '123'}, d1),
+        new Secret(uuid(), 'web', 'bbb', {user: 'bbb', password: '123', site: 'www'}, d1),
+        new Secret(uuid(), 'email', 'ccc', {email: 'ccc@cc', password: '321', site: 'www'}, d1),
+        new Secret(uuid(), 'card', 'ddd', {cardnumber: '1234', cardowner: 'ddd', cardexpires: d2, cvv: 303, pin: 444}, d1),
+      ]
+      const listB = [
+        new Secret(id, 'login', 'aaa', {login: 'aaa@aa', password: '321'}, d2),
+        new Secret(listA[1].id, 'web', 'bbb', {user: 'bbb', password: '123', site: 'www'}, d1),
+        new Secret(listA[2].id, 'email', 'ccc', {email: 'cc@cc', password: '321', site: 'ww'}, d2, true),
+        new Secret(uuid(), 'card', 'eee', {cardnumber: '4321', cardowner: 'eee', cardexpires: d2, cvv: 302, pin: 333}, d2),
+        new Secret(uuid(), 'card', 'ddd', {cardnumber: '4321', cardowner: 'ddd', cardexpires: d2, cvv: 302, pin: 333}, d2, true),
+      ]
+      const expectedMerged = [
+        listB[0], listA[1], listB[2], listA[3], listB[3], listB[4]
+      ]
+
+      const mergedSecrets = service.mergeSecrets(listA, listB);
+
+      expect(mergedSecrets.length).toBe(6)
       expect(mergedSecrets).toEqual(expectedMerged)
     })
   })
