@@ -57,6 +57,8 @@ export class SecretRepository extends SecureRepository<Secret> {
       const utcTime = DateUtils.getUtcTime();
       const b = secretsB.find(b => b.id === a.id);
 
+      if (!b && a.removed) return;
+
       if (!a.modified) a.modified = utcTime
       if (b && !b.modified) b.modified = utcTime
 
