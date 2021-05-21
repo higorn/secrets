@@ -15,6 +15,7 @@ import { CloudSyncServiceProvider } from './shared/cloud-sync/cloud-sync.service
 import { IonicStorageService } from './shared/storage/ionic-storage.service';
 import { StorageService } from './shared/storage/storage.service';
 import { Httpi18nLoaderFactory } from './shared/utils';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,9 @@ import { Httpi18nLoaderFactory } from './shared/utils';
       registrationStrategy: 'registerWhenStable:30000',
     }),
     IonicStorageModule.forRoot({
-      driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
+      name: 'esecrets.db',
+      storeName: '_esecretskv',
+      driverOrder: [CordovaSQLiteDriver._driver, Drivers.IndexedDB, Drivers.LocalStorage],
     }),
     HttpClientModule,
     TranslateModule.forRoot({

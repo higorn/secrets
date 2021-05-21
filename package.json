@@ -37,6 +37,8 @@
     "capacitor-autofill-service": "file:../capacitor-autofill-service",
     "capacitor-gapi": "file:../capacitor-gapi",
     "capacitor-native-biometric": "^2.0.9",
+    "cordova-sqlite-storage": "^6.0.0",
+    "localforage-cordovasqlitedriver": "^1.8.0",
     "ngx-clipboard": "^14.0.1",
     "node-forge": "^0.10.0",
     "rxjs": "~6.6.0",
