@@ -90,7 +90,7 @@ describe('StartPage', () => {
   it('should show the biometric option if available and enabled', fakeAsync(() => {
     spyBiometric.isAvailable.mockReturnValue(of(true));
     spySettings.isBiometricEnabled.mockReturnValue(of(true));
-    fixture.detectChanges();
+    component.ionViewDidEnter();
     tick();
     expect(component.isBiometric).toBe(true);
   }));

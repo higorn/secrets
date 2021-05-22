@@ -116,8 +116,28 @@
     }
   },
   "secrets": {
+    "import": {
+      "title": "Importar do Chrome",
+      "message": "Selecione as senhas que deseja importar.",
+      "import-btn": "Importar"
+    },
     "list": {
-      "title": "Meus segredos"
+      "title": "Meus segredos",
+      "menu": {
+        "select-btn": "Selecionar itens"
+      },
+      "loading-remove": "Removendo itens, por favor aguarde.",
+      "loading-import": "Importando, por favor aguarde."
+    },
+    "select": {
+      "title": "Selecionar itens",
+      "label": "Selecionados",
+      "remove": {
+        "title": "Remoção de itens",
+        "message": "Deseja realmente remover os itens selecionados? ATENÇÃO: Esta ação não pode ser desfeita!",
+        "cancel": "Cancelar",
+        "yes": "Sim"
+      }
     },
     "add": {
       "web": "Conta web",

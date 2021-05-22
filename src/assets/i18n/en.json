@@ -116,8 +116,28 @@
     }
   },
   "secrets": {
+    "import": {
+      "title": "Import from Chrome",
+      "message": "Select those passwords you want to import.",
+      "import-btn": "Import"
+    },
     "list": {
-      "title": "My secrets"
+      "title": "My secrets",
+      "menu": {
+        "select-btn": "Select items"
+      },
+      "loading-remove": "Removing items, please wait.",
+      "loading-import": "Importing, please wait"
+    },
+    "select": {
+      "title": "Select items",
+      "label": "Selected",
+      "remove": {
+        "title": "Remove items",
+        "message": "Do you really want to remove the selected items? WARNING: This action cannot be undone!",
+        "cancel": "Cancel",
+        "yes": "Yes"
+      }
     },
     "add": {
       "web": "Web account",
@@ -130,7 +150,7 @@
     },
     "remove": {
       "title": "Remove item",
-      "message": "You really want to remove this item?",
+      "message": "Do you really want to remove this item?",
       "yes": "Yes",
       "no": "No",
       "cancel": "Cancel"
