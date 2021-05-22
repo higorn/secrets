@@ -1,9 +1,11 @@
 import { TranslatorService } from './translator.service';
 import { Injectable } from '@angular/core';
-import { AvailableResult, Credentials, NativeBiometric } from 'capacitor-native-biometric';
+import { AvailableResult, Credentials } from 'capacitor-native-biometric';
 import { Observable, of, Subject } from 'rxjs';
 import { Platform } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
 
+const { NativeBiometric } = Plugins;
 
 @Injectable({
   providedIn: 'root',

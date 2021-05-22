@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Filesystem } from '@capacitor/filesystem';
+import { WebIntent } from '@ionic-native/web-intent/ngx';
 import { Observable } from 'rxjs';
 import { Secret } from '../../shared/secret';
 import { SecretRepository } from '../../shared/secret.repository';
@@ -12,7 +14,10 @@ export class SecretListPage implements OnInit {
   secrets: Observable<Secret[]>;
   loading = true;
 
-  constructor(private repository: SecretRepository) {}
+  constructor(
+    private repository: SecretRepository,
+    private webIntent: WebIntent
+  ) {}
 
   ngOnInit(): void {
     this.loading = false;
@@ -20,6 +25,16 @@ export class SecretListPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.webIntent.getIntent().then((intent) => {
+      console.log('intent', intent);
+      if (intent.extras && intent.extras['android.intent.extra.SUBJECT'] === 'Chrome Passwords') {
+        const uri = intent.extras['android.intent.extra.STREAM']
+        Filesystem.readFile({ path: uri }).then(({ data }) => {
+          console.log('data', data);
+          console.log('data decoded', atob(data));
+        })
+      }
+    })
     this.loadSecrets();
   }
 

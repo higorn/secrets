@@ -42,9 +42,6 @@ export class GoogleDriveSyncService extends CloudSyncService {
 
   setup(file?: SyncFile): Observable<SyncFile> {
     console.log('signIn...');
-    GoogleAuth.echo({value: 'coco'}).then((data) => {
-      console.log('echo1', data);
-    })
     return from(GoogleAuth.signIn()).pipe(switchMap((user: User) => {
       console.log('user', user);
       return this.storage.exportData().pipe(switchMap(data => {
@@ -79,9 +76,6 @@ export class GoogleDriveSyncService extends CloudSyncService {
 
   restore(file?: SyncFile): Observable<SyncFile[]> {
     console.log('restoring...');
-    GoogleAuth.echo({value: 'coco'}).then((data) => {
-      console.log('echo', data);
-    })
     return from(GoogleAuth.signIn()).pipe(switchMap((user: User) => {
       console.log('restoring user', user);
       return this.restoreFile(user.authentication.accessToken, file);

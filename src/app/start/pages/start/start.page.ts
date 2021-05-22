@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Filesystem } from '@capacitor/filesystem';
-import { WebIntent } from '@ionic-native/web-intent/ngx';
 import { LoadingController } from '@ionic/angular';
 import { Credentials } from 'capacitor-native-biometric';
 import { Observable, Subscription, zip } from 'rxjs';
@@ -36,7 +34,6 @@ export class StartPage implements OnInit, OnDestroy {
     private biometric: BiometricService,
     private settingsRepo: SettingsService,
     private loading: LoadingController,
-    private webIntent: WebIntent
   ) {
   }
 
@@ -53,15 +50,6 @@ export class StartPage implements OnInit, OnDestroy {
 
   ionViewDidEnter() {
     this.useBiometricIfPossible();
-    this.webIntent.getIntent().then((intent) => {
-      console.log('intent', intent);
-      if (intent.extras && intent.extras['android.intent.extra.SUBJECT'] === 'Chrome Passwords') {
-        const uri = intent.extras['android.intent.extra.STREAM']
-        Filesystem.readFile({ path: uri }).then((data) => {
-          console.log('data', data);
-        })
-      }
-    })
   }
 
   private useBiometricIfPossible() {
