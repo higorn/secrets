@@ -1,0 +1,18 @@
+[
+	{
+		"pkg": "@capacitor/filesystem",
+		"classpath": "com.capacitorjs.plugins.filesystem.FilesystemPlugin"
+	},
+	{
+		"pkg": "capacitor-autofill-service",
+		"classpath": "io.esecrets.capacitor.autofillservice.Autofill"
+	},
+	{
+		"pkg": "capacitor-gapi",
+		"classpath": "io.esecrets.capgapi.Gapi"
+	},
+	{
+		"pkg": "capacitor-native-biometric",
+		"classpath": "com.epicshaggy.biometric.NativeBiometric"
+	}
+]

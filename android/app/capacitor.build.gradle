@@ -9,10 +9,11 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
+    implementation project(':capacitor-filesystem')
     implementation project(':capacitor-autofill-service')
     implementation project(':capacitor-gapi')
     implementation project(':capacitor-native-biometric')
-
+    implementation "androidx.core:core:1.1.0"
 }
 
 

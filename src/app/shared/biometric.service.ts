@@ -1,10 +1,9 @@
 import { TranslatorService } from './translator.service';
 import { Injectable } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-import { AvailableResult, Credentials } from 'capacitor-native-biometric';
-import { Observable, Subject } from 'rxjs';
+import { AvailableResult, Credentials, NativeBiometric } from 'capacitor-native-biometric';
+import { Observable, of, Subject } from 'rxjs';
+import { Platform } from '@ionic/angular';
 
-const { NativeBiometric } = Plugins;
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +12,13 @@ export class BiometricService {
   private verified = new Subject<Credentials>();
   private verified$ = this.verified.asObservable();
 
-  constructor(private translator: TranslatorService) {}
+  constructor(private translator: TranslatorService, private plt: Platform) {}
 
   isAvailable(): Observable<boolean> {
+    console.log('plts', this.plt.platforms())
+
+    if (!this.plt.is('capacitor')) return of(false);
+
     const isAvailableObs = new Subject<boolean>();
     NativeBiometric.isAvailable().then(
       (result: AvailableResult) => isAvailableObs.next(result.isAvailable),

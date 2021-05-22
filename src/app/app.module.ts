@@ -16,6 +16,7 @@ import { IonicStorageService } from './shared/storage/ionic-storage.service';
 import { StorageService } from './shared/storage/storage.service';
 import { Httpi18nLoaderFactory } from './shared/utils';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { WebIntent } from '@ionic-native/web-intent/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -47,7 +48,8 @@ import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: StorageService, useClass: IonicStorageService },
-    { provide: CloudSyncServiceProvider, useClass: CloudSyncServiceFatcory }
+    { provide: CloudSyncServiceProvider, useClass: CloudSyncServiceFatcory },
+    WebIntent
   ],
   bootstrap: [AppComponent],
 })

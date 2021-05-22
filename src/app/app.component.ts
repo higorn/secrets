@@ -1,6 +1,5 @@
 import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
 import { VaultService } from './shared/vault/vault.service';
 
 @Component({
@@ -13,7 +12,6 @@ export class AppComponent {
   private visibilityChangeEvent: string;
 
   constructor(
-    private plt: Platform,
     private zone: NgZone,
     private vault: VaultService,
     private router: Router,

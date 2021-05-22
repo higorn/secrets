@@ -21,6 +21,15 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+              <action android:name="android.intent.action.SEND"/>
+              <category android:name="android.intent.category.DEFAULT"/>
+              <data android:mimeType="text/*"/>
+            </intent-filter>
+            <intent-filter>
+              <action android:name="com.darryncampbell.cordova.plugin.intent.ACTION"/>
+              <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -45,21 +54,4 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Camera, Photos, input file -->
-<!--
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    &lt;!&ndash; Geolocation API &ndash;&gt;
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.location.gps" />
-    &lt;!&ndash; Network API &ndash;&gt;
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    &lt;!&ndash; Navigator.getUserMedia &ndash;&gt;
-    &lt;!&ndash; Video &ndash;&gt;
-    <uses-permission android:name="android.permission.CAMERA" />
-    &lt;!&ndash; Audio &ndash;&gt;
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
--->
 </manifest>

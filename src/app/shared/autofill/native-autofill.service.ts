@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-import 'capacitor-autofill-service';
+import { Autofill } from 'capacitor-autofill-service';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AutofillService } from './autofill.service';
-
-const { Autofill } = Plugins;
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,8 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController, Platform } from '@ionic/angular';
+import { Filesystem } from '@capacitor/filesystem';
+import { WebIntent } from '@ionic-native/web-intent/ngx';
+import { LoadingController } from '@ionic/angular';
 import { Credentials } from 'capacitor-native-biometric';
 import { Observable, Subscription, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -33,19 +35,9 @@ export class StartPage implements OnInit, OnDestroy {
     private translator: TranslatorService,
     private biometric: BiometricService,
     private settingsRepo: SettingsService,
-    private plt: Platform,
-    private zone: NgZone,
-    private loading: LoadingController
+    private loading: LoadingController,
+    private webIntent: WebIntent
   ) {
-/*     this.plt.pause.subscribe(() => {
-      this.zone.run(() => {
-        this.vault.seal();
-        this.router.navigate(['/start']);
-        this.isBiometricPossible().subscribe(
-          (result) => (this.isBiometric = result)
-        );
-      });
-    }); */
   }
 
   ngOnDestroy(): void {
@@ -57,7 +49,19 @@ export class StartPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter() {
     this.useBiometricIfPossible();
+    this.webIntent.getIntent().then((intent) => {
+      console.log('intent', intent);
+      if (intent.extras && intent.extras['android.intent.extra.SUBJECT'] === 'Chrome Passwords') {
+        const uri = intent.extras['android.intent.extra.STREAM']
+        Filesystem.readFile({ path: uri }).then((data) => {
+          console.log('data', data);
+        })
+      }
+    })
   }
 
   private useBiometricIfPossible() {

@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Plugins } from '@capacitor/core';
-import 'capacitor-gapi';
-import { Authentication, User } from 'capacitor-gapi/dist/esm/user';
+import { GoogleAuth } from 'capacitor-googleauth-plugin';
+import { Authentication, User } from 'capacitor-googleauth-plugin/dist/esm/user';
+// import 'capacitor-googleauth-plugin';
 import { from, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SettingsService } from '../settings.service';
@@ -28,7 +28,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
       if (this.syncLocked) return;
       const sub1 = this.settings.getCloudSync().subscribe((cloudSync: CloudSync) => {
         if (cloudSync.provider !== 'google-drive') return;
-        const sub2 = from(Plugins.Gapi.refresh()).subscribe((auth: Authentication) => {
+        const sub2 = from(GoogleAuth.refresh()).subscribe((auth: Authentication) => {
           this.syncLocked = true;
           const sub3 = this.doSync({ token: auth.accessToken, file: cloudSync.file }, merger).subscribe(() => {
             sub3.unsubscribe()
@@ -43,7 +43,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
 
   setup(file?: SyncFile): Observable<SyncFile> {
     console.log('signIn...');
-    return from(Plugins.Gapi.signIn()).pipe(switchMap((user: User) => {
+    return from(GoogleAuth.signIn()).pipe(switchMap((user: User) => {
       console.log('user', user);
       return this.storage.exportData().pipe(switchMap(data => {
         console.log('data', data);
@@ -55,7 +55,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
 
   sync(merger: DataMerger): Observable<any> {
     return this.settings.getCloudSync().pipe(switchMap((cloudSync: CloudSync) => {
-      return from(Plugins.Gapi.refresh()).pipe(switchMap((auth: Authentication) => {
+      return from(GoogleAuth.refresh()).pipe(switchMap((auth: Authentication) => {
         this.syncLocked = true;
         return this.doSync({ token: auth.accessToken, file: cloudSync.file }, merger).pipe(tap(() => {
           this.syncLocked = false;
@@ -77,7 +77,7 @@ export class GoogleDriveSyncService extends CloudSyncService {
 
   restore(file?: SyncFile): Observable<SyncFile[]> {
     console.log('restoring...');
-    return from(Plugins.Gapi.signIn()).pipe(switchMap((user: User) => {
+    return from(GoogleAuth.signIn()).pipe(switchMap((user: User) => {
       console.log('restoring user', user);
       return this.restoreFile(user.authentication.accessToken, file);
     }))
