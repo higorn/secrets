@@ -8,8 +8,8 @@ project(':capacitor-filesystem').projectDir = new File('../node_modules/@capacit
 include ':capacitor-autofill-service'
 project(':capacitor-autofill-service').projectDir = new File('../../capacitor-autofill-service/android')
 
-include ':capacitor-gapi'
-project(':capacitor-gapi').projectDir = new File('../../capacitor-gapi/android')
+include ':capacitor-googleauth-plugin'
+project(':capacitor-googleauth-plugin').projectDir = new File('../../capacitor-googleauth-plugin/android')
 
 include ':capacitor-native-biometric'
 project(':capacitor-native-biometric').projectDir = new File('../node_modules/capacitor-native-biometric/android')

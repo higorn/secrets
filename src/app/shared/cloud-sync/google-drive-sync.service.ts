@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import 'capacitor-googleauth-plugin';
 import { GoogleAuth } from 'capacitor-googleauth-plugin';
 import { Authentication, User } from 'capacitor-googleauth-plugin/dist/esm/user';
 import { from, Observable, of } from 'rxjs';
@@ -43,6 +42,9 @@ export class GoogleDriveSyncService extends CloudSyncService {
 
   setup(file?: SyncFile): Observable<SyncFile> {
     console.log('signIn...');
+    GoogleAuth.echo({value: 'coco'}).then((data) => {
+      console.log('echo1', data);
+    })
     return from(GoogleAuth.signIn()).pipe(switchMap((user: User) => {
       console.log('user', user);
       return this.storage.exportData().pipe(switchMap(data => {
@@ -77,6 +79,9 @@ export class GoogleDriveSyncService extends CloudSyncService {
 
   restore(file?: SyncFile): Observable<SyncFile[]> {
     console.log('restoring...');
+    GoogleAuth.echo({value: 'coco'}).then((data) => {
+      console.log('echo', data);
+    })
     return from(GoogleAuth.signIn()).pipe(switchMap((user: User) => {
       console.log('restoring user', user);
       return this.restoreFile(user.authentication.accessToken, file);

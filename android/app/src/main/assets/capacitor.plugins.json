@@ -8,8 +8,8 @@
 		"classpath": "io.esecrets.capacitor.autofillservice.Autofill"
 	},
 	{
-		"pkg": "capacitor-gapi",
-		"classpath": "io.esecrets.capgapi.Gapi"
+		"pkg": "capacitor-googleauth-plugin",
+		"classpath": "io.esecrets.capacitor.googleauth.GoogleAuthPlugin"
 	},
 	{
 		"pkg": "capacitor-native-biometric",
