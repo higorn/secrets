@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import 'capacitor-googleauth-plugin';
 import { GoogleAuth } from 'capacitor-googleauth-plugin';
 import { Authentication, User } from 'capacitor-googleauth-plugin/dist/esm/user';
-// import 'capacitor-googleauth-plugin';
 import { from, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SettingsService } from '../settings.service';
