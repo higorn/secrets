@@ -107,6 +107,7 @@
     "autofill": {
       "label": "Enable autofill"
     },
+    "darkmode": "Enable dark theme",
     "wipe": {
       "btn": "Wipe divice data",
       "title": "Wipe data",

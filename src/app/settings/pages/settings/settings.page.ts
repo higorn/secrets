@@ -77,6 +77,16 @@ export class SettingsPage implements OnInit, OnDestroy {
     this.settings.autofill ? this.autofill.enable() : this.autofill.disable();
   }
 
+  toggleDarkMode(ev): void {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    prefersDark.addEventListener('change', (mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
+    this.toggleDarkTheme(ev.detail.checked);
+  }
+
+  private toggleDarkTheme(shouldAdd) {
+    document.body.classList.toggle('dark', shouldAdd);
+  }
+
   private async enableBiometric(): Promise<void> {
     const modal = await this.modal.create({
       component: BiometricCredentialsComponent,

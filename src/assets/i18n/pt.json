@@ -107,6 +107,7 @@
     "autofill": {
       "label": "Habilitar auto-preenchimento"
     },
+    "darkmode": "Habilitar tema escuro",
     "wipe": {
       "btn": "Apagar dados do dispositivo",
       "title": "Apagar dados",

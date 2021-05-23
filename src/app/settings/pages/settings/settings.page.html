@@ -36,6 +36,13 @@
         (ionChange)="toggleAutofill()">
       </ion-toggle>
     </ion-item>
+    <ion-item>
+      <ion-label>{{ 'settings.darkmode' | translate }}</ion-label>
+      <ion-toggle
+        [(ngModel)]="settings.darkmode"
+        (ionChange)="toggleDarkMode($event)">
+      </ion-toggle>
+    </ion-item>
   </ion-list>
   <p class="ion-padding-horizontal">
     <ion-button
