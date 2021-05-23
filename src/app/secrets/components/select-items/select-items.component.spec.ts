@@ -23,9 +23,9 @@ describe('SelectItemsComponent', () => {
         FormsModule,
         TranslateModule.forRoot(),
       ],
-        providers: [
-          { provide: StorageService, useValue: spyStorage },
-        ],
+      providers: [
+        { provide: StorageService, useValue: spyStorage },
+      ],
     }).compileComponents();
 
     spyStorage.getItem.mockReturnValue(of(DEFAULT_SETTINGS));

@@ -1,24 +1,25 @@
-import { BiometricService } from 'src/app/shared/biometric.service';
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
-  waitForAsync,
+  waitForAsync
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AlertController, IonicModule } from '@ionic/angular';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AlertController, IonicModule, Platform } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { AutofillService } from 'src/app/shared/autofill/autofill.service';
+import { BiometricService } from 'src/app/shared/biometric.service';
+import { ImportService } from 'src/app/shared/import.service';
 import { SettingsService } from 'src/app/shared/settings.service';
+import { StorageService } from 'src/app/shared/storage/storage.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
+import { VaultService } from 'src/app/shared/vault/vault.service';
 import { DEFAULT_SETTINGS } from './../../../shared/settings';
 import { SettingsPage } from './settings.page';
-import { VaultService } from 'src/app/shared/vault/vault.service';
-import { StorageService } from 'src/app/shared/storage/storage.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AutofillService } from 'src/app/shared/autofill/autofill.service';
 
 describe('SettingsPage', () => {
   let component: SettingsPage;
@@ -47,6 +48,10 @@ describe('SettingsPage', () => {
     isAvailable: jest.fn(),
     isEnabled: jest.fn(),
   }
+  const spyImport = {
+    isAvailable: jest.fn(),
+    openBrowser: jest.fn(),
+  }
 
   beforeEach(
     waitForAsync(() => {
@@ -65,12 +70,14 @@ describe('SettingsPage', () => {
           { provide: VaultService, useValue: spyVault },
           { provide: BiometricService, useValue: spyBiometric },
           { provide: AutofillService, useValue: spyAutofill },
+          { provide: ImportService, useValue: spyImport },
         ],
       }).compileComponents();
 
       spyBiometric.isAvailable.mockReturnValue(of(false));
       spyAutofill.isAvailable.mockReturnValue(of(true));
       spyAutofill.isEnabled.mockReturnValue(of(true));
+      spyImport.isAvailable.mockReturnValue(false);
       alertController = TestBed.inject(AlertController);
       fixture = TestBed.createComponent(SettingsPage);
       component = fixture.componentInstance;

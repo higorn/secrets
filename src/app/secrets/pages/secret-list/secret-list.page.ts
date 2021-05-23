@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, ModalController, PopoverController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { DateUtils } from 'src/app/shared/date-utils';
-import { TranslatorService } from 'src/app/shared/translator.service';
-import { SecretListMenuComponent } from '../../components/secret-list-menu/secret-list-menu.component';
-import { ImportService } from '../../shared/import.service';
+import { AppLoadingController } from 'src/app/shared/app-loading.controller';
+import { ImportService } from '../../../shared/import.service';
 import { Secret } from '../../shared/secret';
 import { SecretRepository } from '../../shared/secret.repository';
 import { ImportComponent } from './../../components/import/import.component';
-import { SelectItemsComponent } from './../../components/select-items/select-items.component';
+import { SecretListMenuController } from '../../shared/secret-list-menu.controller';
 
 @Component({
   selector: 'app-secret-list',
@@ -23,9 +21,8 @@ export class SecretListPage implements OnInit {
     private repository: SecretRepository,
     private importService: ImportService,
     private modal: ModalController,
-    private popover: PopoverController,
-    private loading: LoadingController,
-    private translator: TranslatorService,
+    private loading: AppLoadingController,
+    private menuController: SecretListMenuController
   ) {}
 
   ngOnInit(): void {
@@ -58,11 +55,11 @@ export class SecretListPage implements OnInit {
     console.log('secrets to import', secrets);
     if (!secrets) return;
 
-    await this.presentLoading('secrets.list.loading-import');
+    await this.loading.show('secrets.list.loading-import');
     const sub1 = this.repository.getAll().subscribe((items) => {
       const collection = items.concat(secrets);
       const sub2 = this.repository.saveAll(collection).subscribe(() => {
-        this.loading.dismiss().then(() => {}, (err) => console.log(err))
+        this.loading.dismiss();
         this.loadSecrets();
         sub2.unsubscribe();
         sub1.unsubscribe();
@@ -82,64 +79,9 @@ export class SecretListPage implements OnInit {
   }
 
   async showMenu(event: any): Promise<void> {
-    const popover = await this.popover.create({
-      component: SecretListMenuComponent,
-      event: event,
-      translucent: true
-    });
-    await popover.present();
-    const { role } = await popover.onDidDismiss();
-    console.log('role', role);
-    if (role === 'select') {
-      this.secrets.subscribe(async (secrets) => {
-        const data = await this.selectItems(secrets);
-        if (data && data.action === 'remove')
-          this.remove(data.items)
-        console.log('selected', data)
-      })
-    }
-  }
-
-  private async selectItems(secrets: Secret[]): Promise<{ action: string, items: Secret[] }> {
-    const modal = await this.modal.create({
-      component: SelectItemsComponent,
-      componentProps: {
-        items: secrets
-      }
-    });
-    await modal.present();
-    const { data } = await modal.onDidDismiss();
-    if (data.cancel) return null;
-    return data;
-  }
-
-  private async remove(items: Secret[]): Promise<void> {
-    console.log('removing...', items);
-    await this.presentLoading('secrets.list.loading-remove');
-    const sub1 = this.repository.getAll().subscribe((currItems) => {
-      const toRemove = currItems.filter(ci => items.some(i => i.id === ci.id));
-      console.log('to remove', toRemove)
-      toRemove.forEach(i => {
-        i.removed = true;
-        i.modified = DateUtils.getUtcTime()
-      })
-      const sub2 = this.repository.saveAll(currItems).subscribe(() => {
-        this.loading.dismiss().then(() => {}, (err) => console.log(err))
-        this.loadSecrets();
-        sub2.unsubscribe();
-        sub1.unsubscribe();
-      })
-    });
-  }
-
-  private async presentLoading(messageKey: string): Promise<any> {
-    let message = 'Unsealing, please wait.';
-    this.translator.get(messageKey).subscribe((msg) => (message = msg));
-    const loading = await this.loading.create({
-      message: message,
-      duration: 5000,
-    });
-    return loading.present();
+    const menu = await this.menuController.showMenu(event, this);
+    const { role } = await menu.onDidDismiss();
+    this.menuController.execMenuAction(role);
   }
 
   getIcon(type: string) {

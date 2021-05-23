@@ -14,7 +14,10 @@ export class BiometricService {
   private verified = new Subject<Credentials>();
   private verified$ = this.verified.asObservable();
 
-  constructor(private translator: TranslatorService, private plt: Platform) {}
+  constructor(
+    private translator: TranslatorService,
+    private plt: Platform
+  ) {}
 
   isAvailable(): Observable<boolean> {
     console.log('plts', this.plt.platforms())

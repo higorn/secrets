@@ -1,12 +1,13 @@
 import { map, switchMap } from 'rxjs/operators';
-import { DateUtils } from './../../shared/date-utils';
+import { DateUtils } from './date-utils';
 import { Injectable } from '@angular/core';
 import { from, Observable, of } from 'rxjs';
 import { ImportService } from './import.service';
-import { Secret } from './secret';
+import { Secret } from '../secrets/shared/secret';
 import { v4 as uuid } from 'uuid';
 import { WebIntent } from '@ionic-native/web-intent/ngx';
 import { Filesystem } from '@capacitor/filesystem';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,14 @@ import { Filesystem } from '@capacitor/filesystem';
 export class NativeImportService extends ImportService {
 
   constructor(
-    private webIntent: WebIntent
+    private webIntent: WebIntent,
+    private plt: Platform,
   ) {
     super();
+  }
+
+  isAvailable(): boolean {
+    return this.plt.is('capacitor');
   }
 
   getDataToImport(): Observable<Secret[]> {
@@ -53,5 +59,12 @@ export class NativeImportService extends ImportService {
       items.push(obj);
     }
     return items;
+  }
+
+  openBrowser(): Observable<any> {
+    return from(this.webIntent.startActivity({
+      action: this.webIntent.ACTION_VIEW,
+      url: 'https://www.google.com'
+    }));
   }
 }

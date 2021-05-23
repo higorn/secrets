@@ -3,16 +3,15 @@ import {
   fakeAsync,
   TestBed,
   tick,
-  waitForAsync,
+  waitForAsync
 } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { StorageService } from 'src/app/shared/storage/storage.service';
 import { SecretsPageModule } from '../../secrets.module';
-import { ImportService } from '../../shared/import.service';
+import { ImportService } from '../../../shared/import.service';
 import { SecretRepository } from '../../shared/secret.repository';
 import { SecretListPage } from './secret-list.page';
 
@@ -33,7 +32,6 @@ describe('SecretListPage', () => {
   let fixture: ComponentFixture<SecretListPage>;
   const spyRepository = {
     getAll: jest.fn(),
-    dataReady: () => of(),
   };
   const spyImport = {
     getDataToImport: jest.fn(),

@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Secret } from '../../shared/secret';
 
 @Component({
   selector: 'app-import',
@@ -8,7 +7,6 @@ import { Secret } from '../../shared/secret';
   styleUrls: ['./import.component.scss'],
 })
 export class ImportComponent implements OnInit {
-  @Input() secrets: Secret[] = [];
 
   constructor(private modal: ModalController) { }
 
@@ -18,9 +16,7 @@ export class ImportComponent implements OnInit {
     this.modal.dismiss({ cancel: true });
   }
 
-  import(): void {
-    setTimeout(() => {
-      this.modal.dismiss({ secrets: this.secrets.filter(s => s.imported) });
-    })
+  openChrome(): void {
+    this.modal.dismiss({ import: true });
   }
 }

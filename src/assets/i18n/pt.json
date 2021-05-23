@@ -108,6 +108,23 @@
       "label": "Habilitar auto-preenchimento"
     },
     "darkmode": "Habilitar tema escuro",
+    "import": {
+      "label": "Importar senhas",
+      "description": "Copia senhas do Chrome para o app",
+      "detail": {
+        "title": "Importar do Chrome",
+        "step1-1": "Selecione",
+        "step1-2": "Configurações",
+        "step1-3": "no menu do Chrome",
+        "step2-1": "Selecione",
+        "step2-2": "Senhas",
+        "step3-1": "Selecione",
+        "step3-2": "Exportar Senhas",
+        "step4-1": "Escolha",
+        "step4-2": "Importar para o e-Secrets",
+        "open-chrome-btn": "Abrir Chrome"
+      }
+    },
     "wipe": {
       "btn": "Apagar dados do dispositivo",
       "title": "Apagar dados",

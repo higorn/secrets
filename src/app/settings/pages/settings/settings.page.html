@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
+  <ion-list lines="full">
     <ion-item>
       <ion-label>{{ 'settings.language' | translate }}</ion-label>
       <ion-select
@@ -42,6 +42,13 @@
         [(ngModel)]="settings.darkmode"
         (ionChange)="toggleDarkMode($event)">
       </ion-toggle>
+    </ion-item>
+    <ion-item *ngIf="isImportAvailable" (click)="import()" detail>
+      <ion-label>
+        <ion-text>{{ 'settings.import.label' | translate }}
+          <p class="small">{{ 'settings.import.description' | translate }}</p>
+        </ion-text>
+      </ion-label>
     </ion-item>
   </ion-list>
   <p class="ion-padding-horizontal">

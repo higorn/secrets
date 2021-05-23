@@ -108,6 +108,23 @@
       "label": "Enable autofill"
     },
     "darkmode": "Enable dark theme",
+    "import": {
+      "label": "Import passwords",
+      "description": "Copy passwords from mobile browsers to the app",
+      "detail": {
+        "title": "Import from Chrome",
+        "step1-1": "Tap",
+        "step1-2": "Settings",
+        "step1-3": "in the Chrome menu",
+        "step2-1": "Select",
+        "step2-2": "Passwords",
+        "step3-1": "Tap",
+        "step3-2": "Export Passwords",
+        "step4-1": "Choose",
+        "step4-2": "Import to e-Secrets",
+        "open-chrome-btn": "Open Chrome"
+      }
+    },
     "wipe": {
       "btn": "Wipe divice data",
       "title": "Wipe data",

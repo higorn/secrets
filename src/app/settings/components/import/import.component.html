@@ -1,0 +1,47 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>{{ 'settings.import.detail.title' | translate }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()"><ion-icon name="close-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-list lines="none">
+    <ion-item>
+      <ion-badge slot="start" color="medium">1</ion-badge>
+      <ion-label>
+        {{ 'settings.import.detail.step1-1' | translate }}
+        <b>{{ 'settings.import.detail.step1-2' | translate }}</b>
+        {{ 'settings.import.detail.step1-3' | translate }}
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-badge slot="start" color="medium">2</ion-badge>
+      <ion-label>
+        {{ 'settings.import.detail.step2-1' | translate }}
+        <b>{{ 'settings.import.detail.step2-2' | translate }}</b>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-badge slot="start" color="medium">3</ion-badge>
+      <ion-label>
+        {{ 'settings.import.detail.step3-1' | translate }}
+        <b>{{ 'settings.import.detail.step3-2' | translate }}</b>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-badge slot="start" color="medium">4</ion-badge>
+      <ion-label>
+        {{ 'settings.import.detail.step4-1' | translate }}
+        <b>{{ 'settings.import.detail.step4-2' | translate }}</b>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <p class="ion-padding-horizontal">
+    <ion-button id="openchrome-btn" type="button" expand="block" (click)="openChrome()">
+      {{ 'settings.import.detail.open-chrome-btn' | translate }}
+    </ion-button>
+  </p>
+</ion-content>
