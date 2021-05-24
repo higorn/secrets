@@ -137,7 +137,8 @@
     "import": {
       "title": "Import from Chrome",
       "message": "Select those passwords you want to import.",
-      "import-btn": "Import"
+      "import-btn": "Import",
+      "nothing": "Nothing to import"
     },
     "list": {
       "title": "My secrets",

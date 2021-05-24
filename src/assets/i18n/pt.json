@@ -111,6 +111,7 @@
     "import": {
       "label": "Importar senhas",
       "description": "Copia senhas do Chrome para o app",
+      "nothing": "Nada a ser importado.",
       "detail": {
         "title": "Importar do Chrome",
         "step1-1": "Selecione",
@@ -137,7 +138,8 @@
     "import": {
       "title": "Importar do Chrome",
       "message": "Selecione as senhas que deseja importar.",
-      "import-btn": "Importar"
+      "import-btn": "Importar",
+      "nothing": "Nothing to import"
     },
     "list": {
       "title": "Meus segredos",

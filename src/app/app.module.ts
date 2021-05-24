@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { WebIntent } from '@ionic-native/web-intent/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { Drivers } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,8 +17,6 @@ import { CloudSyncServiceProvider } from './shared/cloud-sync/cloud-sync.service
 import { IonicStorageService } from './shared/storage/ionic-storage.service';
 import { StorageService } from './shared/storage/storage.service';
 import { Httpi18nLoaderFactory } from './shared/utils';
-import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
-import { WebIntent } from '@ionic-native/web-intent/ngx';
 
 @NgModule({
   declarations: [AppComponent],

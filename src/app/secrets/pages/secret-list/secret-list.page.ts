@@ -7,6 +7,7 @@ import { Secret } from '../../shared/secret';
 import { SecretRepository } from '../../shared/secret.repository';
 import { ImportComponent } from './../../components/import/import.component';
 import { SecretListMenuController } from '../../shared/secret-list-menu.controller';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-secret-list',
@@ -39,10 +40,12 @@ export class SecretListPage implements OnInit {
   }
 
   private async chooseSecretsToImport(secrets: Secret[]): Promise<Secret[]> {
+    const currSecrets = await this.secrets.toPromise();
+    const toImport = secrets.filter(s1 => !currSecrets.some(s2 => s2.name === s1.name))
     const modal = await this.modal.create({
       component: ImportComponent,
       componentProps: {
-        secrets: secrets
+        secrets: toImport
       }
     });
     await modal.present();
