@@ -22,7 +22,7 @@
   <ion-radio-group [(ngModel)]="file" (click)="select()">
     <ion-item *ngFor="let f of files">
       <ion-label>{{ f.name }}</ion-label>
-      <ion-radio slot="end" [value]="f"></ion-radio>
+      <ion-radio color="secondary" slot="end" [value]="f"></ion-radio>
     </ion-item>
   </ion-radio-group>
 </ion-content>

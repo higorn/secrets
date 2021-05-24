@@ -2,7 +2,7 @@
   <div class="ion-padding-top">
     <div class="ion-text-center ion-padding-top">
       <h1>
-        <ion-icon name="lock-closed" class="ion-padding-vertical"></ion-icon>
+        <ion-icon color="secondary" name="lock-closed" class="ion-padding-vertical"></ion-icon>
       </h1>
       <p class="ion-padding-horizontal ion-padding-vertical">
         <ion-text><h4>{{ 'start.message' | translate }}</h4></ion-text>
@@ -10,47 +10,32 @@
     </div>
     <form (ngSubmit)="unlockWithPwd()">
       <ion-item>
-        <ion-label position="floating"
-          >{{ 'start.password' | translate }}</ion-label
-        >
-        <ion-input
-          [type]="pwType"
-          name="password"
-          [(ngModel)]="password"
-          autocomplete="password"
-          autofocus="true"
-        ></ion-input>
-        <ion-icon slot="end" name="eye" (click)="showSecret()"></ion-icon>
+        <ion-label>{{ 'start.password' | translate }}</ion-label>
+        <ion-input [type]="pwType"
+                   name="password"
+                   [(ngModel)]="password"
+                   autocomplete="password"
+                   autofocus="true">
+        </ion-input>
+        <ion-icon color="secondary" slot="end" name="eye" (click)="showSecret()"></ion-icon>
       </ion-item>
       <p class="ion-padding-horizontal">
-        <ion-button type="submit" expand="block" [disabled]="!password"
-          >{{ 'start.unlock' | translate }}</ion-button
-        >
+        <ion-button type="submit" expand="block" [disabled]="!password">{{ 'start.unlock' | translate }}</ion-button>
       </p>
     </form>
     <div *ngIf="isBiometric">
       <p class="ion-padding-horizontal">
-        <ion-button
-          type="button"
-          expand="block"
-          (click)="unlockWithBiometric()"
-        >
+        <ion-button type="button" expand="block" (click)="unlockWithBiometric()">
           <ion-icon name="finger-print-outline"></ion-icon>
         </ion-button>
       </p>
-      <p
-        *ngIf="biometricFailed"
-        class="ion-text-center ion-padding-top ion-padding-vertical"
-      >
+      <p *ngIf="biometricFailed" class="ion-text-center ion-padding-top ion-padding-vertical">
         <ion-text color="danger">
           <h4>{{ 'start.biometric-failed' | translate }}</h4>
         </ion-text>
       </p>
     </div>
-    <p
-      *ngIf="unlockFailed"
-      class="ion-text-center ion-padding-top ion-padding-vertical"
-    >
+    <p *ngIf="unlockFailed" class="ion-text-center ion-padding-top ion-padding-vertical">
       <ion-text color="danger">
         <h4>{{ 'start.unlock-failed' | translate }}</h4>
       </ion-text>
