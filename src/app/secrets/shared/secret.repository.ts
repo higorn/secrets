@@ -33,7 +33,7 @@ export class SecretRepository extends SecureRepository<Secret> {
   }
 
   getAll(): Observable<Secret[]> {
-    return super.getAll().pipe(map((secrets) => secrets.filter(s => !s.removed)));
+    return super.getAll().pipe(map((secrets) => secrets ? secrets.filter(s => !s.removed) : []));
   }
 
   refresh(): Observable<any> {

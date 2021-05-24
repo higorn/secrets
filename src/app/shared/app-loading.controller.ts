@@ -12,12 +12,12 @@ export class AppLoadingController {
     private translator: TranslatorService,
   ) { }
 
-  async show(messageKey: string): Promise<void> {
+  async show(messageKey: string, duration?: number): Promise<void> {
     let message = 'Unsealing, please wait.';
     this.translator.get(messageKey).subscribe((msg) => (message = msg));
     const loading = await this.loading.create({
       message: message,
-      duration: 5000,
+      duration: duration || 5000,
     });
     return loading.present();
   }

@@ -31,13 +31,13 @@
           <ion-icon name="finger-print-outline"></ion-icon>
         </ion-button>
       </p>
-      <p *ngIf="biometricFailed" class="ion-text-center ion-padding-top ion-padding-vertical">
+      <p *ngIf="biometricFailed" class="ion-text-center ion-padding-top ion-padding-vertical ion-padding-horizontal">
         <ion-text color="danger">
           <h4>{{ 'start.biometric-failed' | translate }}</h4>
         </ion-text>
       </p>
     </div>
-    <p *ngIf="unlockFailed" class="ion-text-center ion-padding-top ion-padding-vertical">
+    <p *ngIf="unlockFailed" class="ion-text-center ion-padding-top ion-padding-vertical ion-padding-horizontal">
       <ion-text color="danger">
         <h4>{{ 'start.unlock-failed' | translate }}</h4>
       </ion-text>

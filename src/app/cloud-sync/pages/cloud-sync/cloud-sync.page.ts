@@ -1,13 +1,14 @@
-import { CloudSync } from './../../../shared/cloud-sync/cloud-sync.service';
-import { DataRestoreChooseComponent } from './../../components/data-restore-choose/data-restore-choose.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, LoadingController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { AppLoadingController } from 'src/app/shared/app-loading.controller';
 import { CloudSyncService, SyncFile } from 'src/app/shared/cloud-sync/cloud-sync.service';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { TranslatorService } from 'src/app/shared/translator.service';
+import { CloudSync } from './../../../shared/cloud-sync/cloud-sync.service';
 import { SettingsService } from './../../../shared/settings.service';
+import { DataRestoreChooseComponent } from './../../components/data-restore-choose/data-restore-choose.component';
 
 @Component({
   selector: 'app-cloud-sync',
@@ -28,7 +29,7 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     private settings: SettingsService,
     private cloudSyncServiceProvider: CloudSyncServiceProvider,
     private translator: TranslatorService,
-    private loading: LoadingController,
+    private loading: AppLoadingController,
     private modal: ModalController,
     private alert: AlertController
   ) {}
@@ -47,12 +48,15 @@ export class CloudSyncPage implements OnInit, OnDestroy {
   }
 
   skip(): void {
-    this.settings.setFirstTime(false);
-    this.router.navigate(['/tabs/secrets']);
+    const sub = this.settings.setFirstTime(false).subscribe(() => {
+      sub.unsubscribe();
+      console.log('coco')
+      this.router.navigate(['/tabs/secrets'])
+    });
   }
 
   async select(): Promise<void> {
-    await this.presentLoading();
+    await this.loading.show('cloud-sync.loading', 60000);
     setTimeout(async () => {
       this.cloud = this.cloudSyncServiceProvider.getByName(this.provider)
       const cloudSync = await this.settings.getCloudSync().toPromise();
@@ -68,22 +72,10 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     })
   }
 
-  private async presentLoading(): Promise<any> {
-    let message = 'Please wait.';
-    this.translateSub = this.translator
-      .get('cloud-sync.loading')
-      .subscribe((msg) => (message = msg));
-    const loading = await this.loading.create({
-      message: message,
-      duration: 60000,
-    });
-    return loading.present();
-  }
-
   private async handleCloudSyncSetupSucess(file: SyncFile) {
     await this.settings.setFirstTime(false).toPromise();
     this.settings.setCloudSync({ provider: this.provider, file: file });
-    this.loading.dismiss().then(() => { }, (err) => console.log(err));
+    this.loading.dismiss();
     this.router.navigate(this.op === 'restore' ? ['/start'] : ['/tabs/secrets']);
   }
 
@@ -92,7 +84,7 @@ export class CloudSyncPage implements OnInit, OnDestroy {
       this.handleCloudSyncSetupSucess(files[0]);
       return;
     }
-    this.loading.dismiss().then(() => { }, (err) => console.log(err));
+    this.loading.dismiss();
     if (files.length === 0) {
       this.handleNoFileToRestore();
       return;
@@ -100,11 +92,16 @@ export class CloudSyncPage implements OnInit, OnDestroy {
 
     const file = await this.presentFiles(files)
     if (file) {
-      await this.presentLoading();
+      await this.loading.show('cloud-sync.loading', 60000);
       this.cloud.restore(file).subscribe(
         (files: SyncFile[]) => this.handleCloudSyncRestoreSucess(files),
         (error) => this.handleCloudSyncError(error));
     }
+  }
+
+  private handleCloudSyncError(error: any) {
+    console.log('cloud sync setup error', error);
+    this.loading.dismiss();
   }
 
   private async handleNoFileToRestore() {
@@ -135,11 +132,6 @@ export class CloudSyncPage implements OnInit, OnDestroy {
     const { data } = await modal.onDidDismiss();
     if (data.cancel) return null;
     return data.file;
-  }
-
-  private handleCloudSyncError(error: any) {
-    console.log('cloud sync setup error', error);
-    this.loading.dismiss().then(() => { }, (err) => console.log(err));
   }
 
   private getTextForAlert() {

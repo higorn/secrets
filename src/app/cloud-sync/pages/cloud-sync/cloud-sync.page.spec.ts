@@ -111,6 +111,8 @@ describe('CloudSyncPage', () => {
   }))
 
   it('when skip should redirect to the secrets list', fakeAsync(() => {
+    spySettings.setFirstTime.mockReturnValue(of());
+
     component.skip()
     tick()
 

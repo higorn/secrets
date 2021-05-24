@@ -81,8 +81,8 @@
     "message": "Secrets sealed",
     "password": "Password",
     "unlock": "unseal",
-    "biometric-failed": "Biometric verification failed. Please try agin.",
-    "unlock-failed": "Unseal failed. Please try agin"
+    "biometric-failed": "Biometric verification failed. Please try again.",
+    "unlock-failed": "Unseal failed. Please try again"
   },
   "loading": {
     "unseal": "Unsealing, please wait..."
