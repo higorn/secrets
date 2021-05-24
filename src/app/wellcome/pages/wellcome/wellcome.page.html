@@ -4,7 +4,7 @@
       <div class="slide">
         <h2>{{ 'wellcome.slide1.title' | translate }}</h2>
         <p>{{ 'wellcome.slide1.message' | translate }}</p>
-        <ion-button color="secondary" fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="slides.slideNext()">
           {{ 'wellcome.slide1.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
@@ -19,7 +19,7 @@
           <b>e-Secrets</b>
           {{ 'wellcome.slide2.message4' | translate }}
         </p>
-        <ion-button color="secondary" fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="slides.slideNext()">
           {{ 'wellcome.slide2.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
@@ -31,7 +31,7 @@
           <b>e-Secrets</b>
           {{ 'wellcome.slide3.message' | translate }}<br />
         </p>
-        <ion-button color="secondary" fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="slides.slideNext()">
           {{ 'wellcome.slide3.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
@@ -43,7 +43,7 @@
           {{ 'wellcome.slide4.message1' | translate }}<br />
           {{ 'wellcome.slide4.message2' | translate }}
         </p>
-        <ion-button color="secondary" fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="slides.slideNext()">
           {{ 'wellcome.slide4.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
@@ -58,7 +58,7 @@
           <li>{{ 'wellcome.slide5.message4' | translate }}</li>
           <li>{{ 'wellcome.slide5.message5' | translate }}</li>
         </ul>
-        <ion-button color="secondary" fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="slides.slideNext()">
           {{ 'wellcome.slide5.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
@@ -66,10 +66,10 @@
     <ion-slide>
       <div class="slide">
         <h2 class="ion-padding-horizontal">{{ 'wellcome.slide6.title' | translate }}</h2>
-        <ion-button color="secondary" fill="clear" [routerLink]="['/password-creation']">
+        <ion-button fill="clear" [routerLink]="['/password-creation']">
           {{ 'wellcome.slide6.newdb-btn' | translate }}<ion-icon slot="end" name="arrow-forward"></ion-icon>
-        </ion-button>
-        <ion-button color="secondary" fill="clear" [routerLink]="['/cloud-sync', 'restore']">
+        </ion-button><br />
+        <ion-button fill="clear" [routerLink]="['/cloud-sync', 'restore']">
           {{ 'wellcome.slide6.restoredb-btn' | translate }}<ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
         <p class="text small">

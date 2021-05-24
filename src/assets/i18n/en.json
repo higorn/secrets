@@ -107,7 +107,12 @@
     "autofill": {
       "label": "Enable autofill"
     },
-    "darkmode": "Enable dark theme",
+    "theme": {
+      "label": "Theme",
+      "system": "System default",
+      "light": "Light",
+      "dark": "Dark"
+    },
     "import": {
       "label": "Import passwords",
       "description": "Copy passwords from mobile browsers to the app",

@@ -11,8 +11,7 @@
       <ion-select
         [(ngModel)]="settings.language"
         [value]="settings.language"
-        (ionChange)="changeLanguage()"
-      >
+        (ionChange)="changeLanguage()">
         <ion-select-option value="en">English</ion-select-option>
         <ion-select-option value="pt">Português</ion-select-option>
       </ion-select>
@@ -37,11 +36,15 @@
       </ion-toggle>
     </ion-item>
     <ion-item>
-      <ion-label>{{ 'settings.darkmode' | translate }}</ion-label>
-      <ion-toggle
-        [(ngModel)]="settings.darkmode"
-        (ionChange)="toggleDarkMode($event)">
-      </ion-toggle>
+      <ion-label>{{ 'settings.theme.label' | translate }}</ion-label>
+      <ion-select
+        [(ngModel)]="settings.theme"
+        [value]="settings.theme"
+        (ionChange)="changeTheme()">
+        <ion-select-option color="secondary" value="system">{{ 'settings.theme.system' | translate }}</ion-select-option>
+        <ion-select-option color="secondary" value="light">{{ 'settings.theme.light' | translate }}</ion-select-option>
+        <ion-select-option color="secondary" value="dark">{{ 'settings.theme.dark' | translate }}</ion-select-option>
+      </ion-select>
     </ion-item>
     <ion-item *ngIf="isImportAvailable" (click)="import()" detail>
       <ion-label>

@@ -17,14 +17,14 @@
         <ion-img src="assets/img/gdrive.png"></ion-img>
       </ion-thumbnail>
       <ion-label>Google Drive</ion-label>
-      <ion-radio color="secondary" slot="end" value="google-drive"></ion-radio>
+      <ion-radio slot="end" value="google-drive"></ion-radio>
     </ion-item>
     <ion-item *ngIf="op !== 'restore'">
       <ion-thumbnail slot="start">
         <ion-img src="assets/img/ban.png"></ion-img>
       </ion-thumbnail>
       <ion-label>{{ 'cloud-sync.none' | translate }}</ion-label>
-      <ion-radio color="secondary" slot="end" value="none"></ion-radio>
+      <ion-radio slot="end" value="none"></ion-radio>
     </ion-item>
   </ion-radio-group>
 </ion-content>

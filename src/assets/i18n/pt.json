@@ -107,7 +107,12 @@
     "autofill": {
       "label": "Habilitar auto-preenchimento"
     },
-    "darkmode": "Habilitar tema escuro",
+    "theme": {
+      "label": "Tema",
+      "system": "Padrão do sistema",
+      "light": "Claro",
+      "dark": "Escuro"
+    },
     "import": {
       "label": "Importar senhas",
       "description": "Copia senhas do Chrome para o app",

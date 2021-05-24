@@ -56,6 +56,7 @@ export class SettingsPage implements OnInit, OnDestroy {
         this.isAutofillAvailable = isAvailable;
         isAvailable && this.autofill.isEnabled().subscribe((isEnabled) => this.settings.autofill = isEnabled)
       });
+      this.toggleDarkTheme(this.settings.theme === 'dark');
     });
     this.biometric.isAvailable().subscribe((isAvailable) => (this.isBiometricAvailable = isAvailable));
   }
@@ -95,13 +96,15 @@ export class SettingsPage implements OnInit, OnDestroy {
     this.settings.autofill ? this.autofill.enable() : this.autofill.disable();
   }
 
-  toggleDarkMode(ev): void {
+  changeTheme(): void {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
     prefersDark.addEventListener('change', (mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
-    this.toggleDarkTheme(ev.detail.checked);
+    this.toggleDarkTheme(this.settings.theme === 'dark');
+    this.service.save(this.settings);
   }
 
   private toggleDarkTheme(shouldAdd) {
+    console.log('theme', shouldAdd)
     document.body.classList.toggle('dark', shouldAdd);
   }
 
