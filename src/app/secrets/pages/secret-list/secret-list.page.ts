@@ -105,4 +105,9 @@ export class SecretListPage implements OnInit {
         return 'key';
     }
   }
+
+  getItemSubtitle(secret: Secret): string {
+    const keys = Object.keys(secret.content);
+    return secret.content[keys[1]];
+  }
 }
