@@ -199,7 +199,7 @@
           "name": "Título",
           "placeholder": "De um nome a este segredo"
         },
-        "user": {
+        "username": {
           "name": "Nome de usuário",
           "placeholder": "meuusuario, meuusuario@email.com, ..."
         },

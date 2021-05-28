@@ -9,8 +9,8 @@ export const FieldsBundle = {
       autofocus: true,
     },
   },
-  user: {
-    name: 'user',
+  username: {
+    name: 'username',
     type: 'input',
     options: {
       type: 'text',

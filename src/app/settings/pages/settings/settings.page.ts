@@ -92,7 +92,6 @@ export class SettingsPage implements OnInit, OnDestroy {
   }
 
   toggleAutofill(): void {
-    console.log('autofill', this.settings.autofill);
     this.settings.autofill ? this.autofill.enable() : this.autofill.disable();
   }
 
@@ -104,7 +103,6 @@ export class SettingsPage implements OnInit, OnDestroy {
   }
 
   private toggleDarkTheme(shouldAdd) {
-    console.log('theme', shouldAdd)
     document.body.classList.toggle('dark', shouldAdd);
   }
 
@@ -114,7 +112,6 @@ export class SettingsPage implements OnInit, OnDestroy {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    console.log('dta', data);
     data && data.import && this.importService.openBrowser().subscribe();
   }
 

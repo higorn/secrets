@@ -218,9 +218,11 @@ body.dark {
 
   --ion-item-background: #253246;
 
-  --ion-toolbar-background: #1f1f1f;
+  // --ion-toolbar-background: #1f1f1f;
+  // --ion-tab-bar-background: #1f1f1f;
 
-  --ion-tab-bar-background: #1f1f1f;
+  --ion-toolbar-background: var(--ion-background-color);
+  --ion-tab-bar-background: #131f32;
 
   --ion-card-background: #253246;
 }
@@ -376,9 +378,11 @@ body.dark {
 
     --ion-item-background: #253246;
 
-    --ion-toolbar-background: #1f1f1f;
+    // --ion-toolbar-background: #1f1f1f;
+    // --ion-tab-bar-background: #1f1f1f;
 
-    --ion-tab-bar-background: #1f1f1f;
+    --ion-toolbar-background: var(--ion-background-color);
+    --ion-tab-bar-background: #131f32;
 
     --ion-card-background: #253246;
   }

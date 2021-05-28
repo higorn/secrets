@@ -36,7 +36,7 @@ export class NativeImportService extends ImportService {
         return items.map((i) => (
             new Secret(uuid(), 'web', i.name || 'unamed', {
               title: i.name || 'unamed',
-              user: i.username,
+              username: i.username,
               password: i.password,
               site: i.url
             }, modified, 'chrome')

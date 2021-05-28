@@ -198,7 +198,7 @@
           "name": "Title",
           "placeholder": "Give this secret a name"
         },
-        "user": {
+        "username": {
           "name": "User name",
           "placeholder": "myuser, myuser@email.com, ..."
         },

@@ -1,12 +1,7 @@
 <ion-content [fullscreen]="false">
   <div class="ion-padding-top">
-    <div class="ion-text-center ion-padding-top">
-      <h1>
-        <ion-icon color="primary" name="lock-closed" class="ion-padding-vertical"></ion-icon>
-      </h1>
-      <p class="ion-padding-horizontal ion-padding-vertical">
-        <ion-text><h4>{{ 'start.message' | translate }}</h4></ion-text>
-      </p>
+    <div class="ion-text-center ion-padding-vertical">
+      <ion-img src="assets/img/esecrets.png" class="ion-padding-top" alt="esecrets"></ion-img>
     </div>
     <form (ngSubmit)="unlockWithPwd()">
       <ion-item>
