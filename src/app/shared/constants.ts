@@ -19,26 +19,6 @@ export const FieldsBundle = {
       autocomplete: 'email|username',
     },
   },
-  mail: {
-    name: 'mail',
-    type: 'input',
-    options: {
-      type: 'email',
-      label: 'Email',
-      copyable: true,
-      autocomplete: 'email|username',
-    },
-  },
-  name: {
-    name: 'name',
-    type: 'input',
-    options: {
-      type: 'text',
-      label: 'Name',
-      copyable: true,
-      autocomplete: 'name',
-    },
-  },
   password: {
     name: 'password',
     type: 'input',
@@ -57,38 +37,50 @@ export const FieldsBundle = {
       label: 'Web site',
     },
   },
-  number: {
-    name: 'number',
-    type: 'input',
+  cctype: {
+    name: 'cctype',
+    type: 'select',
     options: {
-      type: 'number',
-      label: 'Number',
+      label: 'Type',
+      selectopts: [
+        'debit', 'credit'
+      ],
       copyable: true,
-      autocomplete: 'number',
     },
   },
-  cardnumber: {
-    name: 'cardnumber',
-    type: 'input',
+  ccbrand: {
+    name: 'ccbrand',
+    type: 'select',
     options: {
-      type: 'number',
-      label: 'Number',
+      label: 'Brand',
+      selectopts: [
+        'visa', 'master', 'american', 'elo', 'hiper', 'hipercard', 'other'
+      ],
       copyable: true,
-      autocomplete: 'number',
     },
   },
-  cardowner: {
-    name: 'cardowner',
+  ccname: {
+    name: 'ccname',
     type: 'input',
     options: {
       type: 'text',
       label: 'Owner',
       copyable: true,
-      autocomplete: 'name',
+      autocomplete: 'cc-name|cc-given-name',
     },
   },
-  cardexpires: {
-    name: 'cardexpires',
+  ccnumber: {
+    name: 'ccnumber',
+    type: 'input',
+    options: {
+      type: 'number',
+      label: 'Number',
+      copyable: true,
+      autocomplete: 'number',
+    },
+  },
+  ccexp: {
+    name: 'ccexp',
     type: 'date',
     options: {
       type: 'date',
@@ -100,66 +92,24 @@ export const FieldsBundle = {
       max: '2100',
     },
   },
-  cvv: {
-    name: 'cvv',
+  cccsc: {
+    name: 'cccsc',
     type: 'input',
     secret: true,
     options: {
       type: 'password',
-      label: 'CVV',
+      label: 'CSC',
       copyable: true,
       autocomplete: 'cvv',
     },
   },
-  cardpin: {
-    name: 'cardpin',
+  ccpin: {
+    name: 'ccpin',
     type: 'input',
     secret: true,
     options: {
       type: 'password',
       label: 'PIN',
-      copyable: true,
-    },
-  },
-  pin: {
-    name: 'pin',
-    type: 'input',
-    secret: true,
-    options: {
-      type: 'password',
-      label: 'PIN',
-      copyable: true,
-    },
-  },
-  birthday: {
-    name: 'birthday',
-    type: 'date',
-    options: {
-      type: 'date',
-      label: 'Birthday',
-      labelPosition: 'default',
-      copyable: true,
-    },
-  },
-  issued: {
-    name: 'issued',
-    type: 'date',
-    options: {
-      type: 'date',
-      label: 'Issued',
-      labelPosition: 'default',
-      copyable: true,
-    },
-  },
-  expires: {
-    name: 'expires',
-    type: 'date',
-    options: {
-      type: 'date',
-      label: 'Expires',
-      labelPosition: 'default',
-      min: '2021',
-      max: '2100',
       copyable: true,
     },
   },
@@ -227,4 +177,145 @@ export const FieldsBundle = {
       label: 'Web site',
     },
   },
+  number: {
+    name: 'number',
+    type: 'input',
+    options: {
+      type: 'number',
+      label: 'Number',
+      copyable: true,
+      autocomplete: 'number',
+    },
+  },
+  fullname: {
+    name: 'fullname',
+    type: 'input',
+    options: {
+      type: 'text',
+      label: 'Full Name',
+      copyable: true,
+      autocomplete: 'name|fullname|surname',
+    },
+  },
+  birthday: {
+    name: 'birthday',
+    type: 'date',
+    options: {
+      type: 'date',
+      label: 'Birthday',
+      labelPosition: 'default',
+      copyable: true,
+    },
+  },
+  issued: {
+    name: 'issued',
+    type: 'date',
+    options: {
+      type: 'date',
+      label: 'Issued',
+      labelPosition: 'default',
+      copyable: true,
+    },
+  },
+  expires: {
+    name: 'expires',
+    type: 'date',
+    options: {
+      type: 'date',
+      label: 'Expires',
+      labelPosition: 'default',
+      min: '2021',
+      max: '2100',
+      copyable: true,
+    },
+  },
+  mail: {
+    name: 'mail',
+    type: 'input',
+    options: {
+      type: 'email',
+      label: 'Email',
+      copyable: true,
+      autocomplete: 'email',
+    },
+  },
+  phone: {
+    name: 'phone',
+    type: 'input',
+    options: {
+      type: 'tel',
+      label: 'Phone',
+      copyable: true,
+      autocomplete: 'tel|tel-local'
+    }
+  },
+  address1: {
+    name: 'address1',
+    type: 'input',
+    options: {
+      type: 'text',
+      label: 'Street, number',
+      copyable: true,
+      autocomplete: 'street-address|address-line1|address-level1'
+    }
+  },
+  address2: {
+    name: 'address2',
+    type: 'input',
+    options: {
+      type: 'text',
+      label: 'Apartment',
+      copyable: true,
+      autocomplete: 'address-line2|address-level2'
+    }
+  },
+  postalcode: {
+    name: 'postalcode',
+    type: 'input',
+    options: {
+      type: 'text',
+      label: 'Postal code',
+      copyable: true,
+      autocomplete: 'postal-code|address-line3|address-level3'
+    }
+  },
+  city: {
+    name: 'city',
+    type: 'input',
+    options: {
+      type: 'text',
+      label: 'City',
+      copyable: true,
+      autocomplete: 'city|address-line4|address-level4'
+    }
+  },
+  state: {
+    name: 'state',
+    type: 'input',
+    options: {
+      type: 'text',
+      label: 'State',
+      copyable: true,
+      autocomplete: 'state|region|province'
+    }
+  },
+  country: {
+    name: 'country',
+    type: 'input',
+    options: {
+      type: 'text',
+      label: 'Contry',
+      copyable: true,
+      autocomplete: 'country|country-name'
+    }
+  },
+  note: {
+    name: 'note',
+    type: 'textarea',
+    options: {
+      label: 'Note',
+      rows: '5',
+      copyable: true,
+    }
+  }
 };

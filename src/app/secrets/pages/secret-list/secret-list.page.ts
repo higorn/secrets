@@ -89,11 +89,7 @@ export class SecretListPage implements OnInit {
 
   getIcon(type: string) {
     switch (type) {
-      case 'web':
-        return 'globe-outline';
-      case 'mail':
-        return 'mail-outline';
-      case 'login':
+      case 'password':
         return 'key-outline';
       case 'card':
         return 'card-outline';
@@ -101,8 +97,10 @@ export class SecretListPage implements OnInit {
         return 'cash-outline';
       case 'identity':
         return 'id-card-outline';
-      case 'pin':
-        return 'key';
+      case 'info':
+        return 'person-circle-outline';
+      case 'note':
+        return 'document-lock-outline'
     }
   }
 

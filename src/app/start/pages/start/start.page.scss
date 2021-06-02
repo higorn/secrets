@@ -6,3 +6,18 @@ ion-img {
   width: 100%;
   height: 144px;
 }
+
+.layout-container {
+  display: flex;
+  height: 100%;
+
+  .layout-vertical-middle {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+  }
+
+  .layout-messages {
+    height: 144px;
+  }
+}

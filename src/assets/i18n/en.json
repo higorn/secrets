@@ -164,13 +164,12 @@
       }
     },
     "add": {
-      "web": "Web account",
-      "mail": "Email account",
-      "login": "Login",
+      "password": "Password/PIN",
       "card": "Card",
       "bank": "Bank account",
       "identity": "Identity",
-      "pin": "PIN"
+      "info": "Personal info",
+      "note": "Secure note"
     },
     "remove": {
       "title": "Remove item",
@@ -182,13 +181,12 @@
     "copied-to-clipboard": "Copied to the clipboard.",
     "form": {
       "new": {
-        "web": "New Web account",
-        "mail": "New Email account",
-        "login": "New Login",
+        "password": "New Password/PIN",
         "card": "New Card",
         "bank": "New Bank account",
         "identity": "New Identity",
-        "pin": "New PIN"
+        "info": "New Personal info",
+        "note": "New Secure note"
       },
       "edit": "Edit",
       "save": "Save",
@@ -199,16 +197,8 @@
           "placeholder": "Give this secret a name"
         },
         "username": {
-          "name": "User name",
+          "name": "Email or Username",
           "placeholder": "myuser, myuser@email.com, ..."
-        },
-        "name": {
-          "name": "Name",
-          "placeholder": "A common name"
-        },
-        "mail": {
-          "name": "Email",
-          "placeholder": "myuser@email.com"
         },
         "password": {
           "name": "Password",
@@ -218,45 +208,39 @@
           "name": "Web site",
           "placeholder": "www.somewebsite.com"
         },
-        "number": {
-          "name": "Number",
-          "placeholder": "1234..."
+        "cctype": {
+          "name": "Type",
+          "debit": "Debit",
+          "credit": "Credit"
         },
-        "cardnumber": {
+        "ccbrand": {
+          "name": "Brand",
+          "visa": "Visa",
+          "master": "MasterCard",
+          "american": "American Express",
+          "elo": "Elo",
+          "hiper": "Hiper",
+          "hipercard": "Hipercard"
+        },
+        "ccname": {
+          "name": "Name on card",
+          "placeholder": "John Smith"
+        },
+        "ccnumber": {
           "name": "Number",
           "placeholder": "0000 0000 0000 0000"
         },
-        "cardowner": {
-          "name": "Owner",
-          "placeholder": "John Smith"
-        },
-        "cardexpires": {
+        "ccexp": {
           "name": "Expires",
           "placeholder": "mm/yy"
         },
-        "cvv": {
-          "name": "CVV",
+        "cccsc": {
+          "name": "CSC",
           "placeholder": "111"
         },
-        "cardpin": {
+        "ccpin": {
           "name": "Card PIN",
           "placeholder": "The card pin ex. (849275)"
-        },
-        "birthday": {
-          "name": "Birthday",
-          "placeholder": "mm/dd/yyyy"
-        },
-        "issued": {
-          "name": "Issued",
-          "placeholder": "mm/dd/yyyy"
-        },
-        "expires": {
-          "name": "Expires",
-          "placeholder": "mm/dd/yyyy"
-        },
-        "pin": {
-          "name": "PIN",
-          "placeholder": "A pin number (849275)"
         },
         "bank": {
           "name": "Bank",
@@ -285,6 +269,62 @@
         "banksite": {
           "name": "Bank web site",
           "placeholder": "www.mybank.com"
+        },
+        "number": {
+          "name": "Number",
+          "placeholder": "1234..."
+        },
+        "fullname": {
+          "name": "Full Name",
+          "placeholder": "A common name"
+        },
+        "birthday": {
+          "name": "Birthday",
+          "placeholder": "mm/dd/yyyy"
+        },
+        "issued": {
+          "name": "Issued",
+          "placeholder": "mm/dd/yyyy"
+        },
+        "expires": {
+          "name": "Expires",
+          "placeholder": "mm/dd/yyyy"
+        },
+        "mail": {
+          "name": "Email",
+          "placeholder": "myuser@email.com"
+        },
+        "phone": {
+          "name": "Phone number",
+          "placeholder": "554444333222"
+        },
+        "address1": {
+          "name": "Street Address",
+          "placeholder": "My Street Name, 123"
+        },
+        "address2": {
+          "name": "Apartment, Floor, etc",
+          "placeholder": "Apart. 44, 5th Floor"
+        },
+        "postalcode": {
+          "name": "Postal/ZIP code",
+          "placeholder": "55-258"
+        },
+        "city": {
+          "name": "City",
+          "placeholder": "My city name"
+        },
+        "state": {
+          "name": "State or Region",
+          "placeholder": "My state or region name"
+        },
+        "country": {
+          "name": "Country",
+          "placeholder": "My country name"
+        },
+        "note": {
+          "name": "Note",
+          "placeholder": "My super secret note"
         }
       }
     }

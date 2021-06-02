@@ -1,41 +1,43 @@
 <ion-content [fullscreen]="false">
-  <div class="ion-padding-top">
-    <div class="ion-text-center ion-padding-vertical">
-      <ion-img src="assets/img/esecrets.png" class="ion-padding-top" alt="esecrets"></ion-img>
+  <div class="layout-container">
+    <div class="layout-vertical-middle">
+      <div>
+        <ion-img src="assets/img/esecrets.png" alt="esecrets"></ion-img>
+      </div>
+      <form (ngSubmit)="unlockWithPwd()">
+        <ion-item>
+          <ion-label>{{ 'start.password' | translate }}</ion-label>
+          <ion-input [type]="pwType"
+                    name="password"
+                    [(ngModel)]="password"
+                    autocomplete="password"
+                    autofocus="true">
+          </ion-input>
+          <ion-icon color="secondary" slot="end" name="eye" (click)="showSecret()"></ion-icon>
+        </ion-item>
+        <p class="ion-padding-horizontal">
+          <ion-button type="submit" expand="block" color="secondary" [disabled]="!password">
+            {{ 'start.unlock' | translate }}
+          </ion-button>
+        </p>
+        <p *ngIf="isBiometric" class="ion-text-center ion-padding-horizontal">
+          <ion-button type="button" fill="clear" size="large" color="secondary" (click)="unlockWithBiometric()">
+            <ion-icon name="finger-print-outline"></ion-icon>
+          </ion-button>
+        </p>
+      </form>
+      <div class="layout-messages">
+        <p *ngIf="biometricFailed" class="ion-text-center ion-padding-horizontal">
+          <ion-text color="danger">
+            <h4>{{ 'start.biometric-failed' | translate }}</h4>
+          </ion-text>
+        </p>
+        <p *ngIf="unlockFailed" class="ion-text-center ion-padding-horizontal">
+          <ion-text color="danger">
+            <h4>{{ 'start.unlock-failed' | translate }}</h4>
+          </ion-text>
+        </p>
+      </div>
     </div>
-    <form (ngSubmit)="unlockWithPwd()">
-      <ion-item>
-        <ion-label>{{ 'start.password' | translate }}</ion-label>
-        <ion-input [type]="pwType"
-                   name="password"
-                   [(ngModel)]="password"
-                   autocomplete="password"
-                   autofocus="true">
-        </ion-input>
-        <ion-icon color="secondary" slot="end" name="eye" (click)="showSecret()"></ion-icon>
-      </ion-item>
-      <p class="ion-padding-horizontal">
-        <ion-button type="submit" expand="block" color="secondary" [disabled]="!password">
-          {{ 'start.unlock' | translate }}
-        </ion-button>
-      </p>
-    </form>
-    <div *ngIf="isBiometric">
-      <p class="ion-padding-horizontal">
-        <ion-button type="button" expand="block" color="secondary" (click)="unlockWithBiometric()">
-          <ion-icon name="finger-print-outline"></ion-icon>
-        </ion-button>
-      </p>
-      <p *ngIf="biometricFailed" class="ion-text-center ion-padding-top ion-padding-vertical ion-padding-horizontal">
-        <ion-text color="danger">
-          <h4>{{ 'start.biometric-failed' | translate }}</h4>
-        </ion-text>
-      </p>
-    </div>
-    <p *ngIf="unlockFailed" class="ion-text-center ion-padding-top ion-padding-vertical ion-padding-horizontal">
-      <ion-text color="danger">
-        <h4>{{ 'start.unlock-failed' | translate }}</h4>
-      </ion-text>
-    </p>
   </div>
 </ion-content>

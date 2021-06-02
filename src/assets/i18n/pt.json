@@ -165,13 +165,12 @@
       }
     },
     "add": {
-      "web": "Conta web",
-      "mail": "Conta de email",
-      "login": "Login",
-      "card": "Cartão",
+      "password": "Senha",
+      "card": "Cartão crédito/débito",
       "bank": "Conta de banco",
       "identity": "Identidate/CPF/CNH/Passaporte/Outros",
-      "pin": "Senha numérica (PIN)"
+      "info": "Informação pessoal",
+      "note": "Nota segura"
     },
     "remove": {
       "title": "Remoção de item",
@@ -183,13 +182,12 @@
     "copied-to-clipboard": "Copiado para área de transferência.",
     "form": {
       "new": {
-        "web": "Nova Conta web",
-        "mail": "Nova Conta de email",
-        "login": "Novo Login",
-        "card": "Novo Cartão",
+        "password": "Nova Senha",
+        "card": "Novo Cartão crédito/débito",
         "bank": "Nova Conta de banco",
         "identity": "Nova Identidate/CPF/CNH/Passaporte/Outros",
-        "pin": "Nova Senha numérica (PIN)"
+        "info": "Nova Informação pessoal",
+        "note": "Nova Nota segura"
       },
       "edit": "Editar",
       "save": "Salvar",
@@ -203,14 +201,6 @@
           "name": "Nome de usuário",
           "placeholder": "meuusuario, meuusuario@email.com, ..."
         },
-        "name": {
-          "name": "Nome",
-          "placeholder": "Meu nome completo"
-        },
-        "mail": {
-          "name": "E-mail",
-          "placeholder": "meuusuario@email.com"
-        },
         "password": {
           "name": "Senha",
           "placeholder": "minha-senha-super-forte"
@@ -219,44 +209,38 @@
           "name": "Web site",
           "placeholder": "www.algumsite.com"
         },
-        "number": {
-          "name": "Número",
-          "placeholder": "1234..."
+        "cctype": {
+          "name": "Tipo",
+          "debit": "Débito",
+          "credit": "Crédito"
         },
-        "cardnumber": {
+        "ccbrand": {
+          "name": "Bandeira",
+          "visa": "Visa",
+          "master": "MasterCard",
+          "american": "American Express",
+          "elo": "Elo",
+          "hiper": "Hiper",
+          "hipercard": "Hipercard"
+        },
+        "ccname": {
+          "name": "Nome no cartão",
+          "placeholder": "João da Silva"
+        },
+        "ccnumber": {
           "name": "Número",
           "placeholder": "0000 0000 0000 0000"
         },
-        "cardowner": {
-          "name": "Titular",
-          "placeholder": "João da Silva"
-        },
-        "cardexpires": {
+        "ccexp": {
           "name": "Válido até",
           "placeholder": "mm/aa"
         },
-        "cvv": {
+        "cccsc": {
           "name": "CVV",
           "placeholder": "Dígito verificador ex: 111"
         },
-        "cardpin": {
+        "ccpin": {
           "name": "Senha do cartão",
-          "placeholder": "Senha numérica ex: 849275"
-        },
-        "birthday": {
-          "name": "Nascimento",
-          "placeholder": "dd/mm/aaaa"
-        },
-        "issued": {
-          "name": "Emitido em",
-          "placeholder": "dd/mm/aaaa"
-        },
-        "expires": {
-          "name": "Válido até",
-          "placeholder": "dd/mm/aaaa"
-        },
-        "pin": {
-          "name": "Senha",
           "placeholder": "Senha numérica ex: 849275"
         },
         "bank": {
@@ -286,6 +270,62 @@
         "banksite": {
           "name": "Web site do banco",
           "placeholder": "www.meubanco.com"
+        },
+        "number": {
+          "name": "Número",
+          "placeholder": "1234..."
+        },
+        "fullname": {
+          "name": "Nome",
+          "placeholder": "Meu nome completo"
+        },
+        "birthday": {
+          "name": "Nascimento",
+          "placeholder": "dd/mm/aaaa"
+        },
+        "issued": {
+          "name": "Emitido em",
+          "placeholder": "dd/mm/aaaa"
+        },
+        "expires": {
+          "name": "Válido até",
+          "placeholder": "dd/mm/aaaa"
+        },
+        "mail": {
+          "name": "E-mail",
+          "placeholder": "meuusuario@email.com"
+        },
+        "phone": {
+          "name": "Telefone",
+          "placeholder": "554444333222"
+        },
+        "address1": {
+          "name": "Rua",
+          "placeholder": "Rua Xyz, 123"
+        },
+        "address2": {
+          "name": "Complemento",
+          "placeholder": "Apt. 44, 5º andar"
+        },
+        "postalcode": {
+          "name": "CEP",
+          "placeholder": "95095-111"
+        },
+        "city": {
+          "name": "Cidade",
+          "placeholder": "Porto Alegre"
+        },
+        "state": {
+          "name": "Estado ou Região",
+          "placeholder": "RS/SC/SP/..."
+        },
+        "country": {
+          "name": "País",
+          "placeholder": "Brasil"
+        },
+        "note": {
+          "name": "Nota",
+          "placeholder": "Minha nota super secreta"
         }
       }
     }

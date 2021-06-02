@@ -102,12 +102,12 @@ describe('SecretDetailPage', () => {
   });
 
   describe('when adding a secret', () => {
-    it('of type login, then should create a form of type login', () => {
+    it('of type password, then should create a form of type password', () => {
       spyRepository.getById.mockReturnValue(of(undefined));
-      routeStub.setParamMap({ id: 'login' });
+      routeStub.setParamMap({ id: 'password' });
 
       expect(component.form.get('title')).toBeTruthy();
-      expect(component.form.get('login')).toBeTruthy();
+      expect(component.form.get('username')).toBeTruthy();
       expect(component.form.get('password')).toBeTruthy();
     });
 
@@ -117,11 +117,13 @@ describe('SecretDetailPage', () => {
       routeStub.setParamMap({ id: 'card' });
 
       expect(component.form.get('title')).toBeTruthy();
-      expect(component.form.get('cardnumber')).toBeTruthy();
-      expect(component.form.get('cardowner')).toBeTruthy();
-      expect(component.form.get('cardexpires')).toBeTruthy();
-      expect(component.form.get('cvv')).toBeTruthy();
-      expect(component.form.get('cardpin')).toBeTruthy();
+      expect(component.form.get('cctype')).toBeTruthy();
+      expect(component.form.get('ccbrand')).toBeTruthy();
+      expect(component.form.get('ccnumber')).toBeTruthy();
+      expect(component.form.get('ccname')).toBeTruthy();
+      expect(component.form.get('ccexp')).toBeTruthy();
+      expect(component.form.get('cccsc')).toBeTruthy();
+      expect(component.form.get('ccpin')).toBeTruthy();
     });
 
     it('of type identity, then should create a form of type identity', () => {
@@ -131,7 +133,7 @@ describe('SecretDetailPage', () => {
 
       expect(component.form.get('title')).toBeTruthy();
       expect(component.form.get('number')).toBeTruthy();
-      expect(component.form.get('name')).toBeTruthy();
+      expect(component.form.get('fullname')).toBeTruthy();
       expect(component.form.get('birthday')).toBeTruthy();
       expect(component.form.get('issued')).toBeTruthy();
       expect(component.form.get('expires')).toBeTruthy();
@@ -155,20 +157,21 @@ describe('SecretDetailPage', () => {
     it('of type pin, then should create a form of type pin', () => {
       component.form = new FormGroup({});
       spyRepository.getById.mockReturnValue(of(undefined));
-      routeStub.setParamMap({ id: 'pin' });
+      routeStub.setParamMap({ id: 'note' });
 
       expect(component.form.get('title')).toBeTruthy();
-      expect(component.form.get('pin')).toBeTruthy();
+      expect(component.form.get('note')).toBeTruthy();
     });
 
     it('when add a new secret should reset the form and redirect to the secrets list', fakeAsync(() => {
       component.form = new FormGroup({});
       spyRepository.getById.mockReturnValue(of(undefined));
-      routeStub.setParamMap({ id: 'login' });
-      const secret = new Secret('', 'login', 'test', {
+      routeStub.setParamMap({ id: 'password' });
+      const secret = new Secret('', 'password', 'test', {
         title: 'test',
-        login: 'nicanor',
+        username: 'nicanor',
         password: '1234',
+        site: null
       });
       component.form.setValue(secret.content);
       component.save();
@@ -183,11 +186,12 @@ describe('SecretDetailPage', () => {
   it('should not save an empty form', fakeAsync(() => {
     component.form = new FormGroup({});
     spyRepository.getById.mockReturnValue(of(undefined));
-    routeStub.setParamMap({ id: 'login' });
-    const secret = new Secret('', 'login', 'test', {
+    routeStub.setParamMap({ id: 'password' });
+    const secret = new Secret('', 'password', 'test', {
       title: null,
-      login: '',
+      username: '',
       password: null,
+      site: null
     });
     component.form.setValue(secret.content);
     component.save();
@@ -201,11 +205,12 @@ describe('SecretDetailPage', () => {
   it('should save an empty form if it has at least one field with value', fakeAsync(() => {
     component.form = new FormGroup({});
     spyRepository.getById.mockReturnValue(of(undefined));
-    routeStub.setParamMap({ id: 'login' });
-    const secret = new Secret('', 'login', 'test', {
+    routeStub.setParamMap({ id: 'password' });
+    const secret = new Secret('', 'password', 'test', {
       title: null,
-      login: 'a',
+      username: 'a',
       password: null,
+      site: null
     });
     component.form.setValue(secret.content);
     component.save();
@@ -216,14 +221,15 @@ describe('SecretDetailPage', () => {
     expect(router.url).toBe('/tabs/secrets');
   }));
 
-  it('should toggle the password field type when clicking the view button for type login', () => {
+  it('should toggle the password field type when clicking the view button for type password', () => {
     component.form = new FormGroup({});
     spyRepository.getById.mockReturnValue(of(undefined));
-    routeStub.setParamMap({ id: 'login' });
-    const secret = new Secret('', 'login', 'test', {
+    routeStub.setParamMap({ id: 'password' });
+    const secret = new Secret('', 'password', 'test', {
       title: 'test',
-      login: 'nicanor',
+      username: 'nicanor',
       password: '1234',
+      site: 'abc'
     });
     component.form.setValue(secret.content);
 
@@ -240,16 +246,19 @@ describe('SecretDetailPage', () => {
     routeStub.setParamMap({ id: 'card' });
     const secret = new Secret('', 'card', 'test', {
       title: 'test',
-      cardnumber: '1234',
-      cardowner: 'eu',
-      cardexpires: '132',
-      cvv: '1234',
-      cardpin: '1234',
+      cctype: 'credit',
+      ccbrand: 'visa',
+      ccnumber: '1234',
+      ccname: 'eu',
+      ccexp: '132',
+      cccsc: '1234',
+      ccpin: '1234',
+      country: 'BR'
     });
     component.form.setValue(secret.content);
 
-    const cvvField = component.fields.find((f) => f.name === 'cvv');
-    const pinField = component.fields.find((f) => f.name === 'cardpin');
+    const cvvField = component.fields.find((f) => f.name === 'cccsc');
+    const pinField = component.fields.find((f) => f.name === 'ccpin');
     component.showSecret(cvvField);
     expect(cvvField.options.type).toEqual('text');
     component.showSecret(pinField);
@@ -264,10 +273,11 @@ describe('SecretDetailPage', () => {
   describe('when editing', () => {
     beforeEach(() => {
       component.form = new FormGroup({});
-      const secret = new Secret('abc', 'login', 'test', {
+      const secret = new Secret('abc', 'password', 'test', {
         title: 'test',
-        login: 'nicanor',
+        username: 'nicanor',
         password: '1234',
+        site: 'abc'
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
@@ -285,10 +295,11 @@ describe('SecretDetailPage', () => {
 
     it('should show the secrets title as the pages title', () => {
       component.form = new FormGroup({});
-      const secret = new Secret('abc', 'login', 'test', {
+      const secret = new Secret('abc', 'password', 'test', {
         title: 'test',
-        login: 'nicanor',
+        username: 'nicanor',
         password: '1234',
+        site: 'abc'
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
@@ -299,12 +310,13 @@ describe('SecretDetailPage', () => {
   });
 
   describe('should load the form with the selected secret', () => {
-    it('when the secret is of type login', () => {
+    it('when the secret is of type password', () => {
       component.form = new FormGroup({});
-      const secret = new Secret('abc', 'login', 'test', {
+      const secret = new Secret('abc', 'password', 'test', {
         title: 'test',
-        login: 'nicanor',
+        username: 'nicanor',
         password: '1234',
+        site: 'abc'
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
@@ -316,32 +328,38 @@ describe('SecretDetailPage', () => {
       component.form = new FormGroup({});
       const secret = new Secret('abc', 'card', 'test', {
         title: 'test',
-        cardnumber: '1234',
-        cardowner: 'eu',
-        cardexpires: '132',
-        cvv: '1234',
-        cardpin: '1234',
+        cctype: 'credit',
+        ccbrand: 'visa',
+        ccnumber: '1234',
+        ccname: 'eu',
+        ccexp: '132',
+        cccsc: '1234',
+        ccpin: '1234',
+        country: 'BR'
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
 
       expect(component.secret).toBe(secret);
       expect(component.form.get('title')).toBeTruthy();
-      expect(component.form.get('cardnumber')).toBeTruthy();
-      expect(component.form.get('cardowner')).toBeTruthy();
-      expect(component.form.get('cardexpires')).toBeTruthy();
-      expect(component.form.get('cvv')).toBeTruthy();
-      expect(component.form.get('cardpin')).toBeTruthy();
+      expect(component.form.get('cctype')).toBeTruthy();
+      expect(component.form.get('ccbrand')).toBeTruthy();
+      expect(component.form.get('ccnumber')).toBeTruthy();
+      expect(component.form.get('ccname')).toBeTruthy();
+      expect(component.form.get('ccexp')).toBeTruthy();
+      expect(component.form.get('cccsc')).toBeTruthy();
+      expect(component.form.get('ccpin')).toBeTruthy();
     });
   });
 
   describe('when coping a secret', () => {
-    it('of type login, then should copy the values to the clipboard', () => {
+    it('of type password, then should copy the values to the clipboard', () => {
       component.form = new FormGroup({});
-      const secret = new Secret('abc', 'login', 'test', {
+      const secret = new Secret('abc', 'password', 'test', {
         title: 'test',
-        login: 'nicanor',
+        username: 'nicanor',
         password: '1234',
+        site: 'abc'
       });
       spyRepository.getById.mockReturnValue(of(secret));
       routeStub.setParamMap({ id: 'abc' });
@@ -360,10 +378,11 @@ describe('SecretDetailPage', () => {
 
   it('should execute the secret removing only after a confirmation', fakeAsync(() => {
     component.form = new FormGroup({});
-    const secret = new Secret('abc', 'login', 'test', {
+    const secret = new Secret('abc', 'password', 'test', {
       title: 'test',
-      login: 'nicanor',
+      username: 'nicanor',
       password: '1234',
+      site: 'abc'
     });
     spyRepository.getById.mockReturnValue(of(secret));
     routeStub.setParamMap({ id: 'abc' });
@@ -391,10 +410,11 @@ describe('SecretDetailPage', () => {
   }));
 
   it('should not execute the secret removing if the confirmation was conceled', fakeAsync(() => {
-    const secret = new Secret('abc', 'login', 'test', {
+    const secret = new Secret('abc', 'password', 'test', {
       title: 'test',
-      login: 'nicanor',
+      username: 'nicanor',
       password: '1234',
+      site: 'abc'
     });
     spyRepository.getById.mockReturnValue(of(secret));
     routeStub.setParamMap({ id: 'abc' });

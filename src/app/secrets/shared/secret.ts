@@ -14,34 +14,22 @@ export class Secret implements Entity {
 }
 
 export const FormType = {
-  web: [
+  password: [
     FieldsBundle.title,
     FieldsBundle.username,
     FieldsBundle.password,
     FieldsBundle.site,
   ],
-  mail: [
-    FieldsBundle.title,
-    FieldsBundle.mail,
-    FieldsBundle.password,
-    FieldsBundle.site,
-  ],
-  login: [FieldsBundle.title, FieldsBundle.login, FieldsBundle.password],
   card: [
     FieldsBundle.title,
-    FieldsBundle.cardnumber,
-    FieldsBundle.cardowner,
-    FieldsBundle.cardexpires,
-    FieldsBundle.cvv,
-    FieldsBundle.cardpin,
-  ],
-  identity: [
-    FieldsBundle.title,
-    FieldsBundle.number,
-    FieldsBundle.name,
-    FieldsBundle.birthday,
-    FieldsBundle.issued,
-    FieldsBundle.expires,
+    FieldsBundle.cctype,
+    FieldsBundle.ccbrand,
+    FieldsBundle.ccname,
+    FieldsBundle.ccnumber,
+    FieldsBundle.ccexp,
+    FieldsBundle.cccsc,
+    FieldsBundle.ccpin,
+    FieldsBundle.country,
   ],
   bank: [
     FieldsBundle.title,
@@ -49,10 +37,36 @@ export const FormType = {
     FieldsBundle.holder,
     FieldsBundle.type,
     FieldsBundle.iban,
-    FieldsBundle.cardpin,
+    FieldsBundle.ccpin,
     FieldsBundle.login,
     FieldsBundle.internetbankpassword,
     FieldsBundle.banksite,
+    FieldsBundle.country,
   ],
-  pin: [FieldsBundle.title, FieldsBundle.pin],
+  identity: [
+    FieldsBundle.title,
+    FieldsBundle.number,
+    FieldsBundle.fullname,
+    FieldsBundle.birthday,
+    FieldsBundle.issued,
+    FieldsBundle.expires,
+  ],
+  info: [
+    FieldsBundle.title,
+    FieldsBundle.fullname,
+    FieldsBundle.birthday,
+    FieldsBundle.mail,
+    FieldsBundle.phone,
+    FieldsBundle.address1,
+    FieldsBundle.address2,
+    FieldsBundle.postalcode,
+    FieldsBundle.city,
+    FieldsBundle.state,
+    FieldsBundle.country,
+
+  ],
+  note: [
+    FieldsBundle.title,
+    FieldsBundle.note
+  ]
 };
