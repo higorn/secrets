@@ -34,12 +34,12 @@ export class NativeImportService extends ImportService {
         const modified = DateUtils.getUtcTime();
         const items = this.csvToObj(atob(data));
         return items.map((i) => (
-            new Secret(uuid(), 'web', i.name || 'unamed', {
-              title: i.name || 'unamed',
+            new Secret(uuid(), 'password', i.name || i.url || 'unnamed', {
+              title: i.name || i.url || 'unnamed',
               username: i.username,
               password: i.password,
               site: i.url
-            }, modified, 'chrome')
+            }, modified, 'chrome', 'credential')
           )
         )
       }))

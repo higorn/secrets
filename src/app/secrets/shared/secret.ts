@@ -9,7 +9,10 @@ export class Secret implements Entity {
     public content: any,
     public modified?: number,
     public imported?: string,
+    public category?: string,
+    public folder?: string,
     public removed?: boolean,
+    public trash?: boolean,
   ) {}
 }
 
