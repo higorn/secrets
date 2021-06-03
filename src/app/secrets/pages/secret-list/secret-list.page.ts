@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 import { AppLoadingController } from 'src/app/shared/app-loading.controller';
 import { ImportService } from '../../../shared/import.service';
 import { Secret } from '../../shared/secret';
+import { SecretListMenuController } from '../../shared/secret-list-menu.controller';
 import { SecretRepository } from '../../shared/secret.repository';
 import { ImportComponent } from './../../components/import/import.component';
-import { SecretListMenuController } from '../../shared/secret-list-menu.controller';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-secret-list',
