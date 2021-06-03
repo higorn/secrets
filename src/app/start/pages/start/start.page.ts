@@ -96,24 +96,22 @@ export class StartPage implements OnInit, OnDestroy {
     await this.presentLoading();
     this.unsealSub = this.vault.unseal(pass).subscribe((isSuccess) => {
       this.password = null;
-      this.loading.dismiss().then(() => {}, (err) => console.log(err))
       if (!isSuccess) {
         this.unlockFailed = true;
         return;
       }
       this.unlockFailed = false;
       this.router.navigate(['/tabs/secrets']);
+      this.loading.dismiss().then(() => {}, (err) => console.log(err))
     });
   }
 
   private async presentLoading(): Promise<any> {
     let message = 'Unsealing, please wait.';
-    this.translateSub = this.translator
-      .get('loading.unseal')
-      .subscribe((msg) => (message = msg));
+    this.translateSub = this.translator.get('loading.unseal').subscribe((msg) => (message = msg));
     const loading = await this.loading.create({
       message: message,
-      duration: 5000,
+      duration: 3000,
     });
     return loading.present();
   }
