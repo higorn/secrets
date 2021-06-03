@@ -5,7 +5,7 @@
       <ion-label>{{ 'tabs.mysecrets' | translate }}</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab=""> </ion-tab-button>
+    <ion-tab-button tab="" disabled> </ion-tab-button>
 
     <ion-tab-button tab="settings">
       <ion-icon name="Settings"></ion-icon>
@@ -14,4 +14,4 @@
   </ion-tab-bar>
 </ion-tabs>
 
-<app-secret-add (eventSelectType)="onSelectType($event)"></app-secret-add>
+<app-master-btn [action]="masterBtnAction" (eventClick)="onMasterBtnClick($event)"></app-master-btn>

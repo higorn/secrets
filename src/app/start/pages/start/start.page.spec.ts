@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, LoadingController, Platform } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { from, of } from 'rxjs';
 import { BiometricService } from 'src/app/shared/biometric.service';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { SettingsService } from 'src/app/shared/settings.service';
@@ -109,7 +109,7 @@ describe('StartPage', () => {
   }));
 
   it('should show error when wrong password', fakeAsync(() => {
-    spyVaultService.unseal.mockReturnValue(of(false));
+    spyVaultService.unseal.mockReturnValue(from(new Promise((resolve, reject) => resolve(false))));
     spyOn(loadingController, 'create').and.callFake((obj) => {
       return new Promise((resolve, reject) => {
         resolve({ present: jest.fn() });

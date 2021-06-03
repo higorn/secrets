@@ -1,0 +1,26 @@
+<ion-fab horizontal="center" vertical="bottom" slot="fixed">
+  <ion-fab-button id="master-btn" (click)="onClick()">
+    <ion-icon [name]="iconName"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list *ngIf="action === 'add'" side="top">
+    <ion-fab-button (click)="onAdd('password')" color="light" title="{{ 'secrets.add.password' | translate }}">
+      <ion-icon name="key-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="onAdd('card')" color="light" title="{{ 'secrets.add.card' | translate }}">
+      <ion-icon name="card-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="onAdd('bank')" color="light" title="{{ 'secrets.add.bank' | translate }}">
+      <ion-icon name="cash-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="onAdd('identity')" color="light" title="{{ 'secrets.add.identity' | translate }}">
+      <ion-icon name="id-card-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="onAdd('info')" color="light" title="{{ 'secrets.add.info' | translate }}">
+      <ion-icon name="person-circle-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="onAdd('note')" color="light" title="{{ 'secrets.add.note' | translate }}">
+      <ion-icon name="document-lock-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
+

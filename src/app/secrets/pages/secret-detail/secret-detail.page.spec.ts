@@ -284,15 +284,6 @@ describe('SecretDetailPage', () => {
       fixture.detectChanges();
     });
 
-    it('should make field editable', () => {
-      expect(component.isReadonly).toBe(true);
-
-      const btnEdit = fixture.debugElement.query(By.css('#edit-btn'));
-      btnEdit.triggerEventHandler('click', null);
-
-      expect(component.isReadonly).toBe(false);
-    });
-
     it('should show the secrets title as the pages title', () => {
       component.form = new FormGroup({});
       const secret = new Secret('abc', 'password', 'test', {

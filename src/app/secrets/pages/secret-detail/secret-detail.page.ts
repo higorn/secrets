@@ -9,6 +9,7 @@ import { TranslatorService } from 'src/app/shared/translator.service';
 import { v4 as uuid } from 'uuid';
 import { FormType, Secret } from '../../shared/secret';
 import { SecretRepository } from '../../shared/secret.repository';
+import { MasterBtnService } from 'src/app/shared/master-btn.service';
 
 @Component({
   selector: 'app-secret-detail',
@@ -34,7 +35,8 @@ export class SecretDetailPage implements OnInit, OnDestroy {
     private translate: TranslatorService,
     private alert: AlertController,
     private clipboard: ClipboardService,
-    private toast: ToastController
+    private toast: ToastController,
+    private masterBtn: MasterBtnService
   ) {}
 
   ngOnDestroy(): void {
@@ -49,13 +51,24 @@ export class SecretDetailPage implements OnInit, OnDestroy {
         .getById(id)
         .subscribe((secret) => this.load(secret, id));
     });
+    this.masterBtn.onClick$.subscribe((action) => {
+      switch(action) {
+        case 'edit':
+          this.edit();
+          this.masterBtn.changeAction('save');
+          break;
+        case 'save': return this.save();
+      }
+    })
   }
 
   private load(secret: Secret, id: string) {
     this.translate.get('secrets.form.new.' + id).subscribe((val) => (this.title = val));
+    this.masterBtn.changeAction('save');
     this.secret = secret || new Secret(uuid(), id, null, null);
     this.createForm(secret?.type || id);
     if (this.secret.content) {
+      this.masterBtn.changeAction('edit');
       this.title = this.secret.name;
       this.isReadonly = true;
       this.form.setValue(this.secret.content);

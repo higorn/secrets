@@ -1,15 +1,15 @@
-import { IonicModule } from '@ionic/angular';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { TabsPageRoutingModule } from './tabs-routing.module';
-
-import { TabsPage } from './tabs.page';
-import { SecretAddComponent } from './components/secret-add/secret-add.component';
+import { IonicModule } from '@ionic/angular';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Httpi18nLoaderFactory } from '../shared/utils';
-import { HttpClient } from '@angular/common/http';
+import { MasterBtnComponent } from './components/master-btn/master-btn.component';
+import { TabsPageRoutingModule } from './tabs-routing.module';
+import { TabsPage } from './tabs.page';
+
+
 
 @NgModule({
   imports: [
@@ -25,6 +25,6 @@ import { HttpClient } from '@angular/common/http';
       },
     }),
   ],
-  declarations: [TabsPage, SecretAddComponent],
+  declarations: [TabsPage, MasterBtnComponent],
 })
 export class TabsPageModule {}

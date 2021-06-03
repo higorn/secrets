@@ -165,9 +165,10 @@ describe('SecretStorageService', () => {
       const listB = [
         new Secret(id, 'login', 'aaa', {login: 'aaa@aa', password: '321'}, d2),
         new Secret(listA[1].id, 'web', 'bbb', {user: 'bbb', password: '123', site: 'www'}, d1),
-        new Secret(listA[2].id, 'email', 'ccc', {email: 'cc@cc', password: '321', site: 'ww'}, d2, true),
+        new Secret(listA[2].id, 'email', 'ccc', {email: 'cc@cc', password: '321', site: 'ww'}, d2, null, null, null, true),
         new Secret(uuid(), 'card', 'eee', {cardnumber: '4321', cardowner: 'eee', cardexpires: d2, cvv: 302, pin: 333}, d2),
-        new Secret(uuid(), 'card', 'ddd', {cardnumber: '4321', cardowner: 'ddd', cardexpires: d2, cvv: 302, pin: 333}, d2, true),
+        new Secret(uuid(), 'card', 'ddd', {cardnumber: '4321', cardowner: 'ddd', cardexpires: d2, cvv: 302, pin: 333},
+          d2, null, null, null, true),
       ]
       const expectedMerged = [
         listB[0], listA[1], listB[2], listA[3], listB[3], listB[4]
