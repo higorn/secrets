@@ -73,4 +73,8 @@ export class SecretRepository extends SecureRepository<Secret> {
     })
     return mergedSecrets;
   }
+
+  get dataChanges(): Observable<void> {
+    return this.storageService.dataChanged$
+  }
 }

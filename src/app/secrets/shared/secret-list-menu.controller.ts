@@ -32,18 +32,19 @@ export class SecretListMenuController {
     return popover;
   }
 
-  execMenuAction(action: string): void {
+  async execMenuAction(action: string): Promise<void> {
     if (action === 'select') {
-      this.secretListPage.secrets.subscribe(async (_secrets) => {
-        const data = await this.selectItems(_secrets);
+      // this.secretListPage.secrets.subscribe(async (_secrets) => {
+        // const data = await this.selectItems(_secrets);
+        const data = await this.showItemsToSelect(this.secretListPage.secrets);
         if (data && data.action === 'remove')
           this.remove(data.items);
         console.log('selected', data);
-      });
+      // });
     }
   }
 
-  private async selectItems(secrets: Secret[]): Promise<{ action: string, items: Secret[] }> {
+  private async showItemsToSelect(secrets: Secret[]): Promise<{ action: string, items: Secret[] }> {
     const modal = await this.modal.create({
       component: SelectItemsComponent,
       componentProps: {

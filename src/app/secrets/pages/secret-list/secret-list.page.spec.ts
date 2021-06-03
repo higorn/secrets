@@ -34,6 +34,7 @@ describe('SecretListPage', () => {
     getAll: jest.fn(),
   };
   const spyImport = {
+    isAvailable: jest.fn(),
     getDataToImport: jest.fn(),
   }
   const spyStorage = {
@@ -79,12 +80,13 @@ describe('SecretListPage', () => {
     component.isLoading = false;
     component.ionViewDidEnter();
     tick();
-    component.secrets.subscribe((items) => {
+/*     component.secrets.subscribe((items) => {
       len = items.length;
-    });
+    }); */
 
     expect(spyRepository.getAll).toHaveBeenCalled();
-    expect(len).toBeGreaterThan(0);
+    // expect(len).toBeGreaterThan(0);
+    expect(component.secrets.length).toBeGreaterThan(0);
   }));
 
 /*   it('when is import, then go to import page', () => {

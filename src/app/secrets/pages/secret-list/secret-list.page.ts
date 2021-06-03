@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { IonList, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AppLoadingController } from 'src/app/shared/app-loading.controller';
 import { ImportService } from '../../../shared/import.service';
@@ -14,7 +14,8 @@ import { ImportComponent } from './../../components/import/import.component';
   styleUrls: ['secret-list.page.scss'],
 })
 export class SecretListPage implements OnInit {
-  secrets: Observable<Secret[]>;
+  secrets: Secret[];
+  displaySecrets: Secret[]
   isLoading = true;
 
   constructor(
@@ -27,19 +28,23 @@ export class SecretListPage implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = false;
+    if (this.importService.isAvailable()) {
+      this.importService.getDataToImport().subscribe(async (data: Secret[]) => {
+        if (data && data.length)
+          this.import(await this.chooseSecretsToImport(data));
+      })
+    }
     this.loadSecrets();
   }
 
   ionViewDidEnter() {
-    this.importService.getDataToImport().subscribe(async (data: Secret[]) => {
-      if (data && data.length)
-        this.import(await this.chooseSecretsToImport(data));
-    })
+    // this.repository.dataChanges.subscribe(() => this.loadSecrets());
     this.loadSecrets();
   }
 
   private async chooseSecretsToImport(secrets: Secret[]): Promise<Secret[]> {
-    const currSecrets = await this.secrets.toPromise();
+    // const currSecrets = await this.secrets.toPromise();
+    const currSecrets = this.secrets
     const toImport = secrets.filter(s1 => !currSecrets.some(s2 => s2.name === s1.name))
     const modal = await this.modal.create({
       component: ImportComponent,
@@ -70,14 +75,33 @@ export class SecretListPage implements OnInit {
   }
 
   loadSecrets() {
-    if (!this.isLoading) this.secrets = this.repository.getAll();
+    // if (!this.isLoading) this.secrets = this.repository.getAll();
+    if (!this.isLoading) this.repository.getAll().subscribe((secrets) => {
+      this.secrets = secrets.reverse()
+      this.displaySecrets = this.secrets;
+    });
   }
 
   refresh(event: any): void {
     this.repository.refresh().subscribe(() => {
-      this.secrets = this.repository.getAll();
-      event.target.complete()
+      // this.secrets = this.repository.getAll();
+      this.repository.getAll().subscribe((secrets) => {
+        this.secrets = secrets.reverse();
+        this.displaySecrets = this.secrets;
+        event.target.complete()
+      });
     });
+  }
+
+  search(event: any) {
+    const term = event.target.value.toLowerCase();
+    this.displaySecrets = this.secrets
+      .filter(s => s.name.toLowerCase().includes(term) || this.isSubtitleIncludes(s, term));
+  }
+
+  private isSubtitleIncludes(s: Secret, term: any): boolean {
+    const subtitle = this.getItemSubtitle(s);
+    return subtitle && subtitle.toLowerCase().includes(term);
   }
 
   async showMenu(event: any): Promise<void> {

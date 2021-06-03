@@ -23,18 +23,26 @@ export class GoogleDriveSyncService extends CloudSyncService {
   }
 
   init(merger: DataMerger): void {
-    this.storage.dataChanged$.subscribe(() => {
+    const sub = this.storage.dataChanged$.subscribe(() => {
       if (this.syncLocked) return;
       const sub1 = this.settings.getCloudSync().subscribe((cloudSync: CloudSync) => {
-        if (cloudSync.provider !== 'google-drive') return;
+        sub1.unsubscribe()
+        if (cloudSync.provider !== 'google-drive' || this.syncLocked) return;
+        this.syncLocked = true;
         const sub2 = from(GoogleAuth.refresh()).subscribe((auth: Authentication) => {
-          this.syncLocked = true;
+          sub2.unsubscribe()
           const sub3 = this.doSync({ token: auth.accessToken, file: cloudSync.file }, merger).subscribe(() => {
             sub3.unsubscribe()
-            sub2.unsubscribe()
-            sub1.unsubscribe()
             this.syncLocked = false;
+          }, (error) => {
+            sub3.unsubscribe()
+            console.error('Error on do sync:', error)
+            this.syncLocked = false
           })
+        }, (error) => {
+          sub2.unsubscribe()
+          console.error('Error on refresh token:', error)
+          this.syncLocked = false
         })
       })
     })
