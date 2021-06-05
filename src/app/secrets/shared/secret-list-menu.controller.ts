@@ -34,13 +34,13 @@ export class SecretListMenuController {
 
   async execMenuAction(action: string): Promise<void> {
     if (action === 'select') {
-      // this.secretListPage.secrets.subscribe(async (_secrets) => {
-        // const data = await this.selectItems(_secrets);
-        const data = await this.showItemsToSelect(this.secretListPage.secrets);
+      this.secretListPage.secrets.subscribe(async (_secrets) => {
+        const data = await this.showItemsToSelect(_secrets);
+        // const data = await this.showItemsToSelect(this.secretListPage.secrets);
         if (data && data.action === 'remove')
           this.remove(data.items);
         console.log('selected', data);
-      // });
+      });
     }
   }
 

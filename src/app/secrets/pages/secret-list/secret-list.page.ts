@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IonList, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AppLoadingController } from 'src/app/shared/app-loading.controller';
 import { ImportService } from '../../../shared/import.service';
 import { Secret } from '../../shared/secret';
@@ -14,8 +15,8 @@ import { ImportComponent } from './../../components/import/import.component';
   styleUrls: ['secret-list.page.scss'],
 })
 export class SecretListPage implements OnInit {
-  secrets: Secret[];
-  displaySecrets: Secret[]
+  secrets: Observable<Secret[]>;
+  displaySecrets: Observable<Secret[]>;
   isLoading = true;
 
   constructor(
@@ -39,12 +40,12 @@ export class SecretListPage implements OnInit {
 
   ionViewWillEnter() {
     // this.repository.dataChanges.subscribe(() => this.loadSecrets());
-    this.loadSecrets();
+    // this.loadSecrets();
   }
 
   private async chooseSecretsToImport(secrets: Secret[]): Promise<Secret[]> {
-    // const currSecrets = await this.secrets.toPromise();
-    const currSecrets = this.secrets
+    const currSecrets = await this.secrets.toPromise();
+    // const currSecrets = this.secrets
     const toImport = secrets.filter(s1 => !currSecrets.some(s2 => s2.name === s1.name))
     const modal = await this.modal.create({
       component: ImportComponent,
@@ -75,29 +76,38 @@ export class SecretListPage implements OnInit {
   }
 
   loadSecrets() {
-    // if (!this.isLoading) this.secrets = this.repository.getAll();
-    if (!this.isLoading) this.repository.getAll().subscribe((secrets) => {
+    if (!this.isLoading) {
+      this.secrets = this.repository.getAll();
+      this.displaySecrets = this.secrets.pipe(map(secrets => {
+        console.log('Loading secrets', secrets)
+        return secrets.reverse()
+      }));
+      this.loading.dismiss();
+    }
+/*     if (!this.isLoading) this.repository.getAll().subscribe((secrets) => {
       this.secrets = secrets.reverse()
       this.displaySecrets = this.secrets;
       this.loading.dismiss();
-    });
+    }); */
   }
 
   refresh(event: any): void {
     this.repository.refresh().subscribe(() => {
       // this.secrets = this.repository.getAll();
-      this.repository.getAll().subscribe((secrets) => {
+/*       this.repository.getAll().subscribe((secrets) => {
         this.secrets = secrets.reverse();
         this.displaySecrets = this.secrets;
         event.target.complete()
-      });
+      }); */
+      event.target.complete()
     });
   }
 
   search(event: any) {
     const term = event.target.value.toLowerCase();
-    this.displaySecrets = this.secrets
-      .filter(s => s.name.toLowerCase().includes(term) || this.isSubtitleIncludes(s, term));
+    this.displaySecrets = this.secrets.pipe(
+        map((secrets) => secrets.filter(s => s.name.toLowerCase().includes(term) || this.isSubtitleIncludes(s, term)))
+      );
   }
 
   private isSubtitleIncludes(s: Secret, term: any): boolean {

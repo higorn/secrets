@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { from, of } from 'rxjs';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { StorageService } from 'src/app/shared/storage/storage.service';
 import { SecretsPageModule } from '../../secrets.module';
@@ -80,13 +80,13 @@ describe('SecretListPage', () => {
     component.isLoading = false;
     component.ionViewWillEnter();
     tick();
-/*     component.secrets.subscribe((items) => {
+    component.secrets.subscribe((items) => {
       len = items.length;
-    }); */
+    });
 
     expect(spyRepository.getAll).toHaveBeenCalled();
-    // expect(len).toBeGreaterThan(0);
-    expect(component.secrets.length).toBeGreaterThan(0);
+    expect(len).toBeGreaterThan(0);
+    // expect(component.secrets.length).toBeGreaterThan(0);
   }));
 
 /*   it('when is import, then go to import page', () => {
