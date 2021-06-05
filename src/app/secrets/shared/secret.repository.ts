@@ -13,8 +13,8 @@ import { Secret } from './secret';
   providedIn: 'root',
 })
 export class SecretRepository extends SecureRepository<Secret> {
-  protected dataChangesSource = new Subject<Secret[]>();
-  dataChanges = this.dataChangesSource.asObservable();
+  private dataChangesSource = new Subject<Secret[]>();
+  private dataChanges = this.dataChangesSource.asObservable();
   private cloudSyncService: CloudSyncService;
   private data: Secret[];
 
@@ -41,7 +41,9 @@ export class SecretRepository extends SecureRepository<Secret> {
         this.data = secrets || []
         this.dataChangesSource.next(this.data)
       });
+      return this.dataChanges.pipe((map((secrets) => secrets ? secrets.filter(s => !s.removed) : [])));
     }
+    setTimeout(() => this.dataChangesSource.next(this.data))
     return this.getData();
   }
 

@@ -26,6 +26,7 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   fields = [];
   private getByIdSubscription: Subscription;
   private routeSubscription: Subscription;
+  private masterBtnSubscription: Subscription;
 
   constructor(
     private repository: SecretRepository,
@@ -42,6 +43,7 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.getByIdSubscription && this.getByIdSubscription.unsubscribe();
     this.routeSubscription && this.routeSubscription.unsubscribe();
+    this.masterBtnSubscription && this.masterBtnSubscription.unsubscribe();
   }
 
   ngOnInit() {
@@ -51,7 +53,7 @@ export class SecretDetailPage implements OnInit, OnDestroy {
         .getById(id)
         .subscribe((secret) => this.load(secret, id));
     });
-    this.masterBtn.onClick$.subscribe((action) => {
+    this.masterBtnSubscription = this.masterBtn.onClick$.subscribe((action) => {
       switch(action) {
         case 'edit':
           this.edit();

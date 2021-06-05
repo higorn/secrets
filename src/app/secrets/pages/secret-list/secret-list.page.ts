@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IonList, ModalController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppLoadingController } from 'src/app/shared/app-loading.controller';
 import { ImportService } from '../../../shared/import.service';
@@ -14,10 +14,10 @@ import { ImportComponent } from './../../components/import/import.component';
   templateUrl: 'secret-list.page.html',
   styleUrls: ['secret-list.page.scss'],
 })
-export class SecretListPage implements OnInit {
+export class SecretListPage implements OnInit, OnDestroy {
   secrets: Secret[];
   displaySecrets: Secret[];
-  isLoading = true;
+  private getAllSubscription: Subscription;
 
   constructor(
     private repository: SecretRepository,
@@ -27,20 +27,33 @@ export class SecretListPage implements OnInit {
     private menuController: SecretListMenuController
   ) {}
 
+  ngOnDestroy(): void {
+    console.log('on destroy')
+    this.getAllSubscription && this.getAllSubscription.unsubscribe();
+  }
+
   ngOnInit(): void {
-    this.isLoading = false;
-    if (this.importService.isAvailable()) {
-      this.importService.getDataToImport().subscribe(async (data: Secret[]) => {
-        if (data && data.length)
-          this.import(await this.chooseSecretsToImport(data));
-      })
-    }
+    console.log('on init')
     this.loadSecrets();
   }
 
-  ionViewWillEnter() {
-    // this.repository.dataChanges.subscribe(() => this.loadSecrets());
-    // this.loadSecrets();
+  loadSecrets() {
+    this.getAllSubscription = this.repository.getAll().subscribe((secrets) => {
+      console.log('Loading secrets', secrets)
+      // this.secrets = secrets.reverse()
+      this.secrets = secrets
+      this.displaySecrets = this.secrets;
+
+      if (this.importService.isAvailable()) {
+        this.importService.getDataToImport().subscribe(async (data: Secret[]) => {
+          console.log('Import', data)
+          if (data && data.length)
+            this.import(await this.chooseSecretsToImport(data));
+        })
+    }
+
+      this.loading.dismiss();
+    });
   }
 
   private async chooseSecretsToImport(secrets: Secret[]): Promise<Secret[]> {
@@ -55,7 +68,7 @@ export class SecretListPage implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onDidDismiss();
-    if (data.cancel) return null;
+    if (!data || data.cancel) return null;
     return data.secrets;
   }
 
@@ -75,42 +88,15 @@ export class SecretListPage implements OnInit {
     });
   }
 
-  loadSecrets() {
-/*     if (!this.isLoading) {
-      this.secrets = this.repository.getAll();
-      this.secrets.subscribe((secrets) => {
-        console.log('Loading secrets', secrets)
-        this.displaySecrets = secrets.reverse()
-      });
-      this.loading.dismiss();
-    } */
-    if (!this.isLoading) this.repository.getAll().subscribe((secrets) => {
-      console.log('Loading secrets', secrets)
-      // this.secrets = secrets.reverse()
-      this.secrets = secrets
-      this.displaySecrets = this.secrets;
-      this.loading.dismiss();
-    });
-  }
-
   refresh(event: any): void {
     const sub = this.repository.refresh().subscribe(() => {
       sub.unsubscribe();
-      // this.secrets = this.repository.getAll();
-/*       this.repository.getAll().subscribe((secrets) => {
-        this.secrets = secrets.reverse();
-        this.displaySecrets = this.secrets;
-        event.target.complete()
-      }); */
       event.target.complete()
     });
   }
 
   search(event: any) {
     const term = event.target.value.toLowerCase();
-/*     this.displaySecrets = this.secrets.pipe(
-        map((secrets) => secrets.filter(s => s.name.toLowerCase().includes(term) || this.isSubtitleIncludes(s, term)))
-      ); */
     this.displaySecrets = this.secrets.filter(s => s.name.toLowerCase().includes(term) || this.isSubtitleIncludes(s, term))
   }
 

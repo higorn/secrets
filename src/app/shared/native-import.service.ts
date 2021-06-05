@@ -27,6 +27,7 @@ export class NativeImportService extends ImportService {
 
   getDataToImport(): Observable<Secret[]> {
     return from(this.webIntent.getIntent()).pipe(switchMap((intent) => {
+      console.log('intent', intent)
       if (!intent.extras || intent.extras['android.intent.extra.SUBJECT'] !== 'Chrome Passwords') return of([]);
 
       const uri = intent.extras['android.intent.extra.STREAM']

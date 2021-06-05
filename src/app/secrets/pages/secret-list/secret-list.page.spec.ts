@@ -77,9 +77,6 @@ describe('SecretListPage', () => {
   it('should list secrets', fakeAsync(() => {
     let len: number;
 
-    component.isLoading = false;
-    component.ionViewWillEnter();
-    tick();
 /*     component.secrets.subscribe((items) => {
       len = items.length;
     }); */
