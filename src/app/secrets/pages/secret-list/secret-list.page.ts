@@ -15,8 +15,8 @@ import { ImportComponent } from './../../components/import/import.component';
   styleUrls: ['secret-list.page.scss'],
 })
 export class SecretListPage implements OnInit {
-  secrets: Observable<Secret[]>;
-  displaySecrets: Observable<Secret[]>;
+  secrets: Secret[];
+  displaySecrets: Secret[];
   isLoading = true;
 
   constructor(
@@ -44,8 +44,8 @@ export class SecretListPage implements OnInit {
   }
 
   private async chooseSecretsToImport(secrets: Secret[]): Promise<Secret[]> {
-    const currSecrets = await this.secrets.toPromise();
-    // const currSecrets = this.secrets
+    // const currSecrets = await this.secrets.toPromise();
+    const currSecrets = this.secrets
     const toImport = secrets.filter(s1 => !currSecrets.some(s2 => s2.name === s1.name))
     const modal = await this.modal.create({
       component: ImportComponent,
@@ -76,23 +76,26 @@ export class SecretListPage implements OnInit {
   }
 
   loadSecrets() {
-    if (!this.isLoading) {
+/*     if (!this.isLoading) {
       this.secrets = this.repository.getAll();
-      this.displaySecrets = this.secrets.pipe(map(secrets => {
+      this.secrets.subscribe((secrets) => {
         console.log('Loading secrets', secrets)
-        return secrets.reverse()
-      }));
+        this.displaySecrets = secrets.reverse()
+      });
       this.loading.dismiss();
-    }
-/*     if (!this.isLoading) this.repository.getAll().subscribe((secrets) => {
-      this.secrets = secrets.reverse()
+    } */
+    if (!this.isLoading) this.repository.getAll().subscribe((secrets) => {
+      console.log('Loading secrets', secrets)
+      // this.secrets = secrets.reverse()
+      this.secrets = secrets
       this.displaySecrets = this.secrets;
       this.loading.dismiss();
-    }); */
+    });
   }
 
   refresh(event: any): void {
-    this.repository.refresh().subscribe(() => {
+    const sub = this.repository.refresh().subscribe(() => {
+      sub.unsubscribe();
       // this.secrets = this.repository.getAll();
 /*       this.repository.getAll().subscribe((secrets) => {
         this.secrets = secrets.reverse();
@@ -105,9 +108,10 @@ export class SecretListPage implements OnInit {
 
   search(event: any) {
     const term = event.target.value.toLowerCase();
-    this.displaySecrets = this.secrets.pipe(
+/*     this.displaySecrets = this.secrets.pipe(
         map((secrets) => secrets.filter(s => s.name.toLowerCase().includes(term) || this.isSubtitleIncludes(s, term)))
-      );
+      ); */
+    this.displaySecrets = this.secrets.filter(s => s.name.toLowerCase().includes(term) || this.isSubtitleIncludes(s, term))
   }
 
   private isSubtitleIncludes(s: Secret, term: any): boolean {

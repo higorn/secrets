@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { AppLoadingController } from 'src/app/shared/app-loading.controller';
-import { DateUtils } from 'src/app/shared/date-utils';
 import { SecretListMenuComponent } from '../components/secret-list-menu/secret-list-menu.component';
 import { SelectItemsComponent } from '../components/select-items/select-items.component';
 import { SecretListPage } from '../pages/secret-list/secret-list.page';
@@ -34,13 +33,13 @@ export class SecretListMenuController {
 
   async execMenuAction(action: string): Promise<void> {
     if (action === 'select') {
-      this.secretListPage.secrets.subscribe(async (_secrets) => {
-        const data = await this.showItemsToSelect(_secrets);
-        // const data = await this.showItemsToSelect(this.secretListPage.secrets);
+      // this.secretListPage.secrets.subscribe(async (_secrets) => {
+        // const data = await this.showItemsToSelect(_secrets);
+        const data = await this.showItemsToSelect(this.secretListPage.secrets);
         if (data && data.action === 'remove')
           this.remove(data.items);
         console.log('selected', data);
-      });
+      // });
     }
   }
 
@@ -60,19 +59,9 @@ export class SecretListMenuController {
   private async remove(items: Secret[]): Promise<void> {
     console.log('removing...', items);
     await this.loading.show('secrets.list.loading-remove');
-    const sub1 = this.repository.getAll().subscribe((currItems) => {
-      const toRemove = currItems.filter(ci => items.some(i => i.id === ci.id));
-      console.log('to remove', toRemove)
-      toRemove.forEach(i => {
-        i.removed = true;
-        i.modified = DateUtils.getUtcTime()
-      })
-      const sub2 = this.repository.saveAll(currItems).subscribe(() => {
-        this.loading.dismiss()
-        this.secretListPage.loadSecrets();
-        sub2.unsubscribe();
-        sub1.unsubscribe();
-      })
-    });
+    const sub = this.repository.removeAll(items).subscribe(() => {
+      this.loading.dismiss()
+      sub.unsubscribe();
+    })
   }
 }

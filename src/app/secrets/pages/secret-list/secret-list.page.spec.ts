@@ -80,13 +80,13 @@ describe('SecretListPage', () => {
     component.isLoading = false;
     component.ionViewWillEnter();
     tick();
-    component.secrets.subscribe((items) => {
+/*     component.secrets.subscribe((items) => {
       len = items.length;
-    });
+    }); */
 
     expect(spyRepository.getAll).toHaveBeenCalled();
-    expect(len).toBeGreaterThan(0);
-    // expect(component.secrets.length).toBeGreaterThan(0);
+    // expect(len).toBeGreaterThan(0);
+    expect(component.secrets.length).toBeGreaterThan(0);
   }));
 
 /*   it('when is import, then go to import page', () => {

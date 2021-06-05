@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { SecureRepository } from 'src/app/shared/repo/secure.repository';
 import { StorageService } from 'src/app/shared/storage/storage.service';
@@ -16,6 +16,7 @@ export class SecretRepository extends SecureRepository<Secret> {
   protected dataChangesSource = new Subject<Secret[]>();
   dataChanges = this.dataChangesSource.asObservable();
   private cloudSyncService: CloudSyncService;
+  private data: Secret[];
 
   constructor(
     private storageService: StorageService,
@@ -35,8 +36,55 @@ export class SecretRepository extends SecureRepository<Secret> {
   }
 
   getAll(): Observable<Secret[]> {
-    super.getAll().subscribe((secrets) => this.dataChangesSource.next(secrets ? secrets.filter(s => !s.removed) : []));
-    return this.dataChanges;
+    if (!this.data) {
+      super.getAll().subscribe((secrets) => {
+        this.data = secrets || []
+        this.dataChangesSource.next(this.data)
+      });
+    }
+    return this.getData();
+  }
+
+  private getData(): Observable<Secret[]> {
+    return this.dataChanges.pipe((map((secrets) => secrets ? secrets.filter(s => !s.removed) : [])));
+  }
+
+  saveAll(data: Secret[]): Observable<Secret[]> {
+    this.data = data;
+    super.saveAll(data).subscribe(() => {
+      this.dataChangesSource.next(data);
+    });
+    return this.getData();
+  }
+
+  removeAll(items: Secret[]): Observable<void> {
+    const toRemove = this.data.filter(ci => items.some(i => i.id === ci.id));
+    console.log('to remove', toRemove)
+    toRemove.forEach(i => {
+      i.removed = true;
+      i.modified = DateUtils.getUtcTime()
+    })
+    return this.saveAll(this.data).pipe(map(() => {}));
+  }
+
+  getById(id: string): Observable<Secret> {
+    return of(this.data && this.data.find((item) => item.id === id));
+  }
+
+  save(item: Secret): Observable<Secret[]> {
+    const collection = this.data || [];
+    const curr = collection.find((i) => i.id === item.id);
+    if (curr) this.update(curr, item);
+    else collection.push(item);
+    return this.saveAll(collection);
+  }
+
+  update(currItem: Secret, newItem: Secret): void {
+    Object.keys(newItem).forEach((key) => (currItem[key] = newItem[key]));
+  }
+
+  remove(item: Secret): Observable<Secret[]> {
+    return this.saveAll(this.data.filter((i) => i.id !== item.id));
   }
 
   refresh(): Observable<any> {
@@ -46,13 +94,11 @@ export class SecretRepository extends SecureRepository<Secret> {
   private merge(data: any): Observable<any> {
     console.log('data to merge', data);
     const externalSecrets: Secret[] = data.secrets ? JSON.parse(this._vault.decode(data.secrets)) : [];
-    return super.getAll().pipe(switchMap((currentSecrets) => {
-      console.log('externalsecrets', externalSecrets);
-      console.log('current secret', currentSecrets)
-      const mergedSecrets = this.mergeSecrets(externalSecrets || [], currentSecrets || []);
-      this.dataChangesSource.next(mergedSecrets);
-      return this.saveAll(mergedSecrets).pipe(switchMap(() => this.storageService.exportData()))
-    }));
+    const currentSecrets = this.data;
+    console.log('externalsecrets', externalSecrets);
+    console.log('current secret', currentSecrets)
+    const mergedSecrets = this.mergeSecrets(externalSecrets || [], currentSecrets || []);
+    return this.saveAll(mergedSecrets).pipe(switchMap(() => this.storageService.exportData()))
   }
 
   mergeSecrets(secretsA: Secret[], secretsB: Secret[]): Secret[] {
