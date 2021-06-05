@@ -37,7 +37,7 @@ export class SecretListPage implements OnInit {
     this.loadSecrets();
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     // this.repository.dataChanges.subscribe(() => this.loadSecrets());
     this.loadSecrets();
   }
@@ -79,6 +79,7 @@ export class SecretListPage implements OnInit {
     if (!this.isLoading) this.repository.getAll().subscribe((secrets) => {
       this.secrets = secrets.reverse()
       this.displaySecrets = this.secrets;
+      this.loading.dismiss();
     });
   }
 

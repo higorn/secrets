@@ -24,7 +24,7 @@ export class TabsPage implements OnInit {
       })
     });
   }
-
+  
   ionViewDidEnter() {
     this.masterBtnService.changeAction('add');
   }

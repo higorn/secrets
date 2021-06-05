@@ -78,7 +78,7 @@ describe('SecretListPage', () => {
     let len: number;
 
     component.isLoading = false;
-    component.ionViewDidEnter();
+    component.ionViewWillEnter();
     tick();
 /*     component.secrets.subscribe((items) => {
       len = items.length;

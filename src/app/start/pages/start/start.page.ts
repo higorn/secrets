@@ -4,6 +4,7 @@ import { LoadingController } from '@ionic/angular';
 import { Credentials } from 'capacitor-native-biometric';
 import { Observable, Subscription, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AppLoadingController } from 'src/app/shared/app-loading.controller';
 import { BiometricService } from 'src/app/shared/biometric.service';
 import { SettingsService } from 'src/app/shared/settings.service';
 import { TranslatorService } from 'src/app/shared/translator.service';
@@ -33,7 +34,7 @@ export class StartPage implements OnInit, OnDestroy {
     private translator: TranslatorService,
     private biometric: BiometricService,
     private settingsRepo: SettingsService,
-    private loading: LoadingController,
+    private loading: AppLoadingController,
   ) {
   }
 
@@ -93,7 +94,8 @@ export class StartPage implements OnInit, OnDestroy {
   }
 
   private async unseal(pass: string): Promise<void> {
-    await this.presentLoading();
+    // await this.presentLoading();
+    await this.loading.show('loading.unseal', 3000);
     this.unsealSub = this.vault.unseal(pass).subscribe((isSuccess) => {
       this.password = null;
       if (!isSuccess) {
@@ -102,11 +104,11 @@ export class StartPage implements OnInit, OnDestroy {
       }
       this.unlockFailed = false;
       this.router.navigate(['/tabs/secrets']);
-      this.loading.dismiss().then(() => {}, (err) => console.log(err))
+      // this.loading.dismiss().then(() => {}, (err) => console.log(err))
     });
   }
 
-  private async presentLoading(): Promise<any> {
+/*   private async presentLoading(): Promise<any> {
     let message = 'Unsealing, please wait.';
     this.translateSub = this.translator.get('loading.unseal').subscribe((msg) => (message = msg));
     const loading = await this.loading.create({
@@ -114,5 +116,5 @@ export class StartPage implements OnInit, OnDestroy {
       duration: 3000,
     });
     return loading.present();
-  }
+  } */
 }
