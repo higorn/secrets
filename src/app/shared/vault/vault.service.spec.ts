@@ -45,6 +45,16 @@ describe('VaultService', () => {
     expect(decoded).toEqual(data);
   }));
 
+  it('should encode and decode with special char', fakeAsync(() => {
+    const pass = 'secret';
+    vault.unseal(pass);
+    tick();
+    const data = 'ąłbc';
+    const encoded = vault.encode(data);
+    const decoded = vault.decode(encoded);
+    expect(decoded).toEqual(data);
+  }));
+
   it('should reset the vault', fakeAsync(() => {
     let vaultContent: any;
 

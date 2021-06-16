@@ -41,7 +41,6 @@ export class SecretDetailPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    console.log('ngOnDestroy')
     this.getByIdSubscription && this.getByIdSubscription.unsubscribe();
     this.routeSubscription && this.routeSubscription.unsubscribe();
     this.masterBtnSubscription && this.masterBtnSubscription.unsubscribe();

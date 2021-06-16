@@ -95,8 +95,10 @@ export class SecretRepository extends SecureRepository<Secret> {
 
   private merge(data: any): Observable<any> {
     console.log('data to merge', data);
-    const externalSecrets: Secret[] = data.secrets ? JSON.parse(this._vault.decode(data.secrets)) : [];
-    const currentSecrets = this.data;
+    const decodedData = data.secrets ? this._vault.decode(data.secrets) : '[]';
+    console.log('decoded data to merge', decodedData);
+    const externalSecrets: Secret[] = JSON.parse(decodedData);
+    const currentSecrets = this.data.filter(s => !s.removed);
     console.log('externalsecrets', externalSecrets);
     console.log('current secret', currentSecrets)
     const mergedSecrets = this.mergeSecrets(externalSecrets || [], currentSecrets || []);

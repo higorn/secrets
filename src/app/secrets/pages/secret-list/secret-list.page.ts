@@ -28,19 +28,15 @@ export class SecretListPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    console.log('on destroy')
     this.getAllSubscription && this.getAllSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
-    console.log('on init')
     this.loadSecrets();
   }
 
   loadSecrets() {
     this.getAllSubscription = this.repository.getAll().subscribe((secrets) => {
-      console.log('Loading secrets', secrets)
-      // this.secrets = secrets.reverse()
       this.secrets = secrets
       this.displaySecrets = this.secrets;
 

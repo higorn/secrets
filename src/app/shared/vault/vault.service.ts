@@ -185,20 +185,20 @@ export class VaultService {
 
   private decryptKeypair(encoded: string, pass: string) {
     const key = forge.pkcs5.pbkdf2(pass, this.key1.salt, 10, 16);
-    const encodedBytes = forge.util.decode64(encoded);
 
-    return this.decrypt(encodedBytes, key, this.key1.iv);
+    return this.decrypt(encoded, key, this.key1.iv);
   }
 
   encode(data: string): string {
     if (!this.key2) throw new Error('Vault is sealed');
-    return this.encrypt(data, this.key2.key, this.key2.iv);
+    const encoded = forge.util.encode64(encodeURIComponent(data));
+    return this.encrypt(encoded, this.key2.key, this.key2.iv);
   }
 
   decode(encoded: string): string {
     if (!this.key2) throw new Error('Vault is sealed');
-    const encodedBytes = forge.util.decode64(encoded);
-    return this.decrypt(encodedBytes, this.key2.key, this.key2.iv);
+    const decrypted = this.decrypt(encoded, this.key2.key, this.key2.iv);
+    return decodeURIComponent(forge.util.decode64(decrypted));
   }
 
   private encrypt(data: string, key: Bytes, iv: Bytes): string {
@@ -213,7 +213,7 @@ export class VaultService {
   private decrypt(encodedBytes: string, key: Bytes, iv: Bytes): string {
     const decipher = forge.cipher.createDecipher('AES-CBC', key);
     decipher.start({ iv: iv });
-    let decoded = this.execDecrypt(encodedBytes, decipher);
+    let decoded = this.execDecrypt(forge.util.decode64(encodedBytes), decipher);
     return decoded;
   }
 
