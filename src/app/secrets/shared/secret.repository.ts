@@ -53,6 +53,7 @@ export class SecretRepository extends SecureRepository<Secret> {
 
   saveAll(data: Secret[]): Observable<Secret[]> {
     this.data = data;
+    console.log('saving all data', data);
     super.saveAll(data).subscribe(() => {
       this.dataChangesSource.next(data);
     });

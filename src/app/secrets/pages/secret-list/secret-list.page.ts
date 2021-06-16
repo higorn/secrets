@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { IonList, ModalController } from '@ionic/angular';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { AppLoadingController } from 'src/app/shared/app-loading.controller';
 import { ImportService } from '../../../shared/import.service';
 import { Secret } from '../../shared/secret';
@@ -18,6 +17,7 @@ export class SecretListPage implements OnInit, OnDestroy {
   secrets: Secret[];
   displaySecrets: Secret[];
   private getAllSubscription: Subscription;
+  private isRefreshing = false;
 
   constructor(
     private repository: SecretRepository,
@@ -45,15 +45,17 @@ export class SecretListPage implements OnInit, OnDestroy {
           console.log('Import', data)
           if (data && data.length)
             this.import(await this.chooseSecretsToImport(data));
+          else
+            this.refresh(null);
         })
-    }
+      } else
+        this.refresh(null);
 
       this.loading.dismiss();
     });
   }
 
   private async chooseSecretsToImport(secrets: Secret[]): Promise<Secret[]> {
-    // const currSecrets = await this.secrets.toPromise();
     const currSecrets = this.secrets
     const toImport = secrets.filter(s1 => !currSecrets.some(s2 => s2.name === s1.name))
     const modal = await this.modal.create({
@@ -73,22 +75,33 @@ export class SecretListPage implements OnInit, OnDestroy {
     if (!secrets) return;
 
     await this.loading.show('secrets.list.loading-import');
-    const sub1 = this.repository.getAll().subscribe((items) => {
-      const collection = items.concat(secrets);
-      const sub2 = this.repository.saveAll(collection).subscribe(() => {
-        this.loading.dismiss();
-        this.loadSecrets();
-        sub2.unsubscribe();
-        sub1.unsubscribe();
-      });
+    const collection = this.secrets.concat(secrets);
+    const sub2 = this.repository.saveAll(collection).subscribe(() => {
+      sub2.unsubscribe();
+      this.secrets = collection; 
+      this.displaySecrets = this.secrets;
+      this.refresh(null);
     });
   }
 
   refresh(event: any): void {
+    if (this.isRefreshing) {
+      event && event.target.complete()
+      return;
+    }
+    this.isRefreshing = true;
     const sub = this.repository.refresh().subscribe(() => {
-      sub.unsubscribe();
-      event.target.complete()
+      this.handleRefreshResponse(sub, event);
+    }, (error) => {
+      this.handleRefreshResponse(sub, event);
+      console.error('error refreshing', error);
     });
+  }
+
+  private handleRefreshResponse(sub: Subscription, event: any) {
+    sub.unsubscribe();
+    event && event.target.complete();
+    this.isRefreshing = false;
   }
 
   search(event: any) {
