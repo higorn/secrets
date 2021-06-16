@@ -75,6 +75,11 @@ export class SelectItemsComponent implements OnInit {
     }
   }
 
+  getItemSubtitle(secret: Secret): string {
+    const keys = Object.keys(secret.content);
+    return secret.content[keys[1]];
+  }
+
   private getTextForAlert(): any {
     let text: any = {};
     this.translator.get('secrets.select.remove.title').subscribe((t) => (text.title = t));

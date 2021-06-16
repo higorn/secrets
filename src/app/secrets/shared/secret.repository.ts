@@ -96,9 +96,8 @@ export class SecretRepository extends SecureRepository<Secret> {
   private merge(data: any): Observable<any> {
     console.log('data to merge', data);
     const decodedData = data.secrets ? this._vault.decode(data.secrets) : '[]';
-    console.log('decoded data to merge', decodedData);
     const externalSecrets: Secret[] = JSON.parse(decodedData);
-    const currentSecrets = this.data.filter(s => !s.removed);
+    const currentSecrets = this.data;
     console.log('externalsecrets', externalSecrets);
     console.log('current secret', currentSecrets)
     const mergedSecrets = this.mergeSecrets(externalSecrets || [], currentSecrets || []);
@@ -111,7 +110,8 @@ export class SecretRepository extends SecureRepository<Secret> {
       const utcTime = DateUtils.getUtcTime();
       const b = secretsB.find(b => b.id === a.id);
 
-      if (!b && a.removed) return;
+      // if (!b && a.removed) return;
+      if (a.removed) return;
 
       if (!a.modified) a.modified = utcTime
       if (b && !b.modified) b.modified = utcTime

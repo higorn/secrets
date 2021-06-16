@@ -25,10 +25,10 @@ export const FormType = {
   ],
   card: [
     FieldsBundle.title,
+    FieldsBundle.ccnumber,
+    FieldsBundle.ccname,
     FieldsBundle.cctype,
     FieldsBundle.ccbrand,
-    FieldsBundle.ccname,
-    FieldsBundle.ccnumber,
     FieldsBundle.ccexp,
     FieldsBundle.cccsc,
     FieldsBundle.ccpin,
