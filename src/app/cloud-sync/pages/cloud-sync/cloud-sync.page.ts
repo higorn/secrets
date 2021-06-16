@@ -50,7 +50,6 @@ export class CloudSyncPage implements OnInit, OnDestroy {
   skip(): void {
     const sub = this.settings.setFirstTime(false).subscribe(() => {
       sub.unsubscribe();
-      console.log('coco')
       this.router.navigate(['/tabs/secrets'])
     });
   }

@@ -32,6 +32,7 @@ describe('SecretListPage', () => {
   let fixture: ComponentFixture<SecretListPage>;
   const spyRepository = {
     getAll: jest.fn(),
+    refresh: jest.fn()
   };
   const spyImport = {
     isAvailable: jest.fn(),
@@ -57,6 +58,7 @@ describe('SecretListPage', () => {
       }).compileComponents();
 
       spyRepository.getAll.mockReturnValue(of(secrets));
+      spyRepository.refresh.mockReturnValue(of());
       spyImport.getDataToImport.mockReturnValue(of(undefined));
       spyStorage.getItem.mockReturnValue(of(DEFAULT_SETTINGS));
 

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule, LoadingController, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { from, of } from 'rxjs';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { StorageService } from 'src/app/shared/storage/storage.service';
@@ -111,7 +111,7 @@ describe('CloudSyncPage', () => {
   }))
 
   it('when skip should redirect to the secrets list', fakeAsync(() => {
-    spySettings.setFirstTime.mockReturnValue(of());
+    spySettings.setFirstTime.mockReturnValue(from(new Promise((resolve, reject) => resolve(null))));
 
     component.skip()
     tick()
