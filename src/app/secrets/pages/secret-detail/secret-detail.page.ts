@@ -91,6 +91,7 @@ export class SecretDetailPage implements OnInit, OnDestroy {
       this.secret.name = this.form.value.title;
       this.secret.content = this.form.value;
       this.secret.modified = DateUtils.getUtcTime();
+      this.secret.pristine = true;
       const sub = this.repository.save(this.secret).subscribe(() => {
         console.log('saving')
         sub.unsubscribe()

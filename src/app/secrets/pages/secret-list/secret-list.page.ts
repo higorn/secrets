@@ -85,10 +85,12 @@ export class SecretListPage implements OnInit, OnDestroy {
   }
 
   refresh(event: any): void {
+    console.log('refreshing 1')
     if (this.isRefreshing) {
       event && event.target.complete()
       return;
     }
+    console.log('refresh started')
     this.isRefreshing = true;
     const sub = this.repository.refresh().subscribe(() => {
       this.handleRefreshResponse(sub, event);
@@ -102,6 +104,7 @@ export class SecretListPage implements OnInit, OnDestroy {
     sub.unsubscribe();
     event && event.target.complete();
     this.isRefreshing = false;
+    console.log('refresh finished')
   }
 
   search(event: any) {

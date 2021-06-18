@@ -13,7 +13,10 @@ export class Secret implements Entity {
     public folder?: string,
     public removed?: boolean,
     public trash?: boolean,
-  ) {}
+    public pristine?: boolean,
+  ) {
+    this.pristine = pristine === undefined || pristine === null ? true : pristine;
+  }
 }
 
 export const FormType = {

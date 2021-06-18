@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/comm
 import { Injectable } from '@angular/core';
 import { GoogleAuth } from 'capacitor-googleauth-plugin';
 import { Authentication, User } from 'capacitor-googleauth-plugin/dist/esm/user';
-import { from, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { async, asyncScheduler, from, Observable, of, scheduled } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { SettingsService } from '../settings.service';
 import { StorageService } from '../storage/storage.service';
 import { CloudSync, CloudSyncService, DataMerger, SyncFile, SyncOptions } from './cloud-sync.service';
@@ -23,27 +23,11 @@ export class GoogleDriveSyncService extends CloudSyncService {
   }
 
   init(merger: DataMerger): void {
-    const sub = this.storage.dataChanged$.subscribe(() => {
-      if (this.syncLocked) return;
-      const sub1 = this.settings.getCloudSync().subscribe((cloudSync: CloudSync) => {
-        sub1.unsubscribe()
-        if (cloudSync.provider !== 'google-drive' || this.syncLocked) return;
-        this.syncLocked = true;
-        const sub2 = from(GoogleAuth.refresh()).subscribe((auth: Authentication) => {
-          sub2.unsubscribe()
-          const sub3 = this.doSync({ token: auth.accessToken, file: cloudSync.file }, merger).subscribe(() => {
-            sub3.unsubscribe()
-            this.syncLocked = false;
-          }, (error) => {
-            sub3.unsubscribe()
-            console.error('Error on do sync:', error)
-            this.syncLocked = false
-          })
-        }, (error) => {
-          sub2.unsubscribe()
-          console.error('Error on refresh token:', error)
-          this.syncLocked = false
-        })
+    this.storage.dataChanged$.subscribe(() => {
+      console.log('sync started')
+      const sub = this.sync(merger).subscribe(() => {
+        sub.unsubscribe()
+        console.log('sync finished')
       })
     })
   }
@@ -61,14 +45,32 @@ export class GoogleDriveSyncService extends CloudSyncService {
   }
 
   sync(merger: DataMerger): Observable<any> {
-    return this.settings.getCloudSync().pipe(switchMap((cloudSync: CloudSync) => {
-      return from(GoogleAuth.refresh()).pipe(switchMap((auth: Authentication) => {
-        this.syncLocked = true;
-        return this.doSync({ token: auth.accessToken, file: cloudSync.file }, merger).pipe(tap(() => {
-          this.syncLocked = false;
-        }))
+    if (this.syncLocked) {
+      console.log('sync is already running')
+      return scheduled(of(null), asyncScheduler)
+    }
+    this.syncLocked = true;
+    return this.settings.getCloudSync().pipe(
+      switchMap((cloudSync: CloudSync) => {
+        if (cloudSync.provider !== 'google-drive') {
+          this.syncLocked = false
+          return scheduled(of(null), asyncScheduler)
+        }
+        return from(GoogleAuth.refresh()).pipe(
+          switchMap((auth: Authentication) => {
+            return this.doSync({ token: auth.accessToken, file: cloudSync.file }, merger).pipe(
+              tap(() => this.syncLocked = false),
+              catchError((error) => this.handleSyncError(error, 'sync: Error on do sync:'))
+            )
+          }),
+          catchError((error) => this.handleSyncError(error, 'sync: Error on refresh token:')))
       }))
-    }))
+  }
+
+  private handleSyncError(error: any, msg: string) {
+    console.error(msg, error);
+    this.syncLocked = false;
+    return scheduled(of(null), asyncScheduler);
   }
 
   private doSync(opts: SyncOptions, merger: DataMerger): Observable<any> {

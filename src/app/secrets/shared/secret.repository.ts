@@ -111,20 +111,22 @@ export class SecretRepository extends SecureRepository<Secret> {
       const utcTime = DateUtils.getUtcTime();
       const b = secretsB.find(b => b.id === a.id);
 
-      // if (!b && a.removed) return;
-      if (a.removed) return;
+      if (b && b.removed && b.modified > a.modified) return;
 
-      if (!a.modified) a.modified = utcTime
-      if (b && !b.modified) b.modified = utcTime
-
-      mergedSecrets.push(b && b.modified > a.modified ? b : a);
+      const c = b && b.modified > a.modified ? b : a;
+      c.pristine = false 
+      if (!c.modified) c.modified = utcTime
+      mergedSecrets.push(c);
     })
     secretsB.forEach(b => {
       if (!b.modified) b.modified = DateUtils.getUtcTime()
 
       const a = secretsA.find(a => a.id === b.id);
-      if (!a)
+      if (!a && b.pristine) {
+        b.pristine = true
         mergedSecrets.push(b);
+      }
+
     })
     return mergedSecrets;
   }
