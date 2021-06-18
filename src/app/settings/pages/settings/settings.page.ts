@@ -45,7 +45,7 @@ export class SettingsPage implements OnInit, OnDestroy {
     this.isImportAvailable = this.importService.isAvailable();
   }
 
-  inViewDidEnter() {
+  inViewWillEnter() {
     this.loadSettings();
   }
 
