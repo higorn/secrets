@@ -44,7 +44,7 @@
 # Secrets - DO NOT COMMIT
 google-services.json
 **/google-services.json
-src/environments/environment.secret.ts
-src/environments/environment.prod.secret.ts
-src/environments/environment.android.secret.ts
-secrets.json
+**/environment.secret.ts
+**/environment.prod.secret.ts
+**/environment.android.secret.ts
+**/secrets.json
