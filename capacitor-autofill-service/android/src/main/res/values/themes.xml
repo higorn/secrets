@@ -1,0 +1,117 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.eSecrets" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryTint</item>
+        <item name="colorOnPrimary">@color/colorPrimaryContrast</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryTint</item>
+        <item name="colorOnSecondary">@color/colorSecondaryContrast</item>
+
+        <item name="colorSurface">@color/light_grey</item>
+
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/colorBackgroundDark</item>
+        <!-- Customize your theme here. -->
+<!--        <item name="android:background">@color/colorSecondaryContrast</item>-->
+<!--        <item name="android:toolbarStyle">@color/colorSecondaryContrast</item>-->
+    </style>
+
+    <style name="Theme.eSecrets.NoActionBar" parent="Theme.eSecrets">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.eSecrets.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.eSecrets.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.eSecrets.Button2" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/btn2_text_color_selector</item>
+        <item name="iconTint">@color/btn2_text_color_selector</item>
+        <item name="rippleColor">@color/btn2_ripple_color</item>
+        <item name="backgroundTint">@color/btn2_bg_color_selector</item>
+    </style>
+
+    <style name="Theme.eSecrets.Button2.TextButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/btn2_text_color_selector</item>
+        <item name="iconTint">@color/btn2_text_color_selector</item>
+        <item name="rippleColor">@color/btn2_ripple_color</item>
+        <item name="backgroundTint">@color/btn2_bg_color_selector</item>
+    </style>
+
+    <style name="Widget.App.Button.TextButton.IconOnly" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/text_btn2_text_color_selector</item>
+        <item name="iconTint">@color/text_btn2_text_color_selector</item>
+
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <style name="Theme.eSecrets.Divider" parent="@style/Theme.eSecrets">
+        <item name="android:background">@color/colorBorder</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1sp</item>
+    </style>
+    <style name="Theme.eSecrets.Text.Body" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textSize">14.0sp</item>
+<!--        <item name="android:textColor">?mainTextColor</item>-->
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+    <style name="Theme.eSecrets.Text.Body.Medium" parent="@style/Theme.eSecrets.Text.Body">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+    <style name="Theme.eSecrets.Text.Body.Secondary" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textColor">@color/btn2_text_color_selector</item>
+    </style>
+
+    <style name="Theme.eSecrets.Transparent" parent="@style/Theme.eSecrets.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/black</item>
+    </style>
+
+    <style name="Theme.Design.BottomSheetDialog" parent="@style/Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
+    </style>
+
+    <style name="Theme.eSecrets.Autofill.List" parent="@style/Theme.eSecrets">
+        <item name="android:background">@color/colorBorder</item>
+    </style>
+    <style name="Theme.eSecrets.Autofill.List.Item" parent="@style/Theme.eSecrets">
+        <item name="android:background">@color/colorItemBackground</item>
+        <item name="android:layout_marginBottom">1sp</item>
+    </style>
+    <style name="Theme.eSecrets.Autofill.List.Item.Select" parent="@style/Theme.eSecrets">
+        <item name="android:background">@drawable/selectable_item_background</item>
+    </style>
+    <style name="Theme.eSecrets.Autofill.List.Item.Title" parent="@style/Theme.eSecrets.Autofill.List.Item">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="Theme.eSecrets.Autofill.List.Item.Subtitle" parent="@style/Theme.eSecrets.Autofill.List.Item">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+</resources>

@@ -1,0 +1,226 @@
+[
+  {
+    "name": "username",
+    "saveInfo": 8,
+    "type": "password",
+    "hints": [
+      "user", "username", "login"
+    ]
+  },
+  {
+    "name": "password",
+    "saveInfo": 1,
+    "type": "password",
+    "hints": [
+      "password", "pass", "pwd", "passwd", "secret", "pin", "one-time-code"
+    ]
+  },
+  {
+    "name": "cctype",
+    "saveInfo": 4,
+    "type": "card",
+    "hints": [
+      "cctype", "cc-type", "creditcardtype"
+    ]
+  },
+  {
+    "name": "ccbrand",
+    "saveInfo": 4,
+    "type": "card",
+    "hints": [
+      "ccbrand", "cc-brand", "creditcardbrand"
+    ]
+  },
+  {
+    "name": "ccname",
+    "saveInfo": 4,
+    "type": "card",
+    "hints": [
+      "ccname", "cc-name", "cc-given-name", "cc-additional-name", "cc-family-name"
+    ]
+  },
+  {
+    "name": "ccnumber",
+    "saveInfo": 4,
+    "type": "card",
+    "hints": [
+      "ccnumber", "cc-number", "ccnum", "cc-num", "cardnumber"
+    ]
+  },
+  {
+    "name": "ccexp",
+    "saveInfo": 4,
+    "type": "card",
+    "hints": [
+      "ccexp", "cc-exp", "cc-expiration-date", "exp-date", "expdate", "exp", "expirationdate"
+    ]
+  },
+  {
+    "name": "cccsc",
+    "saveInfo": 4,
+    "type": "card",
+    "hints": [
+      "cccsc", "cc-csc", "csc", "security-code", "securitycode"
+    ]
+  },
+  {
+    "name": "ccpin",
+    "saveInfo": 4,
+    "type": "card",
+    "hints": [
+      "ccpin", "cc-pin"
+    ]
+  },
+  {
+    "name": "bank",
+    "saveInfo": 40,
+    "type": "bank",
+    "hints": [
+      "bank", "bank-name"
+    ]
+  },
+  {
+    "name": "holder",
+    "saveInfo": 40,
+    "type": "bank",
+    "hints": [
+      "holder"
+    ]
+  },
+  {
+    "name": "type",
+    "saveInfo": 0,
+    "type": "bank",
+    "hints": [
+      "type"
+    ]
+  },
+  {
+    "name": "iban",
+    "saveInfo": 40,
+    "type": "bank",
+    "hints": [
+      "iban", "account-number"
+    ]
+  },
+  {
+    "name": "banksite",
+    "saveInfo": 40,
+    "type": "bank",
+    "hints": [
+      "site", "url"
+    ]
+  },
+  {
+    "name": "number",
+    "saveInfo": 0,
+    "type": "identity",
+    "hints": [
+      "number", "num"
+    ]
+  },
+  {
+    "name": "fullname",
+    "saveInfo": 0,
+    "type": "identity",
+    "hints": [
+      "fullname", "given-name", "additional-name", "familly-name"
+    ]
+  },
+  {
+    "name": "birthday",
+    "saveInfo": 0,
+    "type": "identity",
+    "hints": [
+      "birthday", "bday"
+    ]
+  },
+  {
+    "name": "issued",
+    "saveInfo": 0,
+    "type": "identity",
+    "hints": [
+      "issued", "date"
+    ]
+  },
+  {
+    "name": "expires",
+    "saveInfo": 0,
+    "type": "identity",
+    "hints": [
+      "expires", "exp", "date"
+    ]
+  },
+  {
+    "name": "mail",
+    "saveInfo": 16,
+    "type": "info",
+    "hints": [
+      "mail"
+    ]
+  },
+  {
+    "name": "phone",
+    "saveInfo": 0,
+    "type": "info",
+    "hints": [
+      "phone", "tel"
+    ]
+  },
+  {
+    "name": "address1",
+    "saveInfo": 2,
+    "type": "info",
+    "hints": [
+      "street-address", "address-line1", "address-level1"
+    ]
+  },
+  {
+    "name": "address2",
+    "saveInfo": 2,
+    "type": "info",
+    "hints": [
+      "address-line2", "address-level2"
+    ]
+  },
+  {
+    "name": "postalcode",
+    "saveInfo": 2,
+    "type": "info",
+    "hints": [
+      "postalcode", "zipcode", "zip", "address-level3", "address-line3"
+    ]
+  },
+  {
+    "name": "city",
+    "saveInfo": 2,
+    "type": "info",
+    "hints": [
+      "city", "location", "address-level4", "address-line4"
+    ]
+  },
+  {
+    "name": "state",
+    "saveInfo": 2,
+    "type": "info",
+    "hints": [
+      "state", "region", "province"
+    ]
+  },
+  {
+    "name": "country",
+    "saveInfo": 2,
+    "type": "info",
+    "hints": [
+      "country"
+    ]
+  },
+  {
+    "name": "note",
+    "saveInfo": 0,
+    "type": "note",
+    "hints": [
+      "note"
+    ]
+  }
+]

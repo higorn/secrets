@@ -1,0 +1,19 @@
+<resources>
+    <string name="title_activity_auth">AuthActivity</string>
+    <string name="autofill_auth_prompt">Search on e-Secrets</string>
+    <string name="autofill_auth_title">Vault sealed</string>
+    <string name="autofill_auth_password">Password</string>
+    <string name="autofill_auth_unseal_btn">Unseal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="vaultListTransitionSearchIcon">search icon</string>
+    <string name="hintSearchAll">Search</string>
+    <string name="categoryListLabelNoResults">No results found.</string>
+    <string name="categoryListLabelNoResultsMessage">Check the spelling or try searching by item’s title, website address, email or username</string>
+    <string name="biometric_auth_failed">Biometric verification failed. Please try again</string>
+    <string name="biometric_title">Unseal</string>
+    <string name="biometric_subtitle">Biometric verification</string>
+    <string name="biometric_cancel_btn">Cancel</string>
+</resources>

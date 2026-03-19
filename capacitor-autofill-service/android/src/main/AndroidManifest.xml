@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.esecrets.capacitor.autofill">
+
+    <application>
+
+        <activity
+            android:name=".ui.AutofillActivity" />
+<!--            android:theme="@style/Theme.eSecrets.NoActionBar" />-->
+
+        <service
+            android:name=".SecretsAutofillService"
+            android:label="e-Secrets"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

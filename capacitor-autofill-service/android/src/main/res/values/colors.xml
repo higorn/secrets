@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#bc3c25</color>
+    <color name="colorPrimaryContrast">#ffffff</color>
+    <color name="colorPrimaryShade">#a53521</color>
+    <color name="colorPrimaryTint">#c3503b</color>
+
+    <color name="colorSecondary">#19273c</color>
+    <color name="colorSecondaryContrast">#ffffff</color>
+    <color name="colorSecondaryShade">#162235</color>
+    <color name="colorSecondaryTint">#303d50</color>
+
+    <color name="colorTertiary">#507fc1</color>
+    <color name="colorTertiaryContrast">#ffffff</color>
+    <color name="colorTertiaryShade">#4670aa</color>
+    <color name="colorTertiaryTint">#628cc7</color>
+
+    <color name="colorDanger">#eb445a</color>
+    <color name="colorDangerContrast">#ffffff</color>
+    <color name="colorDangerShade">#cf3c4f</color>
+    <color name="colorDangerTint">#ed576b</color>
+
+    <color name="colorPrimaryDark">#bc3c25</color>
+    <color name="colorPrimaryDarkContrast">#ffffff</color>
+    <color name="colorPrimaryDarkShade">#a53521</color>
+    <color name="colorPrimaryDarkTint">#c3503b</color>
+
+    <color name="colorSecondaryDark">#f1f1f1</color>
+    <color name="colorSecondaryDarkContrast">#000000</color>
+    <color name="colorSecondaryDarkShade">#d4d4d4</color>
+    <color name="colorSecondaryDarkTint">#f2f2f2</color>
+
+    <color name="colorTertiaryDark">#5c98ec</color>
+    <color name="colorTertiaryDarkContrast">#000000</color>
+    <color name="colorTertiaryDarkShade">#5186d0</color>
+    <color name="colorTertiaryDarkTint">#6ca2ee</color>
+
+    <color name="colorBackground">#fff</color>
+    <color name="colorBackgroundDark">#19273c</color>
+
+    <color name="colorBorder">#dedede</color>
+    <color name="colorBorderDark">#222428</color>
+
+    <color name="colorItemBackground">#fff</color>
+    <color name="colorItemBackgroundDark">#253246</color>
+
+    <color name="colorStep100Dark">#303d50</color>
+
+    <color name="grey">#60646b</color>
+    <color name="greyDark">#a3a9b1</color>
+
+    <color name="colorAccent">#FF4081</color>
+    <color name="light_grey">#ffeeeeee</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
