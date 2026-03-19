@@ -4,11 +4,11 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
         mavenCentral()
+        maven { url 'https://repo.apache.org/repos/asf/cordova/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath 'com.google.gms:google-services:4.3.3'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -21,8 +21,8 @@ apply from: "variables.gradle"
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
+        maven { url 'https://repo.apache.org/repos/asf/cordova/' }
     }
 }
 

@@ -17,5 +17,5 @@
     }
   },
   "cordova": {},
-  "linuxAndroidStudioPath": "/home/higor/Applications/android-studio/bin/studio.sh"
+  "androidStudioPath": "/Applications/Android Studio.app"
 }
