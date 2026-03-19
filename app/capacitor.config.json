@@ -1,6 +1,6 @@
 {
-  "appId": "io.esecrets",
-  "appName": "e-Secrets",
+  "appId": "com.secrets.app",
+  "appName": "secrets",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
