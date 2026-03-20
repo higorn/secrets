@@ -4,10 +4,7 @@ import type { AutofillPlugin } from './definitions';
 
 export class AutofillWeb extends WebPlugin implements AutofillPlugin {
   constructor() {
-    super({
-      name: 'Autofill',
-      platforms: ['web'],
-    });
+    super();
   }
 
   isAvailable(): Promise<{ isAvailable: boolean }> {

@@ -58,7 +58,7 @@ describe('SecretDetailPage', () => {
       TestBed.configureTestingModule({
         declarations: [SecretDetailPage, SecretListPage],
         imports: [
-          IonicModule,
+          IonicModule.forRoot(),
           CommonModule,
           FormsModule,
           ReactiveFormsModule,
@@ -82,9 +82,11 @@ describe('SecretDetailPage', () => {
       alertController = TestBed.inject(AlertController);
       clipboard = TestBed.inject(ClipboardService);
 
-      spyRepository.save.mockReturnValue(of())
-      spyRepository.remove.mockReturnValue(of())
+      spyRepository.save.mockReturnValue(of());
+      spyRepository.remove.mockReturnValue(of());
       spyStorage.getItem.mockReturnValue(of({ language: 'en' }));
+      routeStub.setParamMap({ id: 'password' });
+      spyRepository.getById.mockReturnValue(of(undefined));
 
       fixture = TestBed.createComponent(SecretDetailPage);
       component = fixture.componentInstance;
@@ -381,9 +383,9 @@ describe('SecretDetailPage', () => {
     let confirmBtnHandler: Function;
     spyOn(alertController, 'create').and.callFake((obj) => {
       confirmBtnHandler = obj.buttons[1].handler;
-      return new Promise((resolve, reject) => {
-        obj;
-      });
+      return Promise.resolve({
+        present: jest.fn().mockResolvedValue(undefined),
+      } as never);
     });
     fixture.detectChanges();
     const btnRemove = fixture.debugElement.query(By.css('#remove-btn'));
@@ -413,9 +415,9 @@ describe('SecretDetailPage', () => {
     let cancelBtnHandler: Function;
     spyOn(alertController, 'create').and.callFake((obj) => {
       cancelBtnHandler = obj.buttons[0].handler;
-      return new Promise((resolve, reject) => {
-        obj;
-      });
+      return Promise.resolve({
+        present: jest.fn().mockResolvedValue(undefined),
+      } as never);
     });
     fixture.detectChanges();
     const btnRemove = fixture.debugElement.query(By.css('#remove-btn'));

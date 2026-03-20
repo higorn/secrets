@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslatorService } from 'src/app/shared/translator.service';
+import { Component } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-wellcome',
   templateUrl: './wellcome.page.html',
   styleUrls: ['./wellcome.page.scss'],
 })
-export class WellcomePage implements OnInit {
-  opts = {
-    initialSlide: 0,
-    speed: 400,
-  };
+export class WellcomePage {
+  slideIndex = 0;
+  readonly lastSlideIndex = 5;
 
-  constructor(private translate: TranslatorService) {}
-
-  ngOnInit() {}
+  next(): void {
+    if (this.slideIndex < this.lastSlideIndex) {
+      this.slideIndex++;
+    }
+  }
 }

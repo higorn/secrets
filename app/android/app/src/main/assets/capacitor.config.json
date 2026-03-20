@@ -16,6 +16,5 @@
 			"forceCodeForRefreshToken": false
 		}
 	},
-	"cordova": {},
-	"linuxAndroidStudioPath": "/home/higor/Applications/android-studio/bin/studio.sh"
+	"cordova": {}
 }

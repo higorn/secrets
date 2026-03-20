@@ -13,7 +13,7 @@ describe('ImportComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ImportComponent ],
       imports: [
-        IonicModule,
+        IonicModule.forRoot(),
         FormsModule,
         TranslateModule.forRoot(),
       ]

@@ -1,17 +1,21 @@
 import { TranslatorService } from './translator.service';
 import { Injectable } from '@angular/core';
-import { AvailableResult, Credentials } from 'capacitor-native-biometric';
+import { registerPlugin } from '@capacitor/core';
+import type {
+  AvailableResult,
+  Credentials,
+  NativeBiometricPlugin,
+} from 'capacitor-native-biometric';
 import { Observable, of, Subject } from 'rxjs';
 import { Platform } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
 
-const { NativeBiometric } = Plugins;
+const NativeBiometric = registerPlugin<NativeBiometricPlugin>('NativeBiometric');
 
 @Injectable({
   providedIn: 'root',
 })
 export class BiometricService {
-  private verified = new Subject<Credentials>();
+  private verified = new Subject<Credentials | null>();
   private verified$ = this.verified.asObservable();
 
   constructor(
@@ -20,29 +24,29 @@ export class BiometricService {
   ) {}
 
   isAvailable(): Observable<boolean> {
-    console.log('plts', this.plt.platforms())
+    console.log('plts', this.plt.platforms());
 
     if (!this.plt.is('capacitor')) return of(false);
 
     const isAvailableObs = new Subject<boolean>();
     NativeBiometric.isAvailable().then(
       (result: AvailableResult) => isAvailableObs.next(result.isAvailable),
-      (error) => isAvailableObs.next(false)
+      () => isAvailableObs.next(false)
     );
     return isAvailableObs.asObservable();
   }
 
-  verifyIdentity(): Observable<Credentials> {
+  verifyIdentity(): Observable<Credentials | null> {
     NativeBiometric.getCredentials({
       server: 'www.secrets.com',
     }).then((creds: Credentials) => this.verifyIdentiyWithCreds(creds));
     return this.verified$;
   }
 
-  enableBiometric(password: string): Observable<Credentials> {
+  enableBiometric(password: string): Observable<Credentials | null> {
     NativeBiometric.getCredentials({ server: 'www.secrets.com' }).then(
       (creds: Credentials) => this.verifyIdentiyWithCreds(creds),
-      (error) => this.verifyIdentiyWithCreds(this.createCredentials(password))
+      () => this.verifyIdentiyWithCreds(this.createCredentials(password))
     );
     return this.verified$;
   }
@@ -72,12 +76,12 @@ export class BiometricService {
       negativeButtonText: text.cancel,
     }).then(
       () => this.verified.next(creds),
-      (error) => this.verified.next(null)
+      () => this.verified.next(null)
     );
   }
 
-  private getText(): any {
-    let text: any = {};
+  private getText(): Record<string, string> {
+    const text: Record<string, string> = {};
     this.translator
       .get('pwd-creation.biometric.reason')
       .subscribe((t) => (text.reason = t));

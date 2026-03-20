@@ -12,6 +12,7 @@ import { SecretRepository } from '../../shared/secret.repository';
 import { MasterBtnService } from 'src/app/shared/master-btn.service';
 
 @Component({
+  standalone: false,
   selector: 'app-secret-detail',
   templateUrl: './secret-detail.page.html',
   styleUrls: ['./secret-detail.page.scss'],
@@ -88,8 +89,9 @@ export class SecretDetailPage implements OnInit, OnDestroy {
 
   save() {
     if (this.isFormNotEmpty()) {
-      this.secret.name = this.form.value.title;
-      this.secret.content = this.form.value;
+      const value = this.form.getRawValue() as Record<string, string>;
+      this.secret.name = value['title'];
+      this.secret.content = value;
       this.secret.modified = DateUtils.getUtcTime();
       this.secret.pristine = true;
       const sub = this.repository.save(this.secret).subscribe(() => {

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-master-btn',
   templateUrl: './master-btn.component.html',
   styleUrls: ['./master-btn.component.scss'],

@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { Httpi18nLoaderFactory } from '../shared/utils';
+import { TranslateModule } from '@ngx-translate/core';
 import { StartPage } from './pages/start/start.page';
 import { StartPageRoutingModule } from './start-routing.module';
 
@@ -14,13 +12,7 @@ import { StartPageRoutingModule } from './start-routing.module';
     FormsModule,
     IonicModule,
     StartPageRoutingModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: Httpi18nLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
+    TranslateModule.forChild(),
   ],
   declarations: [StartPage],
 })

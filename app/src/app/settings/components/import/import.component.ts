@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
+  standalone: false,
   selector: 'app-import',
   templateUrl: './import.component.html',
   styleUrls: ['./import.component.scss'],

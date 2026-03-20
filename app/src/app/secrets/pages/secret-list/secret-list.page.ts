@@ -9,6 +9,7 @@ import { SecretRepository } from '../../shared/secret.repository';
 import { ImportComponent } from './../../components/import/import.component';
 
 @Component({
+  standalone: false,
   selector: 'app-secret-list',
   templateUrl: 'secret-list.page.html',
   styleUrls: ['secret-list.page.scss'],

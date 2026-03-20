@@ -19,7 +19,7 @@ describe('SelectItemsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SelectItemsComponent ],
       imports: [
-        IonicModule,
+        IonicModule.forRoot(),
         FormsModule,
         TranslateModule.forRoot(),
       ],

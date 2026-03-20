@@ -58,7 +58,7 @@ describe('SettingsPage', () => {
       TestBed.configureTestingModule({
         declarations: [SettingsPage],
         imports: [
-          IonicModule,
+          IonicModule.forRoot(),
           FormsModule,
           TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([]),
@@ -93,7 +93,7 @@ describe('SettingsPage', () => {
     spyRepository.getAll.mockReturnValue(of(expectedSettings));
     fixture.detectChanges();
 
-    component.inViewDidEnter();
+    component.inViewWillEnter();
 
     expect(component.settings).toBe(expectedSettings);
     expect(spyRepository.getAll).toHaveBeenCalled();
@@ -104,7 +104,7 @@ describe('SettingsPage', () => {
     spyRepository.getAll.mockReturnValue(of(expectedSettings));
     fixture.detectChanges();
 
-    component.inViewDidEnter();
+    component.inViewWillEnter();
     component.settings.language = 'pt';
     component.changeLanguage();
 
@@ -119,9 +119,9 @@ describe('SettingsPage', () => {
     spyVault.reset.mockReturnValue(of());
     spyOn(alertController, 'create').and.callFake((obj) => {
       confirmBtnHandler = obj.buttons[1].handler;
-      return new Promise((resolve, reject) => {
-        obj;
-      });
+      return Promise.resolve({
+        present: jest.fn().mockResolvedValue(undefined),
+      } as never);
     });
     fixture.detectChanges();
     const wipeBtn = fixture.debugElement.query(By.css('#wipe-btn'));

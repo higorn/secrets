@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { Secret } from '../../shared/secret';
 
 @Component({
+  standalone: false,
   selector: 'app-import',
   templateUrl: './import.component.html',
   styleUrls: ['./import.component.scss'],

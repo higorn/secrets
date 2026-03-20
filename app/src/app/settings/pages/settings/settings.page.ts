@@ -12,6 +12,7 @@ import { ImportComponent } from '../../components/import/import.component';
 import { BiometricCredentialsComponent } from './../../components/biometric-credentials/biometric-credentials.component';
 
 @Component({
+  standalone: false,
   selector: 'app-settings',
   templateUrl: 'settings.page.html',
   styleUrls: ['settings.page.scss'],

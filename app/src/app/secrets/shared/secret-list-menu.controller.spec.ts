@@ -20,7 +20,7 @@ describe('SecretListMenuController', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        IonicModule,
+        IonicModule.forRoot(),
         TranslateModule.forRoot(),
       ],
       providers: [

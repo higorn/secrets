@@ -13,7 +13,7 @@ describe('DataRestoreChooseComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ DataRestoreChooseComponent ],
       imports: [
-        IonicModule,
+        IonicModule.forRoot(),
         FormsModule,
         TranslateModule.forRoot(),
       ]

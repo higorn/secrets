@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
+  standalone: false,
   selector: 'app-biometric-credentials',
   templateUrl: './biometric-credentials.component.html',
   styleUrls: ['./biometric-credentials.component.scss'],

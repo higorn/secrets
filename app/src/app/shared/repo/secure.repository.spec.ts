@@ -32,22 +32,26 @@ describe('SecureRepository', () => {
   });
 
   it('should encrypt and serialize the collection before save id', fakeAsync(() => {
-    const item = { id: 'a', name: 'nicanor' }
+    const item = { id: 'a', name: 'nicanor' };
     vaultService.unseal('secret');
     tick(2000);
+    spyOn(storageService, 'setItem').and.callFake((key, value) => {
+      return from(
+        new Promise<void>((resolve) => {
+          setTimeout(() => {
+            localStorage.setItem(key, JSON.stringify(value));
+            resolve();
+          });
+        }),
+      );
+    });
     repository.save(item).subscribe();
     tick();
-    spyOn(storageService, 'setItem').and.callFake((key, value) => {
-      console.log('encoded item', value);
-      return from(new Promise((resolve, reject) => {
-        setTimeout(() => resolve(localStorage.setItem(key, JSON.stringify(value))))
-      }))
-    })
     tick();
 
     let len: number;
-    repository.getAll().subscribe(items => len = items.length);
+    repository.getAll().subscribe((items) => (len = items.length));
     tick();
     expect(len).toEqual(1);
-  }))
+  }));
 });

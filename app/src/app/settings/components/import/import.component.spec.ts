@@ -12,7 +12,7 @@ describe('ImportComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ImportComponent ],
       imports: [
-        IonicModule,
+        IonicModule.forRoot(),
         TranslateModule.forRoot(),
       ]
     }).compileComponents();

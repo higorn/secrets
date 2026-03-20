@@ -3,10 +3,8 @@ import { Storage } from '@ionic/storage-angular';
 import { from, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
-import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
 
-@Injectable(
-)
+@Injectable()
 export class IonicStorageService extends StorageService {
 
   constructor(private storage: Storage) {
@@ -14,7 +12,6 @@ export class IonicStorageService extends StorageService {
     this.init();
   }
   private async init() {
-    await this.storage.defineDriver(CordovaSQLiteDriver);
     await this.storage.create();
   }
 

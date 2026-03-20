@@ -11,6 +11,7 @@ import { TranslatorService } from 'src/app/shared/translator.service';
 import { VaultService } from 'src/app/shared/vault/vault.service';
 
 @Component({
+  standalone: false,
   selector: 'app-start',
   templateUrl: './start.page.html',
   styleUrls: ['./start.page.scss'],

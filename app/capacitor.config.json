@@ -16,6 +16,5 @@
       "forceCodeForRefreshToken": false
     }
   },
-  "cordova": {},
-  "androidStudioPath": "/Applications/Android Studio.app"
+  "cordova": {}
 }

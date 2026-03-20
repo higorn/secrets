@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 @Component({
+  standalone: false,
   selector: 'app-secret-list-menu',
   templateUrl: './secret-list-menu.component.html',
   styleUrls: ['./secret-list-menu.component.scss'],

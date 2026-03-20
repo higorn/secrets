@@ -52,7 +52,7 @@ describe('PasswordCreationPage', () => {
       TestBed.configureTestingModule({
         declarations: [PasswordCreationPage],
         imports: [
-          IonicModule,
+          IonicModule.forRoot(),
           FormsModule,
           TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([
@@ -93,9 +93,9 @@ describe('PasswordCreationPage', () => {
     spyBiometricService.isAvailable.mockReturnValue(of(true));
     spyOn(alertController, 'create').and.callFake((obj) => {
       confirmBtnHandler = obj.buttons[1].handler;
-      return new Promise((resolve, reject) => {
-        obj;
-      });
+      return Promise.resolve({
+        present: jest.fn().mockResolvedValue(undefined),
+      } as never);
     });
     fixture.detectChanges();
 
@@ -107,23 +107,21 @@ describe('PasswordCreationPage', () => {
     expect(alertController.create).toHaveBeenCalled();
   }));
 
-  it('when biometrics is not available, then unlock with password', fakeAsync(() => {
+  it('when biometrics is not available, then unlock with password', waitForAsync(async () => {
     spyBiometricService.isAvailable.mockReturnValue(of(false));
     spyVaultService.unseal.mockReturnValue(of(null));
     spyOn(alertController, 'create').and.callFake((obj) => {});
-    spyOn(loadingController, 'create').and.callFake((obj) => {
-      return new Promise((resolve, reject) => {
-        resolve({ present: jest.fn() });
-      });
-    });
-    spyOn(loadingController, 'dismiss').and.callFake((obj) => {
-      return new Promise((resolve, reject) => {resolve(true)})
-    });
+    jest.spyOn(loadingController, 'create').mockResolvedValue({
+      present: jest.fn().mockResolvedValue(undefined),
+      dismiss: jest.fn().mockResolvedValue(undefined),
+    } as never);
+    jest.spyOn(loadingController, 'dismiss').mockResolvedValue(true as never);
     fixture.detectChanges();
 
     component.password = '123';
     component.createPwd();
-    tick();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await fixture.whenStable();
 
     expect(alertController.create).not.toHaveBeenCalled();
     expect(spyBiometricService.enableBiometric).not.toHaveBeenCalled();
@@ -140,9 +138,9 @@ describe('PasswordCreationPage', () => {
     spyVaultService.unseal.mockReturnValue(of());
     spyOn(alertController, 'create').and.callFake((obj) => {
       confirmBtnHandler = obj.buttons[1].handler;
-      return new Promise((resolve, reject) => {
-        obj;
-      });
+      return Promise.resolve({
+        present: jest.fn().mockResolvedValue(undefined),
+      } as never);
     });
 
     component.password = '123';
@@ -168,9 +166,9 @@ describe('PasswordCreationPage', () => {
     spyVaultService.unseal.mockReturnValue(of());
     spyOn(alertController, 'create').and.callFake((obj) => {
       cancelBtnHandler = obj.buttons[0].handler;
-      return new Promise((resolve, reject) => {
-        obj;
-      });
+      return Promise.resolve({
+        present: jest.fn().mockResolvedValue(undefined),
+      } as never);
     });
     fixture.detectChanges();
 

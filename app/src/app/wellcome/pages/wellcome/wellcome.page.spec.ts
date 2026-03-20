@@ -20,7 +20,7 @@ describe('WellcomePage', () => {
       TestBed.configureTestingModule({
         declarations: [WellcomePage],
         imports: [
-          IonicModule,
+          IonicModule.forRoot(),
           TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([]),
         ],

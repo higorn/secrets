@@ -3,6 +3,7 @@ import { SyncFile } from 'src/app/shared/cloud-sync/cloud-sync.service';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-data-restore-choose',
   templateUrl: './data-restore-choose.component.html',
   styleUrls: ['./data-restore-choose.component.scss'],

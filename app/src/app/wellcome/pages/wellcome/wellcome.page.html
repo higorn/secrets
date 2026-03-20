@@ -1,16 +1,16 @@
 <ion-content>
-  <ion-slides #slides pager="true" [options]="opts">
-    <ion-slide>
-      <div class="slide">
+  <div class="wellcome-slides">
+    <div class="slide" *ngIf="slideIndex === 0">
+      <div class="slide-inner">
         <h2>{{ 'wellcome.slide1.title' | translate }}</h2>
         <p>{{ 'wellcome.slide1.message' | translate }}</p>
-        <ion-button fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="next()">
           {{ 'wellcome.slide1.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
-    </ion-slide>
-    <ion-slide>
-      <div class="slide">
+    </div>
+    <div class="slide" *ngIf="slideIndex === 1">
+      <div class="slide-inner">
         <h2>{{ 'wellcome.slide2.title' | translate }}</h2>
         <p>
           {{ 'wellcome.slide2.message1' | translate }}<br />
@@ -19,37 +19,37 @@
           <b>e-Secrets</b>
           {{ 'wellcome.slide2.message4' | translate }}
         </p>
-        <ion-button fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="next()">
           {{ 'wellcome.slide2.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
-    </ion-slide>
-    <ion-slide>
-      <div class="slide">
+    </div>
+    <div class="slide" *ngIf="slideIndex === 2">
+      <div class="slide-inner">
         <h2>{{ 'wellcome.slide3.title' | translate }}</h2>
         <p>
           <b>e-Secrets</b>
           {{ 'wellcome.slide3.message' | translate }}<br />
         </p>
-        <ion-button fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="next()">
           {{ 'wellcome.slide3.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
-    </ion-slide>
-    <ion-slide>
-      <div class="slide">
+    </div>
+    <div class="slide" *ngIf="slideIndex === 3">
+      <div class="slide-inner">
         <h2>{{ 'wellcome.slide4.title' | translate }}</h2>
         <p class="text small">
           {{ 'wellcome.slide4.message1' | translate }}<br />
           {{ 'wellcome.slide4.message2' | translate }}
         </p>
-        <ion-button fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="next()">
           {{ 'wellcome.slide4.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
-    </ion-slide>
-    <ion-slide>
-      <div class="slide">
+    </div>
+    <div class="slide" *ngIf="slideIndex === 4">
+      <div class="slide-inner">
         <h2>{{ 'wellcome.slide5.title' | translate }}</h2>
         <ul class="text small">
           <li>{{ 'wellcome.slide5.message1' | translate }}</li>
@@ -58,13 +58,13 @@
           <li>{{ 'wellcome.slide5.message4' | translate }}</li>
           <li>{{ 'wellcome.slide5.message5' | translate }}</li>
         </ul>
-        <ion-button fill="clear" (click)="slides.slideNext()">
+        <ion-button fill="clear" (click)="next()">
           {{ 'wellcome.slide5.next-btn' | translate }} <ion-icon slot="end" name="arrow-forward"></ion-icon>
         </ion-button>
       </div>
-    </ion-slide>
-    <ion-slide>
-      <div class="slide">
+    </div>
+    <div class="slide" *ngIf="slideIndex === 5">
+      <div class="slide-inner">
         <h2 class="ion-padding-horizontal">{{ 'wellcome.slide6.title' | translate }}</h2>
         <ion-button fill="clear" [routerLink]="['/password-creation']">
           {{ 'wellcome.slide6.newdb-btn' | translate }}<ion-icon slot="end" name="arrow-forward"></ion-icon>
@@ -78,6 +78,9 @@
           {{ 'wellcome.slide6.message3' | translate }}
         </p>
       </div>
-    </ion-slide>
-  </ion-slides>
+    </div>
+  </div>
+  <div class="pager-dots" *ngIf="slideIndex < lastSlideIndex">
+    <span *ngFor="let _ of [0,1,2,3,4,5]; let i = index" [class.active]="i === slideIndex"></span>
+  </div>
 </ion-content>

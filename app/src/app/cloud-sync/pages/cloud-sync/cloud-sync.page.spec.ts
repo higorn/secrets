@@ -1,10 +1,11 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IonicModule, LoadingController, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { from, of } from 'rxjs';
+import { of } from 'rxjs';
+import { AppLoadingController } from 'src/app/shared/app-loading.controller';
 import { CloudSyncServiceProvider } from 'src/app/shared/cloud-sync/cloud-sync.service.provider';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { StorageService } from 'src/app/shared/storage/storage.service';
@@ -12,14 +13,16 @@ import { ActivatedRouteStub } from 'src/app/testing/activated-route-stub';
 import { SettingsService } from './../../../shared/settings.service';
 import { CloudSyncPage } from './cloud-sync.page';
 
-
 describe('CloudSyncPage', () => {
   let component: CloudSyncPage;
   let fixture: ComponentFixture<CloudSyncPage>;
-  let loadingController: LoadingController;
   let modalController: ModalController;
   let router: Router;
   const routeStub = new ActivatedRouteStub();
+  const spyAppLoading = {
+    show: jest.fn().mockResolvedValue(undefined),
+    dismiss: jest.fn(),
+  };
   const spyCloud = {
     setup: jest.fn(),
     restore: jest.fn(),
@@ -41,7 +44,7 @@ describe('CloudSyncPage', () => {
       TestBed.configureTestingModule({
         declarations: [CloudSyncPage],
         imports: [
-          IonicModule,
+          IonicModule.forRoot(),
           FormsModule,
           TranslateModule.forRoot(),
           RouterTestingModule.withRoutes([
@@ -54,14 +57,15 @@ describe('CloudSyncPage', () => {
           { provide: SettingsService, useValue: spySettings },
           { provide: CloudSyncServiceProvider, useValue: spyCloudSyncProvider },
           { provide: StorageService, useValue: spyStorage },
+          { provide: AppLoadingController, useValue: spyAppLoading },
         ],
       }).compileComponents();
 
       router = TestBed.inject(Router);
-      loadingController = TestBed.inject(LoadingController);
       modalController = TestBed.inject(ModalController);
 
-      spySettings.getCloudSync.mockReturnValue(of({ provider: 'none', file: null }))
+      routeStub.setParamMap({});
+      spySettings.getCloudSync.mockReturnValue(of({ provider: 'none', file: null }));
       spyStorage.getItem.mockReturnValue(of(DEFAULT_SETTINGS));
       fixture = TestBed.createComponent(CloudSyncPage);
       component = fixture.componentInstance;
@@ -70,9 +74,14 @@ describe('CloudSyncPage', () => {
   );
 
   afterEach(() => {
-    spySettings.getCloudSync.mockReset()
-    spyCloud.restore.mockReset()
-  })
+    spySettings.getCloudSync.mockReset();
+    spyCloud.restore.mockReset();
+    spyCloud.setup.mockReset();
+    spyCloudSyncProvider.getByName.mockReset();
+    spyAppLoading.show.mockClear();
+    spyAppLoading.dismiss.mockClear();
+    TestBed.resetTestingModule();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -87,57 +96,44 @@ describe('CloudSyncPage', () => {
     expect(component.op).toEqual('restore')
   })
 
-  it('when the operation is restore, then should call the restore method on the choosen provider ' +
-     'and redirect to the start page', fakeAsync(() => {
-    routeStub.setParamMap({ op: 'restore' });
-    component.provider = 'google-drive'
-    spyCloud.restore.mockReturnValue(of([{ id: 'abc', name: 'eSecrets.db' }]))
-    spyCloudSyncProvider.getByName.mockReturnValue(spyCloud)
-    spySettings.setFirstTime.mockReturnValue(of())
-    spyOn(loadingController, 'create').and.callFake((obj) => {
-      return new Promise((resolve, reject) => {
-        resolve({ present: jest.fn() });
-      });
-    });
-    spyOn(loadingController, 'dismiss').and.callFake((obj) => {
-      return new Promise((resolve, reject) => {resolve(true)})
-    });
+  it(
+    'when the operation is restore, then should call the restore method on the choosen provider ' +
+      'and redirect to the start page',
+    waitForAsync(async () => {
+      routeStub.setParamMap({ op: 'restore' });
+      component.provider = 'google-drive';
+      spyCloud.restore.mockReturnValue(of([{ id: 'abc', name: 'eSecrets.db' }]));
+      spyCloudSyncProvider.getByName.mockReturnValue(spyCloud);
+      spySettings.setFirstTime.mockReturnValue(of(undefined));
 
-    component.select()
-    tick()
+      await component.select();
+      await fixture.whenStable();
 
-    expect(spyCloud.restore).toHaveBeenCalled()
-    expect(router.url).toBe('/start');
-  }))
+      expect(spyCloud.restore).toHaveBeenCalled();
+      expect(router.url).toBe('/start');
+    }),
+  );
 
-  it('when skip should redirect to the secrets list', fakeAsync(() => {
-    spySettings.setFirstTime.mockReturnValue(from(new Promise((resolve, reject) => resolve(null))));
+  it('when skip should redirect to the secrets list', waitForAsync(async () => {
+    spySettings.setFirstTime.mockReturnValue(of(null));
 
-    component.skip()
-    tick()
+    component.skip();
+    await fixture.whenStable();
 
     expect(router.url).toBe('/tabs/secrets');
-  }))
+  }));
 
-  it('after choose the provider should redirect to the secrets list', fakeAsync(() => {
+  it('after choose the provider should redirect to the secrets list', waitForAsync(async () => {
     routeStub.setParamMap({ op: 'setup' });
-    component.provider = 'none'
-    spyCloud.setup.mockReturnValue(of({ id: 'abc', name: 'eSecrets.db' }))
-    spyCloudSyncProvider.getByName.mockReturnValue(spyCloud)
-    spySettings.setFirstTime.mockReturnValue(of())
-    spyOn(loadingController, 'create').and.callFake((obj) => {
-      return new Promise((resolve, reject) => {
-        resolve({ present: jest.fn() });
-      });
-    });
-    spyOn(loadingController, 'dismiss').and.callFake((obj) => {
-      return new Promise((resolve, reject) => {resolve(true)})
-    });
+    component.provider = 'none';
+    spyCloud.setup.mockReturnValue(of({ id: 'abc', name: 'eSecrets.db' }));
+    spyCloudSyncProvider.getByName.mockReturnValue(spyCloud);
+    spySettings.setFirstTime.mockReturnValue(of(undefined));
 
-    component.select()
-    tick()
+    await component.select();
+    await fixture.whenStable();
 
-    expect(spySettings.setCloudSync).toHaveBeenCalled()
+    expect(spySettings.setCloudSync).toHaveBeenCalled();
     expect(router.url).toBe('/tabs/secrets');
-  }))
+  }));
 });

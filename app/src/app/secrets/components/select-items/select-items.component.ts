@@ -4,6 +4,7 @@ import { TranslatorService } from 'src/app/shared/translator.service';
 import { Secret } from '../../shared/secret';
 
 @Component({
+  standalone: false,
   selector: 'app-select-items',
   templateUrl: './select-items.component.html',
   styleUrls: ['./select-items.component.scss'],

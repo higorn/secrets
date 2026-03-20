@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MasterBtnService } from '../shared/master-btn.service';
 
 @Component({
+  standalone: false,
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],

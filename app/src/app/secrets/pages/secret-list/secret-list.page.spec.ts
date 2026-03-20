@@ -6,6 +6,7 @@ import {
   waitForAsync
 } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { from, of } from 'rxjs';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
@@ -46,6 +47,7 @@ describe('SecretListPage', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
+          IonicModule.forRoot(),
           SecretsPageModule,
           RouterTestingModule.withRoutes([]),
           TranslateModule.forRoot(),

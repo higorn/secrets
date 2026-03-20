@@ -9,6 +9,7 @@ import { SettingsService } from '../../../shared/settings.service';
 import { VaultService } from 'src/app/shared/vault/vault.service';
 
 @Component({
+  standalone: false,
   selector: 'app-password-creation',
   templateUrl: './password-creation.page.html',
   styleUrls: ['./password-creation.page.scss'],

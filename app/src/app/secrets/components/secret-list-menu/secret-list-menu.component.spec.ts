@@ -12,7 +12,7 @@ describe('SecretListMenuComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SecretListMenuComponent ],
       imports: [
-        IonicModule,
+        IonicModule.forRoot(),
         TranslateModule.forRoot(),
       ]
     }).compileComponents();

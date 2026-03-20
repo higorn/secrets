@@ -2,13 +2,11 @@ import { SelectItemsComponent } from './components/select-items/select-items.com
 import { ImportComponent } from './components/import/import.component';
 import { NativeImportService } from '../shared/native-import.service';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard';
-import { Httpi18nLoaderFactory } from '../shared/utils';
 import { SecretDetailPage } from './pages/secret-detail/secret-detail.page';
 import { SecretListPage } from './pages/secret-list/secret-list.page';
 import { SecretsPageRoutingModule } from './secrets-routing.module';
@@ -22,24 +20,16 @@ import { SecretListMenuComponent } from './components/secret-list-menu/secret-li
     FormsModule,
     ReactiveFormsModule,
     SecretsPageRoutingModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: Httpi18nLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-    ClipboardModule
+    TranslateModule.forChild(),
+    ClipboardModule,
   ],
   declarations: [
     SecretListPage,
     SecretDetailPage,
     ImportComponent,
     SecretListMenuComponent,
-    SelectItemsComponent
+    SelectItemsComponent,
   ],
-  providers: [
-    { provide: ImportService, useClass: NativeImportService }
-  ]
+  providers: [{ provide: ImportService, useClass: NativeImportService }],
 })
 export class SecretsPageModule {}

@@ -8,9 +8,10 @@ import {
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonicModule, LoadingController, Platform } from '@ionic/angular';
+import { IonicModule, Platform } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { from, of } from 'rxjs';
+import { of } from 'rxjs';
+import { AppLoadingController } from 'src/app/shared/app-loading.controller';
 import { BiometricService } from 'src/app/shared/biometric.service';
 import { DEFAULT_SETTINGS } from 'src/app/shared/settings';
 import { SettingsService } from 'src/app/shared/settings.service';
@@ -22,7 +23,10 @@ import { StartPage } from './start.page';
 describe('StartPage', () => {
   let component: StartPage;
   let fixture: ComponentFixture<StartPage>;
-  let loadingController: LoadingController;
+  const spyAppLoading = {
+    show: jest.fn().mockResolvedValue(undefined),
+    dismiss: jest.fn(),
+  };
   const spyRouter = {
     navigate: jest.fn(),
   };
@@ -51,7 +55,7 @@ describe('StartPage', () => {
         imports: [
           CommonModule,
           FormsModule,
-          IonicModule,
+          IonicModule.forRoot(),
           StartPageRoutingModule,
           TranslateModule.forRoot(),
         ],
@@ -62,6 +66,7 @@ describe('StartPage', () => {
           { provide: BiometricService, useValue: spyBiometric },
           { provide: SettingsService, useValue: spySettings },
           { provide: Platform, useValue: spyPlt },
+          { provide: AppLoadingController, useValue: spyAppLoading },
         ],
       }).compileComponents();
 
@@ -70,7 +75,6 @@ describe('StartPage', () => {
       spySettings.isBiometricEnabled.mockReturnValue(of(false));
       spyBiometric.isAvailable.mockReturnValue(of(false));
       spyBiometric.verifyIdentity.mockReturnValue(of());
-      loadingController = TestBed.inject(LoadingController);
       fixture = TestBed.createComponent(StartPage);
       component = fixture.componentInstance;
     })
@@ -108,19 +112,12 @@ describe('StartPage', () => {
     expect(component.isBiometric).toBe(false);
   }));
 
-  it('should show error when wrong password', fakeAsync(() => {
-    spyVaultService.unseal.mockReturnValue(from(new Promise((resolve, reject) => resolve(false))));
-    spyOn(loadingController, 'create').and.callFake((obj) => {
-      return new Promise((resolve, reject) => {
-        resolve({ present: jest.fn() });
-      });
-    });
-    spyOn(loadingController, 'dismiss').and.callFake((obj) => {
-      return new Promise((resolve, reject) => {resolve(true)})
-    });
+  it('should show error when wrong password', waitForAsync(async () => {
+    spyVaultService.unseal.mockReturnValue(of(false));
 
+    component.password = 'wrong';
     component.unlockWithPwd();
-    tick();
+    await fixture.whenStable();
 
     expect(component.unlockFailed).toBe(true);
   }));

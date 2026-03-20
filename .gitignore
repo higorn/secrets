@@ -48,3 +48,6 @@ google-services.json
 **/environment.prod.secret.ts
 **/environment.android.secret.ts
 **/secrets.json
+
+capacitor-android-webintent/android/build/
+capacitor-android-webintent/android/.gradle/

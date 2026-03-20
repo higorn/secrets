@@ -5,24 +5,46 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://repo.apache.org/repos/asf/cordova/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
-        classpath 'com.google.gms:google-services:4.3.3'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:8.13.0'
+        classpath 'com.google.gms:google-services:4.4.2'
+        classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.8.4'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.20'
     }
 }
 
-apply from: "variables.gradle"
+apply from: 'variables.gradle'
 
 allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://repo.apache.org/repos/asf/cordova/' }
+    }
+    configurations.configureEach {
+        resolutionStrategy {
+            force 'androidx.browser:browser:1.8.0'
+        }
+    }
+}
+
+subprojects { sub ->
+    sub.afterEvaluate {
+        def androidExt = sub.extensions.findByName('android')
+        if (androidExt != null && androidExt.hasProperty('compileOptions')) {
+            androidExt.compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+        }
+        try {
+            Class kc = Class.forName('org.jetbrains.kotlin.gradle.tasks.KotlinCompile')
+            sub.tasks.withType(kc).configureEach { task ->
+                task.kotlinOptions.jvmTarget = '17'
+            }
+        } catch (ClassNotFoundException ignored) {
+            // no Kotlin in this subproject's classpath
+        }
     }
 }
 

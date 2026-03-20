@@ -4,11 +4,11 @@ import { ReplaySubject } from 'rxjs';
 /**
  * An ActivateRoute test double with a `paramMap` observable.
  * Use the `setParamMap()` method to add the next `paramMap` value.
+ * Buffer size 1 so new subscribers only see the latest map (avoids replaying an
+ * unbounded history from earlier tests).
  */
 export class ActivatedRouteStub {
-  // Use a ReplaySubject to share previous values with subscribers
-  // and pump new values into the `paramMap` observable
-  private subject = new ReplaySubject<ParamMap>();
+  private subject = new ReplaySubject<ParamMap>(1);
 
   readonly paramMap = this.subject.asObservable();
 
