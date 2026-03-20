@@ -51,3 +51,7 @@ google-services.json
 
 capacitor-android-webintent/android/build/
 capacitor-android-webintent/android/.gradle/
+
+**/.angular/cache
+**/playwright-report
+**/test-results
